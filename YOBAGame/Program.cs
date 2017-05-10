@@ -17,23 +17,7 @@ namespace YOBAGame
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new YobaWindow());
-        }
-    }
-
-    class Unit
-    {
-        private PointF _coordinates;
-        private Weapon _weapon;
-
-        public Unit(PointF coordinates)
-        {
-            _coordinates = coordinates;
-        }
-
-        public void TakeWeapon(Weapon gun)
-        {
-            _weapon = gun;
+            Application.Run(new YOBAWindow());
         }
     }
 
@@ -54,7 +38,7 @@ namespace YOBAGame
             new Bullet(direction, coordinates).Fly();
     }
 
-    class Bullet
+    class Bullet : GameObject<object>
     {
         private double _direction;
         private PointF _coordinates;
@@ -77,6 +61,18 @@ namespace YOBAGame
                     _coordinates.Y + (float) Math.Cos(_direction));
             }
         }
+
+        public Tuple<float, float> Move(object sender, EventArgs args)
+        {
+            MouseEventArgs mouseArgs;
+            if (args is MouseEventArgs)
+                mouseArgs = args as MouseEventArgs;
+            ;
+            float direction = Math.Atan2(_coordinates.Y - mouseArgs.Y, _coordinates.X - mouseArgs.X);
+            throw new NotImplementedException();
+        }
+
+        public object GenerateSomeObject(object sender, EventArgs args) => null;
     }
 
 
