@@ -121,7 +121,7 @@ namespace YOBAGame
         private static IEnumerable<IMapObject> ResolveCollision(IMapObject firstObject,
             IMapObject secondObject)
         {
-            throw new NotImplementedException();
+            //TODO: do things
 
             if (firstObject.ShouldBeDeleted())
                 yield return firstObject;

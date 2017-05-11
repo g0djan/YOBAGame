@@ -48,12 +48,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bullet.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="IMapObject.cs" />
+    <Compile Include="KillableObject.cs" />
+    <Compile Include="MovableObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecialTimer.cs" />
+    <Compile Include="StaticObject.cs" />
     <Compile Include="Unit.cs" />
+    <Compile Include="Weapon.cs" />
     <Compile Include="YOBAWindow.cs">
       <SubType>Form</SubType>
     </Compile>

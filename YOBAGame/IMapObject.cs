@@ -3,7 +3,7 @@ using Archimedes.Geometry;
 
 namespace YOBAGame
 {
-    internal interface IMapObject
+    public interface IMapObject
     {
         Vector2 Coordinates { get; set; }
         
