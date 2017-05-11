@@ -29,10 +29,18 @@ namespace YOBAGame
                 var newCoordinates = new PointF(obj.Coordinates.X + obj.Speed.X * dt,
                     obj.Coordinates.Y + obj.Speed.Y * dt);
                 obj.Coordinates = newCoordinates;
+                var acceleration = obj.Acceleration();
+                var newSpeed = new PointF(obj.Speed.X + acceleration.X * dt, obj.Speed.Y + acceleration.Y * dt);
+                obj.Speed = newSpeed;
             }
 
             var toDelete = ResolveCollisions();
             DeleteObjects(toDelete);
+
+            var toAdd = Objects
+                .Aggregate<IMapObject, IEnumerable<IMapObject>>(null, (current, obj) => 
+                    current?.Concat(obj.GeneratedObjects()) ?? obj.GeneratedObjects());
+            Objects.UnionWith(toAdd);
         }
 
         private void DeleteObjects(IEnumerable<IMapObject> toDelete)
@@ -61,6 +69,8 @@ namespace YOBAGame
             foreach (var pair in chunks)
             {
                 var chunk = pair.Value;
+
+                //resolve collisions inside single chunk
                 foreach (var i in Enumerable.Range(0, chunk.Count))
                     if (!toDelete.Contains(chunk[i]))
                         foreach (var j in Enumerable
@@ -71,7 +81,7 @@ namespace YOBAGame
                             else
                                 break;
 
-
+                //resolve collisions between neibour chunks
                 foreach (var chunkNeighbour in ChunkNeighbours(pair.Key, chunks))
                 foreach (var firstObject in chunk)
                     if (!toDelete.Contains(firstObject))

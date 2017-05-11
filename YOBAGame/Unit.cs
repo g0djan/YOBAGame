@@ -1,17 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace YOBAGame
 {
-    class Unit : GameObject<Bullet>
+    class Unit : IMapObject
     {
         protected PointF Coordinates;
         protected float Direction;
-        protected float Width;
-        protected float Height;
         protected Weapon _weapon;
-
+        public double MaxSpeed { get; set; }
+        public PointF Speed { get; set; }
 
         public Unit(PointF coordinates)
         {
@@ -27,7 +27,22 @@ namespace YOBAGame
             throw new NotImplementedException();
         }
 
-        public Bullet GenerateSomeObject(object sender, EventArgs args)
+        public PointF Acceleration()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IMapObject> GeneratedObjects()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ShouldBeDeleted()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IMapObject> DeleteResult()
         {
             throw new NotImplementedException();
         }
