@@ -7,9 +7,9 @@ namespace YOBAGame
 {
     class Unit : IMapObject
     {
-        protected PointF Coordinates;
         protected float Direction;
         protected Weapon _weapon;
+        public PointF Coordinates { get; set; }
         public double MaxSpeed { get; set; }
         public PointF Speed { get; set; }
 
@@ -27,8 +27,21 @@ namespace YOBAGame
             throw new NotImplementedException();
         }
 
-        public PointF Acceleration()
+        public PointF Acceleration(Game game)
         {
+            var key = game.KeyPressed;
+            switch (key)
+            {
+                case Keys.Up:
+                    break;
+                case Keys.Down:
+                    break;
+                case Keys.Left:
+                    break;
+                case Keys.Right:
+                    break;
+            }
+
             throw new NotImplementedException();
         }
 
