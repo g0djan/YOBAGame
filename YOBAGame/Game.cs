@@ -2,23 +2,47 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Archimedes.Geometry;
 
 namespace YOBAGame
 {
-    class Game
+    class ConditionalAction
+    {
+        public Func<bool> Condition { get; }
+        public Action Act { get; }
+
+        public ConditionalAction(Func<bool> condition, Action act)
+        {
+            Act = act;
+            Condition = condition;
+        }
+    }
+
+    internal class Game
     {
         public SizeD MapSize { get; private set; }
-        private HashSet<IMapObject> Objects { get; set; }
-        public double CurrentTime { get; private set; }
+        protected HashSet<IMapObject> Objects { get; set; }
+        protected SpecialTimer GameTimer { get; }
+        public double CurrentTime => GameTimer.CurrentTime;
+
+        protected bool ShouldExit { get; set; }
+        private Action _onExit;
+
+        public event Action OnExit
+        {
+            add { _onExit += value; }
+            // ReSharper disable once DelegateSubtraction
+            remove { _onExit -= value; }
+        }
+
+        public List<ConditionalAction> BlokingActions { get; }
 
         public Game(double width, double height)
         {
             MapSize = new SizeD(width, height);
-            CurrentTime = 0;
+            GameTimer = new SpecialTimer();
+            BlokingActions = new List<ConditionalAction>();
         }
 
         private void Tic(double dt)
@@ -29,14 +53,14 @@ namespace YOBAGame
                 var acceleration = obj.Acceleration;
                 obj.Speed += acceleration * dt;
                 if (obj.Speed.Length > obj.MaxSpeed)
-                    obj.Speed = obj.Speed.Normalize() * obj.MaxSpeed;
+                    obj.Speed *= obj.MaxSpeed / obj.Speed.Length;
             }
 
             var toDelete = ResolveCollisions();
             DeleteObjects(toDelete);
 
             var toAdd = Objects
-                .Aggregate<IMapObject, IEnumerable<IMapObject>>(null, (current, obj) => 
+                .Aggregate<IMapObject, IEnumerable<IMapObject>>(null, (current, obj) =>
                     current?.Concat(obj.GeneratedObjects()) ?? obj.GeneratedObjects());
             Objects.UnionWith(toAdd);
         }
@@ -93,7 +117,7 @@ namespace YOBAGame
 
             return toDelete;
         }
-        
+
         private static IEnumerable<IMapObject> ResolveCollision(IMapObject firstObject,
             IMapObject secondObject)
         {
@@ -120,6 +144,31 @@ namespace YOBAGame
                 yield return res;
             if (chunks.TryGetValue(new Point(chunkKey.X, chunkKey.Y + 1), out res))
                 yield return res;
+        }
+
+        public void Run()
+        {
+            GameTimer.Resume();
+            while (true)
+            {
+                if (ShouldExit)
+                {
+                    GameTimer.Pause();
+                    _onExit?.Invoke();
+                    break;
+                }
+
+                foreach (var blokingAction in BlokingActions)
+                    if (blokingAction.Condition())
+                    {
+                        GameTimer.Pause();
+                        blokingAction.Act();
+                        GameTimer.Resume();
+                    }
+
+                var dt = GameTimer.LastTimeSpan();
+                Tic(dt);
+            }
         }
     }
 }
