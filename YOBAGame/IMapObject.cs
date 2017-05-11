@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace YOBAGame
@@ -10,7 +11,7 @@ namespace YOBAGame
         double MaxSpeed { get; set; }
         PointF Speed { get; set; }
 
-        PointF Acceleration();
+        PointF Acceleration(Game game);
         IEnumerable<IMapObject> GeneratedObjects();
 
         bool ShouldBeDeleted();
