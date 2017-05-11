@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,24 +13,30 @@ namespace YOBAGame
 {
     public partial class YOBAWindow : Form
     {
-        private Game Game;
+        private Game _game;
+        private Player _player;
 
         public YOBAWindow()
         {
-            var timer = new Timer();
-            timer.Interval = 1;
+            var timer = new Timer {Interval = 1};
+            _player = new Player();
             timer.Tick += TimerTick;
             timer.Start();
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            Game.KeyPressed = e.KeyCode;
+            _player.ChangeAcceleration(e.KeyCode);
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            Game.KeyPressed = Keys.None;
+            _player.ChangeAcceleration(Keys.None);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            _player.ChangeDirection(e.Location);
         }
 
         int tickCount = 0;

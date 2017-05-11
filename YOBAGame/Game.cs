@@ -13,20 +13,20 @@ namespace YOBAGame
     {
         public SizeD MapSize { get; private set; }
         private HashSet<IMapObject> Objects { get; set; }
-        public float CurrentTime { get; private set; }
+        public double CurrentTime { get; private set; }
 
-        public Game(float width, float height)
+        public Game(double width, double height)
         {
             MapSize = new SizeD(width, height);
             CurrentTime = 0;
         }
 
-        private void Tic(float dt)
+        private void Tic(double dt)
         {
             foreach (var obj in Objects)
             {
                 obj.Coordinates += obj.Speed * dt;
-                var acceleration = obj.Acceleration();
+                var acceleration = obj.Acceleration;
                 obj.Speed += acceleration * dt;
                 if (obj.Speed.Length > obj.MaxSpeed)
                     obj.Speed = obj.Speed.Normalize() * obj.MaxSpeed;
@@ -105,7 +105,7 @@ namespace YOBAGame
                 yield return secondObject;
         }
 
-        public Keys KeyPressed { get; set; }
+        
 
         private static IEnumerable<List<IMapObject>> ChunkNeighbours(
             Point chunkKey,
