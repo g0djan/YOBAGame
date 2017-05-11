@@ -17,41 +17,44 @@ namespace YOBAGame
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new YobaWindow());
+            Application.Run(new YOBAWindow());
         }
     }
 
-    class Unit
+    //TODO: inherite from IMapObject and move to proper places
+    /*abstract class Unit
     {
-        private PointF _coordinates;
-        private Weapon _weapon;
+        public PointF Coordinates { get; protected set; }
+        public double Direction { get; protected set; }
+        //        private Weapon _weapon;
 
-        public Unit(PointF coordinates)
+        public Unit(PointF coordinates, double direction = 0)
         {
-            _coordinates = coordinates;
+            Coordinates = coordinates;
+            Direction = direction;
         }
 
-        public void TakeWeapon(Weapon gun)
-        {
-            _weapon = gun;
-        }
+//        public void TakeWeapon(Weapon gun)
+//        {
+//            _weapon = gun;
+//        }
     }
 
-    class Weapon
+    internal abstract class Weapon
     {
-        private double _damage;
-        private double _velocity;
-        private string _name;
+        // TODO: все умирают от одного попадания, но на будущее можно оставить
+        public double _damage { get; protected set; }
+//        private double _velocity;
+//        public string Name { get; protected set; }
 
-        public Weapon(double damage, double velocity, string name)
+        public Weapon(double damage /*, double velocity#1#)
         {
             _damage = damage;
-            _velocity = velocity;
-            _name = name;
+//            _velocity = velocity;
+//            Name = name;
         }
 
-        public void Fire(float direction, PointF coordinates) => 
-            new Bullet(direction, coordinates).Fly();
+        public abstract List<Bullet> Fire(float direction, PointF coordinates);
     }
 
     class Bullet
@@ -70,14 +73,12 @@ namespace YOBAGame
         public void Fly()
         {
             while (true) //здесь проверка пока не вылетели за поле 
-                         //или не произошло столкновение
+                //или не произошло столкновение
             {
                 _coordinates = new PointF(
                     _coordinates.X + (float) Math.Cos(_direction),
                     _coordinates.Y + (float) Math.Cos(_direction));
             }
         }
-    }
-
-
+    }*/
 }
