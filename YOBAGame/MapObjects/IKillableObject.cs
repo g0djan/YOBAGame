@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Archimedes.Geometry;
-
-namespace YOBAGame
+﻿namespace YOBAGame.MapObjects
 {
     public interface IKillableObject : IMapObject
     {

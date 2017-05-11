@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using Archimedes.Geometry;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects
 {
     public abstract class StaticObject : IMapObject
     {
-        private Vector2 _coordinates;
+        private readonly Vector2 _coordinates;
 
         protected StaticObject(Vector2 coordinates)
         {
@@ -18,8 +18,6 @@ namespace YOBAGame
             set { }
         }
 
-        public abstract double MaxSpeed { get; set; }
-
         public Vector2 Speed
         {
             get
@@ -31,13 +29,8 @@ namespace YOBAGame
             }
         }
 
-        public Vector2 Acceleration()
-        {
-                return Vector2.Zero;
-        }
-
         public abstract IEnumerable<IMapObject> GeneratedObjects();
-        public abstract bool ShouldBeDeleted();
+        public abstract bool ShouldBeDeleted { get; }
         public abstract IEnumerable<IMapObject> DeleteResult();
     }
 }

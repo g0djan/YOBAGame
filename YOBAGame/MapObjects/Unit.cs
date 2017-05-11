@@ -1,19 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Units;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects
 {
-    abstract class Unit : IMapObject
+    abstract class Unit : AbstractKillableObject
     {
         //protected Weapon _weapon;
         public Angle Dir;
         public Vector2 Coordinates { get; set; }
-        public Vector2 Acceleration { get; set; }
-        public double MaxSpeed { get; }
         public Vector2 Speed { get; set; }
 
         public Unit(Vector2 coordinates)
@@ -37,12 +34,10 @@ namespace YOBAGame
         public void ChangeAcceleration(Vector2 force)
         {
             const int forceModule = 1;
-            Acceleration += force;
-            Acceleration = forceModule * Acceleration.Normalize();
             Dir = Speed.GetAngleToXLegacy();
         }
 
-        public IEnumerable<IMapObject> GeneratedObjects()
+        public override IEnumerable<IMapObject> GeneratedObjects()
         {
             const int bulletCount = 5;
             var bullets = new Bullet[bulletCount];
@@ -52,16 +47,6 @@ namespace YOBAGame
                 bullets[i] = new Bullet(Coordinates, (bulletSpeed * Speed.Normalize())
                     .GetRotated(rotateAngle));
             return bullets;
-        }
-
-        public bool ShouldBeDeleted()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IMapObject> DeleteResult()
-        {
-            throw new NotImplementedException();
         }
     }
 }
