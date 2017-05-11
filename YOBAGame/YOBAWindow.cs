@@ -36,6 +36,7 @@ namespace YOBAGame
 
         void TimerTick(object sender, EventArgs args)
         {
+            tickCount++;
             Invalidate();
         }
     }
