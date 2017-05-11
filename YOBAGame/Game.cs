@@ -4,21 +4,45 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Archimedes.Geometry;
-using System.Timers;
 
 namespace YOBAGame
 {
+    class ConditionalAction
+    {
+        public Func<bool> Condition { get; }
+        public Action Act { get; }
+
+        public ConditionalAction(Func<bool> condition, Action act)
+        {
+            Act = act;
+            Condition = condition;
+        }
+    }
+
     internal class Game
     {
         public SizeD MapSize { get; private set; }
-        private HashSet<IMapObject> Objects { get; set; }
-        private SpecialTimer GameTimer { get; }
+        protected HashSet<IMapObject> Objects { get; set; }
+        protected SpecialTimer GameTimer { get; }
         public double CurrentTime => GameTimer.CurrentTime;
+
+        protected bool ShouldExit { get; set; }
+        private Action _onExit;
+
+        public event Action OnExit
+        {
+            add { _onExit += value; }
+            // ReSharper disable once DelegateSubtraction
+            remove { _onExit -= value; }
+        }
+
+        public List<ConditionalAction> BlokingActions { get; }
 
         public Game(double width, double height)
         {
             MapSize = new SizeD(width, height);
             GameTimer = new SpecialTimer();
+            BlokingActions = new List<ConditionalAction>();
         }
 
         private void Tic(double dt)
@@ -36,7 +60,7 @@ namespace YOBAGame
             DeleteObjects(toDelete);
 
             var toAdd = Objects
-                .Aggregate<IMapObject, IEnumerable<IMapObject>>(null, (current, obj) => 
+                .Aggregate<IMapObject, IEnumerable<IMapObject>>(null, (current, obj) =>
                     current?.Concat(obj.GeneratedObjects()) ?? obj.GeneratedObjects());
             Objects.UnionWith(toAdd);
         }
@@ -93,7 +117,7 @@ namespace YOBAGame
 
             return toDelete;
         }
-        
+
         private static IEnumerable<IMapObject> ResolveCollision(IMapObject firstObject,
             IMapObject secondObject)
         {
@@ -127,6 +151,21 @@ namespace YOBAGame
             GameTimer.Resume();
             while (true)
             {
+                if (ShouldExit)
+                {
+                    GameTimer.Pause();
+                    _onExit?.Invoke();
+                    break;
+                }
+
+                foreach (var blokingAction in BlokingActions)
+                    if (blokingAction.Condition())
+                    {
+                        GameTimer.Pause();
+                        blokingAction.Act();
+                        GameTimer.Resume();
+                    }
+
                 var dt = GameTimer.LastTimeSpan();
                 Tic(dt);
             }
