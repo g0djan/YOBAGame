@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
+using Archimedes.Geometry;
 
 namespace YOBAGame
 {
     internal interface IMapObject
     {
-        PointF Coordinates { get; set; }
+        Vector2 Coordinates { get; set; }
         
         double MaxSpeed { get; set; }
-        PointF Speed { get; set; }
+        Vector2 Speed { get; set; }
 
-        PointF Acceleration();
+        Vector2 Acceleration();
         IEnumerable<IMapObject> GeneratedObjects();
 
         bool ShouldBeDeleted();

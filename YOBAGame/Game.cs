@@ -5,33 +5,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Archimedes.Geometry;
 
 namespace YOBAGame
 {
     class Game
     {
-        private float MapWidth { get; set; }
-        private float MapHeight { get; set; }
+        public SizeD MapSize { get; private set; }
         private HashSet<IMapObject> Objects { get; set; }
         public float CurrentTime { get; private set; }
 
         public Game(float width, float height)
         {
-            MapHeight = height;
+            MapSize = new SizeD(width, height);
             CurrentTime = 0;
-            MapWidth = width;
         }
 
         private void Tic(float dt)
         {
             foreach (var obj in Objects)
             {
-                var newCoordinates = new PointF(obj.Coordinates.X + obj.Speed.X * dt,
-                    obj.Coordinates.Y + obj.Speed.Y * dt);
-                obj.Coordinates = newCoordinates;
+                obj.Coordinates += obj.Speed * dt;
                 var acceleration = obj.Acceleration();
-                var newSpeed = new PointF(obj.Speed.X + acceleration.X * dt, obj.Speed.Y + acceleration.Y * dt);
-                obj.Speed = newSpeed;
+                obj.Speed += acceleration * dt;
+                if (obj.Speed.Length > obj.MaxSpeed)
+                    obj.Speed = obj.Speed.Normalize() * obj.MaxSpeed;
             }
 
             var toDelete = ResolveCollisions();
