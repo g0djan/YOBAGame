@@ -50,7 +50,7 @@ namespace YOBAGame
             foreach (var obj in Objects)
             {
                 obj.Coordinates += obj.Speed * dt;
-                var acceleration = obj.Acceleration();
+                var acceleration = obj.Acceleration;
                 obj.Speed += acceleration * dt;
                 if (obj.Speed.Length > obj.MaxSpeed)
                     obj.Speed *= obj.MaxSpeed / obj.Speed.Length;
@@ -129,7 +129,7 @@ namespace YOBAGame
                 yield return secondObject;
         }
 
-        public Keys KeyPressed { get; set; }
+        
 
         private static IEnumerable<List<IMapObject>> ChunkNeighbours(
             Point chunkKey,

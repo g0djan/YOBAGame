@@ -4,33 +4,70 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Archimedes.Geometry;
+using Archimedes.Geometry.Units;
 
 namespace YOBAGame
 {
     public partial class YOBAWindow : Form
     {
-        private Game Game;
+        private Game _game;
+        private Player _player;
 
         public YOBAWindow()
         {
-            var timer = new Timer();
-            timer.Interval = 1;
+            var timer = new Timer {Interval = 1};
+            _player = new Player();
             timer.Tick += TimerTick;
             timer.Start();
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            Game.KeyPressed = e.KeyCode;
+            HandleKeyComands(e.KeyCode);
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            Game.KeyPressed = Keys.None;
+            HandleKeyComands(Keys.None);
         }
+
+        private void HandleKeyComands(Keys key)
+        {
+            var force = Vector2.Zero;
+            var playerNorm = _player.Speed.Normalize();
+            switch (key)
+            {
+                case Keys.Up:
+                    force = playerNorm;
+                    break;
+                case Keys.Down:
+                    force = -1 * playerNorm;
+                    break;
+                case Keys.Left:
+                    force = playerNorm.GetRotated(Angle.HalfRotation);
+                    break;
+                case Keys.Right:
+                    force = -1 * playerNorm.GetRotated(Angle.HalfRotation);
+                    break;
+                case Keys.None:
+                    force = Vector2.Zero;
+                    break;
+            }
+            _player.ChangeAcceleration(force);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            _player.ChangeDirection(e.Location);
+        }
+
+        protected override bool IsInputKey(Keys keyData) => 
+            keyData == Keys.Escape || base.IsInputKey(keyData);
 
         int tickCount = 0;
 

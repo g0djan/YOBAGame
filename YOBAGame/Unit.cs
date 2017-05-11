@@ -2,52 +2,56 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Archimedes.Geometry;
+using Archimedes.Geometry.Units;
 
 namespace YOBAGame
 {
-    class Unit : IMapObject
+    abstract class Unit : IMapObject
     {
-        protected float Direction;
-        protected Weapon _weapon;
-        public PointF Coordinates { get; set; }
-        public double MaxSpeed { get; set; }
-        public PointF Speed { get; set; }
+        //protected Weapon _weapon;
+        public Angle Dir;
+        public Vector2 Coordinates { get; set; }
+        public Vector2 Acceleration { get; set; }
+        public double MaxSpeed { get; }
+        public Vector2 Speed { get; set; }
 
-        public Unit(PointF coordinates)
+        public Unit(Vector2 coordinates)
         {
+            Dir = Angle.HalfRotation;
             Coordinates = coordinates;
+            //MaxSpeed =
+            Speed = Vector2.Zero;
         }
 
-        public Tuple<float, float> Move(object sender, EventArgs args)
+        public void ChangeDirection(Point mouse)
         {
-            if (args is KeyEventArgs)
-
-            else if (args is MouseEventArgs)
-
-            throw new NotImplementedException();
+            double dx = mouse.X - Coordinates.X;
+            double dy = mouse.Y - Coordinates.Y;
+            Angle newDirection = Angle.FromRadians(
+                Math.Atan2(dy, dx));
+            Speed = Speed.GetRotated(newDirection);
+            Dir = Dir + Angle.FromRadians(Math.Atan2(dy, dx));
         }
-
-        public PointF Acceleration(Game game)
+        
+        public void ChangeAcceleration(Vector2 force)
         {
-            var key = game.KeyPressed;
-            switch (key)
-            {
-                case Keys.Up:
-                    break;
-                case Keys.Down:
-                    break;
-                case Keys.Left:
-                    break;
-                case Keys.Right:
-                    break;
-            }
-
-            throw new NotImplementedException();
+            const int forceModule = 1;
+            Acceleration += force;
+            Acceleration = forceModule * Acceleration.Normalize();
+            Dir = Speed.GetAngleToXLegacy();
         }
 
         public IEnumerable<IMapObject> GeneratedObjects()
         {
-            throw new NotImplementedException();
+            const int bulletCount = 5;
+            var bullets = new Bullet[bulletCount];
+            var rotateAngle = Angle.Zero;
+            var bulletSpeed = 5 * Speed.Length;
+            for (var i = 0; i < bulletCount; i++)
+                bullets[i] = new Bullet(Coordinates, (bulletSpeed * Speed.Normalize())
+                    .GetRotated(rotateAngle));
+            return bullets;
         }
 
         public bool ShouldBeDeleted()

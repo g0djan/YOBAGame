@@ -54,7 +54,7 @@ namespace YOBAGame
 //            Name = name;
         }
 
-        public abstract List<Bullet> Fire(float direction, PointF coordinates);
+        public abstract List<Bullet> Fire(double direction, PointF coordinates);
     }
 
     class Bullet : GameObject<object>
@@ -76,18 +76,18 @@ namespace YOBAGame
                 //или не произошло столкновение
             {
                 _coordinates = new PointF(
-                    _coordinates.X + (float) Math.Cos(_direction),
-                    _coordinates.Y + (float) Math.Cos(_direction));
+                    _coordinates.X + (double) Math.Cos(_direction),
+                    _coordinates.Y + (double) Math.Cos(_direction));
             }
         }
 
-        public Tuple<float, float> Move(object sender, EventArgs args)
+        public Tuple<double, double> Move(object sender, EventArgs args)
         {
             MouseEventArgs mouseArgs;
             if (args is MouseEventArgs)
                 mouseArgs = args as MouseEventArgs;
             ;
-            float direction = Math.Atan2(_coordinates.Y - mouseArgs.Y, _coordinates.X - mouseArgs.X);
+            double direction = Math.Atan2(_coordinates.Y - mouseArgs.Y, _coordinates.X - mouseArgs.X);
             throw new NotImplementedException();
         }
 
