@@ -48,14 +48,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bullet.cs" />
+    <Compile Include="MapObjects\AbstractBullet.cs" />
+    <Compile Include="MapObjects\AbstractKillableObject.cs" />
+    <Compile Include="MapObjects\Bullet.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="IMapObject.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="MapObjects\IMapObject.cs" />
+    <Compile Include="MapObjects\IKillableObject.cs" />
+    <Compile Include="MapObjects\MovableObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecialTimer.cs" />
-    <Compile Include="Unit.cs" />
+    <Compile Include="MapObjects\StaticObject.cs" />
+    <Compile Include="MapObjects\Unit.cs" />
+    <Compile Include="MapObjects\Weapon.cs" />
     <Compile Include="YOBAWindow.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
 using Archimedes.Geometry;
+using YOBAGame.MapObjects;
 
 namespace YOBAGame
 {
@@ -123,7 +124,7 @@ namespace YOBAGame
         private static IEnumerable<IMapObject> ResolveCollision(IMapObject firstObject,
             IMapObject secondObject)
         {
-            throw new NotImplementedException();
+            //TODO: do things
 
             if (firstObject.ShouldBeDeleted())
                 yield return firstObject;
