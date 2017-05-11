@@ -52,6 +52,7 @@
     <Compile Include="IMapObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecialTimer.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="YOBAWindow.cs">
       <SubType>Form</SubType>

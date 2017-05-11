@@ -2,26 +2,26 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Archimedes.Geometry;
+using System.Timers;
 
 namespace YOBAGame
 {
-    class Game
+    internal class Game
     {
         public SizeD MapSize { get; private set; }
         private HashSet<IMapObject> Objects { get; set; }
-        public float CurrentTime { get; private set; }
+        private SpecialTimer GameTimer { get; }
+        public double CurrentTime => GameTimer.CurrentTime;
 
-        public Game(float width, float height)
+        public Game(double width, double height)
         {
             MapSize = new SizeD(width, height);
-            CurrentTime = 0;
+            GameTimer = new SpecialTimer();
         }
 
-        private void Tic(float dt)
+        private void Tic(double dt)
         {
             foreach (var obj in Objects)
             {
@@ -29,7 +29,7 @@ namespace YOBAGame
                 var acceleration = obj.Acceleration();
                 obj.Speed += acceleration * dt;
                 if (obj.Speed.Length > obj.MaxSpeed)
-                    obj.Speed = obj.Speed.Normalize() * obj.MaxSpeed;
+                    obj.Speed *= obj.MaxSpeed / obj.Speed.Length;
             }
 
             var toDelete = ResolveCollisions();
@@ -120,6 +120,16 @@ namespace YOBAGame
                 yield return res;
             if (chunks.TryGetValue(new Point(chunkKey.X, chunkKey.Y + 1), out res))
                 yield return res;
+        }
+
+        public void Run()
+        {
+            GameTimer.Resume();
+            while (true)
+            {
+                var dt = GameTimer.LastTimeSpan();
+                Tic(dt);
+            }
         }
     }
 }
