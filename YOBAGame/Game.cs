@@ -85,7 +85,7 @@ namespace YOBAGame
 
             return toDelete;
         }
-
+        
         private static IEnumerable<IMapObject> ResolveCollision(IMapObject firstObject,
             IMapObject secondObject)
         {
