@@ -21,7 +21,7 @@ namespace YOBAGame
         }
         public double TimeSpeed
         {
-            get { return _timeSpeed; }
+            get => _timeSpeed;
             set
             {
                 Update();
@@ -31,10 +31,10 @@ namespace YOBAGame
 
         public double LastTimeSpan()
         {
-                var newTime = CurrentTime;
-                var res = newTime - _lastTime;
-                _lastTime = newTime;
-                return res;
+            var newTime = CurrentTime;
+            var res = newTime - _lastTime;
+            _lastTime = newTime;
+            return res;
         }
 
         public SpecialTimer()

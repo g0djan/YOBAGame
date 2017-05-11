@@ -21,24 +21,7 @@ namespace YOBAGame
         }
     }
 
-    //TODO: inherite from IMapObject and move to proper places
-    /*abstract class Unit
-    {
-        public PointF Coordinates { get; protected set; }
-        public double Direction { get; protected set; }
-        //        private Weapon _weapon;
-
-        public Unit(PointF coordinates, double direction = 0)
-        {
-            Coordinates = coordinates;
-            Direction = direction;
-        }
-
-//        public void TakeWeapon(Weapon gun)
-//        {
-//            _weapon = gun;
-//        }
-    }
+    /*
 
     internal abstract class Weapon
     {
@@ -55,43 +38,6 @@ namespace YOBAGame
         }
 
         public abstract List<Bullet> Fire(double direction, PointF coordinates);
-    }
-
-    class Bullet : GameObject<object>
-    {
-        private double _direction;
-        private PointF _coordinates;
-
-        private const double step = 0.1;
-
-        public Bullet(double direction, PointF coordinates)
-        {
-            _direction = direction;
-            _coordinates = coordinates;
-        }
-
-        public void Fly()
-        {
-            while (true) //здесь проверка пока не вылетели за поле 
-                //или не произошло столкновение
-            {
-                _coordinates = new PointF(
-                    _coordinates.X + (double) Math.Cos(_direction),
-                    _coordinates.Y + (double) Math.Cos(_direction));
-            }
-        }
-
-        public Tuple<double, double> Move(object sender, EventArgs args)
-        {
-            MouseEventArgs mouseArgs;
-            if (args is MouseEventArgs)
-                mouseArgs = args as MouseEventArgs;
-            ;
-            double direction = Math.Atan2(_coordinates.Y - mouseArgs.Y, _coordinates.X - mouseArgs.X);
-            throw new NotImplementedException();
-        }
-
-        public object GenerateSomeObject(object sender, EventArgs args) => null;
     }
 
     */

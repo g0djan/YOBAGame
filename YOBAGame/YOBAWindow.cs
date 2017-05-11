@@ -21,7 +21,7 @@ namespace YOBAGame
         public YOBAWindow()
         {
             var timer = new Timer {Interval = 1};
-            _player = new Player();
+            _player = new Player(Vector2.Zero); //temporary start coordinates
             timer.Tick += TimerTick;
             timer.Start();
         }

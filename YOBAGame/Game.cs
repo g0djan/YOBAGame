@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 using Archimedes.Geometry;
 
@@ -29,21 +30,21 @@ namespace YOBAGame
         protected bool ShouldExit { get; set; }
         private Action _onExit;
 
-        public event Action OnExit
-        {
-            add { _onExit += value; }
-            // ReSharper disable once DelegateSubtraction
-            remove { _onExit -= value; }
-        }
-
-        public List<ConditionalAction> BlokingActions { get; }
-
         public Game(double width, double height)
         {
             MapSize = new SizeD(width, height);
             GameTimer = new SpecialTimer();
             BlokingActions = new List<ConditionalAction>();
         }
+
+        public event Action OnExit
+        {
+            add => _onExit += value;
+            // ReSharper disable once DelegateSubtraction
+            remove => _onExit -= value;
+        }
+
+        public List<ConditionalAction> BlokingActions { get; }
 
         private void Tic(double dt)
         {
@@ -54,6 +55,8 @@ namespace YOBAGame
                 obj.Speed += acceleration * dt;
                 if (obj.Speed.Length > obj.MaxSpeed)
                     obj.Speed *= obj.MaxSpeed / obj.Speed.Length;
+                if (obj is Unit)
+                    (obj as Unit).Dir = obj.Speed.GetAngleToXLegacy();
             }
 
             var toDelete = ResolveCollisions();
@@ -80,11 +83,10 @@ namespace YOBAGame
             foreach (var obj in Objects)
             {
                 var key = new Point((int) obj.Coordinates.X, (int) obj.Coordinates.Y);
-                List<IMapObject> elem;
-                if (chunks.TryGetValue(key, out elem))
+                if (chunks.TryGetValue(key, out List<IMapObject> elem))
                     elem.Add(obj);
                 else
-                    chunks[key] = new List<IMapObject>() {obj};
+                    chunks[key] = new List<IMapObject>() { obj };
             }
 
             var toDelete = new HashSet<IMapObject>();
