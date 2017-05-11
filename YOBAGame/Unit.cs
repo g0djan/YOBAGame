@@ -10,7 +10,7 @@ namespace YOBAGame
     abstract class Unit : IMapObject
     {
         //protected Weapon _weapon;
-        private Angle dir;
+        public Angle Dir;
         public Vector2 Coordinates { get; set; }
         public Vector2 Acceleration { get; set; }
         public double MaxSpeed { get; }
@@ -18,7 +18,7 @@ namespace YOBAGame
 
         public Unit(Vector2 coordinates)
         {
-            dir = Angle.HalfRotation;
+            Dir = Angle.HalfRotation;
             Coordinates = coordinates;
             //MaxSpeed =
             Speed = Vector2.Zero;
@@ -31,32 +31,15 @@ namespace YOBAGame
             Angle newDirection = Angle.FromRadians(
                 Math.Atan2(dy, dx));
             Speed = Speed.GetRotated(newDirection);
-            dir = dir + Angle.FromRadians(Math.Atan2(dy, dx));
+            Dir = Dir + Angle.FromRadians(Math.Atan2(dy, dx));
         }
         
-        public void ChangeAcceleration(Keys key)
+        public void ChangeAcceleration(Vector2 force)
         {
-            const int addedSpeed = 1;
-            switch (key)
-            {
-                case Keys.Up:
-                    Acceleration += Vector2.FromAngleAndLenght(Speed.GetAngleToXLegacy(), 1);
-                    break;
-                case Keys.Down:
-                    Acceleration -= Vector2.FromAngleAndLenght(Speed.GetAngleToXLegacy(), addedSpeed);
-                    break;
-                case Keys.Left:
-                    Acceleration += Speed.Normalize().GetRotated(Angle.HalfRotation);
-                    break;
-                case Keys.Right:
-                    Acceleration -= Speed.Normalize().GetRotated(Angle.HalfRotation);
-                    break;
-                case Keys.None:
-                    Acceleration = Vector2.Zero;
-                    break;
-            }
-            Acceleration = addedSpeed * Acceleration.Normalize();
-            dir = Speed.GetAngleToXLegacy();
+            const int forceModule = 1;
+            Acceleration += force;
+            Acceleration = forceModule * Acceleration.Normalize();
+            Dir = Speed.GetAngleToXLegacy();
         }
 
         public IEnumerable<IMapObject> GeneratedObjects()

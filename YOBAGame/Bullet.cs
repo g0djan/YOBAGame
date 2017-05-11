@@ -12,6 +12,7 @@ namespace YOBAGame
     class Bullet : IMapObject
     {
         public Vector2 Coordinates { get; set; }
+        public Vector2 Acceleration { get; set; }
         public double MaxSpeed { get; }
         public Vector2 Speed { get; set; }
 
@@ -19,15 +20,9 @@ namespace YOBAGame
         {
             //MaxSpeed = 
             Coordinates = coordinates;
+            Acceleration = Vector2.Zero;
             Speed = speed;
         }
-
-        public Vector2 ChangeDirection(Point mouseLocation)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Vector2 Acceleration(Keys key) => Speed;
 
         public IEnumerable<IMapObject> GeneratedObjects() => null;
 

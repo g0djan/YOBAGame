@@ -13,8 +13,7 @@ namespace YOBAGame
         
         double MaxSpeed { get; }
         Vector2 Speed { get; set; }
-
-        void ChangeDirection(Point mouseLocation);
+        
         IEnumerable<IMapObject> GeneratedObjects();
 
         bool ShouldBeDeleted();
