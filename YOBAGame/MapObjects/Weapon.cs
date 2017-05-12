@@ -1,6 +1,9 @@
-﻿namespace YOBAGame
+﻿using System.Collections.Generic;
+
+namespace YOBAGame.MapObjects
 {
-    internal class Weapon : Moveable
+    internal abstract class Weapon : MoveableObject, IDrawableObject
     {
+        public abstract IEnumerable<IBullet> Fire();
     }
 }

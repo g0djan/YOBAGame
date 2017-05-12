@@ -2,22 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Archimedes.Geometry;
+using Archimedes.Geometry.Primitives;
 using Archimedes.Geometry.Units;
 
 namespace YOBAGame.MapObjects
 {
-    abstract class Unit : AbstractKillableObject
+    internal abstract class Unit : AbstractKillableObject
     {
         //protected Weapon _weapon;
         public Angle Dir;
-        public Vector2 Coordinates { get; set; }
-        public Vector2 Speed { get; set; }
+        public override Vector2 Speed { get; set; }
 
-        public Unit(Vector2 coordinates)
+        public Unit(Vector2 coordinates, Circle2 hitBox) : base(hitBox)
         {
+            
             Dir = Angle.HalfRotation;
-            Coordinates = coordinates;
-            //MaxSpeed =
             Speed = Vector2.Zero;
         }
 

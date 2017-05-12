@@ -1,6 +1,4 @@
-﻿using YOBAGame.MapObjects;
-
-namespace YOBAGame
+﻿namespace YOBAGame.MapObjects
 {
     public interface IBullet : IMapObject
     {

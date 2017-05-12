@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Windows.Forms;
 using Archimedes.Geometry;
 using YOBAGame.MapObjects;
 
 namespace YOBAGame
 {
-    class ConditionalAction
+    internal class ConditionalAction
     {
         public Func<bool> Condition { get; }
         public Action Act { get; }
@@ -40,22 +38,21 @@ namespace YOBAGame
 
         public event Action OnExit
         {
-            add => _onExit += value;
+            add { _onExit += value; }
             // ReSharper disable once DelegateSubtraction
-            remove => _onExit -= value;
+            remove { _onExit -= value; }
         }
 
-        public List<ConditionalAction> BlokingActions { get; }
+        public List<
+                ConditionalAction>
+            BlokingActions { get; }
 
-        private void Tic(double dt)
+        private
+            void Tic(double dt)
         {
             foreach (var obj in Objects)
             {
                 obj.Coordinates += obj.Speed * dt;
-                var acceleration = obj.Acceleration;
-                obj.Speed += acceleration * dt;
-                if (obj.Speed.Length > obj.MaxSpeed)
-                    obj.Speed *= obj.MaxSpeed / obj.Speed.Length;
                 if (obj is Unit)
                     (obj as Unit).Dir = obj.Speed.GetAngleToXLegacy();
             }
@@ -84,10 +81,11 @@ namespace YOBAGame
             foreach (var obj in Objects)
             {
                 var key = new Point((int) obj.Coordinates.X, (int) obj.Coordinates.Y);
+                // ReSharper disable once CollectionNeverQueried.Local
                 if (chunks.TryGetValue(key, out List<IMapObject> elem))
                     elem.Add(obj);
                 else
-                    chunks[key] = new List<IMapObject>() { obj };
+                    chunks[key] = new List<IMapObject>() {obj};
             }
 
             var toDelete = new HashSet<IMapObject>();
@@ -126,13 +124,12 @@ namespace YOBAGame
         {
             //TODO: do things
 
-            if (firstObject.ShouldBeDeleted())
+            if (firstObject.ShouldBeDeleted)
                 yield return firstObject;
-            if (secondObject.ShouldBeDeleted())
+            if (secondObject.ShouldBeDeleted)
                 yield return secondObject;
         }
 
-        
 
         private static IEnumerable<List<IMapObject>> ChunkNeighbours(
             Point chunkKey,
