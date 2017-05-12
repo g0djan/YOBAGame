@@ -21,6 +21,6 @@ namespace YOBAGame.MapObjects
             HitBox = hitBox;
         }
 
-        public abstract void Decide(GameState gameState);
+        public abstract void Decide(double dt, GameState gameState);
     }
 }

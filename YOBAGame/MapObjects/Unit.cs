@@ -9,52 +9,27 @@ namespace YOBAGame.MapObjects
 {
     internal abstract class Unit : AbstractKillableObject
     {
-        private Weapon _weapon;
-        public Angle Dir;
+        public Weapon Gun { get; protected set; }
+        public Angle Direction { get; protected set; }
         public override Vector2 Speed { get; set; }
+        public override int HitPoints { get; protected set; }
+
         public abstract bool SeeksForWeapon { get; }
 
-        protected Unit(Vector2 coordinates, Circle2 hitBox, Weapon weapon) : base(hitBox)
+        protected Unit(int hitPoints, Weapon weapon,Vector2 coordinates, Circle2 hitBox) : base(hitBox)
         {
-            Dir = default(Angle);
+            HitPoints = hitPoints;
+            Direction = default(Angle);
             Speed = Vector2.Zero;
-            TakeWeapon(weapon);
+            if (weapon != null)
+                TakeWeapon(weapon);
         }
 
-        public void ChangeDirection(Point mouse)
+        public virtual void TakeWeapon(Weapon weapon)
         {
-            double dx = mouse.X - Coordinates.X;
-            double dy = mouse.Y - Coordinates.Y;
-            Angle newDirection = Angle.FromRadians(
-                Math.Atan2(dy, dx));
-            Speed = Speed.GetRotated(newDirection);
-            Dir = Dir + Angle.FromRadians(Math.Atan2(dy, dx));
-        }
-
-        public void ChangeAcceleration(Vector2 force)
-        {
-            const int forceModule = 1;
-            Dir = Speed.GetAngleToXLegacy();
-        }
-
-        public override IEnumerable<IMapObject> GeneratedObjects()
-        {
-            const int bulletCount = 5;
-            var bullets = new AbstractBullet[bulletCount];
-            var rotateAngle = Angle.Zero;
-            var bulletSpeed = 5 * Speed.Length;
-            for (var i = 0; i < bulletCount; i++)
-                bullets[i] = new AbstractBullet(Coordinates, (bulletSpeed * Speed.Normalize())
-                    .GetRotated(rotateAngle));
-            return bullets;
-        }
-
-        public abstract void Decide(double d, GameState gameState);
-
-        public void TakeWeapon(Weapon weapon)
-        {
-            _weapon = weapon;
-            _weapon.Taken = true;
+            Gun = weapon;
+            Gun.Owner = this;
+            Gun.Taken = true;
         }
     }
 }

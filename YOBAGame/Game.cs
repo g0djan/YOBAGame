@@ -48,9 +48,9 @@ namespace YOBAGame
             var toDelete = ResolveCollisions();
             DeleteObjects(toDelete);
 
-            var toAdd = Objects
-                .Aggregate<IMapObject, IEnumerable<IMapObject>>(null, (current, obj) =>
-                    current?.Concat(obj.GeneratedObjects()) ?? obj.GeneratedObjects());
+            var toAdd = Enumerable.Empty<IMapObject>();
+            foreach (var obj in Objects)
+                toAdd = toAdd.Concat(obj.GeneratedObjects());
             Objects.UnionWith(toAdd);
         }
 

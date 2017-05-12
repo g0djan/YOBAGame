@@ -5,8 +5,11 @@ namespace YOBAGame.MapObjects
 {
     internal abstract class Weapon : AbstractPhysicalObject, IDrawableObject
     {
+        public Unit Owner { get; set; }
+
         protected Weapon(IShape hitBox) : base(hitBox)
         {
+            Owner = null;
         }
 
         public abstract IEnumerable<IBullet> Fire();
