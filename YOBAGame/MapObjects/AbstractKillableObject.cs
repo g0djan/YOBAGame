@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Archimedes.Geometry;
+﻿using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 
 namespace YOBAGame.MapObjects
@@ -13,9 +12,10 @@ namespace YOBAGame.MapObjects
         {
         }
 
-        public void TakeDamage(Bullet bullet)
+        public void TakeDamage(AbstractBullet bullet)
         {
             HitPoints -= bullet.Damage;
+            bullet.ShouldBeDeleted = true;
         }
 
         public override bool ShouldBeDeleted => HitPoints > 0;

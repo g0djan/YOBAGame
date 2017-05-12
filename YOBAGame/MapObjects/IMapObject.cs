@@ -8,6 +8,8 @@ namespace YOBAGame.MapObjects
         Vector2 Coordinates { get; set; }
 
         Vector2 Speed { get; set; }
+
+        void Decide(GameState gameState);
         
         IEnumerable<IMapObject> GeneratedObjects();
 

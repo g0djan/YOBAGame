@@ -9,15 +9,16 @@ namespace YOBAGame.MapObjects
 {
     internal abstract class Unit : AbstractKillableObject
     {
-        //protected Weapon _weapon;
+        private Weapon _weapon;
         public Angle Dir;
         public override Vector2 Speed { get; set; }
+        public abstract bool SeeksForWeapon { get; }
 
-        public Unit(Vector2 coordinates, Circle2 hitBox) : base(hitBox)
+        protected Unit(Vector2 coordinates, Circle2 hitBox, Weapon weapon) : base(hitBox)
         {
-            
-            Dir = Angle.HalfRotation;
+            Dir = default(Angle);
             Speed = Vector2.Zero;
+            TakeWeapon(weapon);
         }
 
         public void ChangeDirection(Point mouse)
@@ -29,7 +30,7 @@ namespace YOBAGame.MapObjects
             Speed = Speed.GetRotated(newDirection);
             Dir = Dir + Angle.FromRadians(Math.Atan2(dy, dx));
         }
-        
+
         public void ChangeAcceleration(Vector2 force)
         {
             const int forceModule = 1;
@@ -39,18 +40,21 @@ namespace YOBAGame.MapObjects
         public override IEnumerable<IMapObject> GeneratedObjects()
         {
             const int bulletCount = 5;
-            var bullets = new Bullet[bulletCount];
+            var bullets = new AbstractBullet[bulletCount];
             var rotateAngle = Angle.Zero;
             var bulletSpeed = 5 * Speed.Length;
             for (var i = 0; i < bulletCount; i++)
-                bullets[i] = new Bullet(Coordinates, (bulletSpeed * Speed.Normalize())
+                bullets[i] = new AbstractBullet(Coordinates, (bulletSpeed * Speed.Normalize())
                     .GetRotated(rotateAngle));
             return bullets;
         }
 
-        public void Decide(double d, GameState gameState)
+        public abstract void Decide(double d, GameState gameState);
+
+        public void TakeWeapon(Weapon weapon)
         {
-            throw new NotImplementedException();
+            _weapon = weapon;
+            _weapon.Taken = true;
         }
     }
 }

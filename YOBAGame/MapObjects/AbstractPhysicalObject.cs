@@ -9,7 +9,7 @@ namespace YOBAGame.MapObjects
         public abstract Vector2 Coordinates { get; set; }
         public abstract Vector2 Speed { get; set; }
         public abstract IEnumerable<IMapObject> GeneratedObjects();
-        public abstract bool ShouldBeDeleted { get; }
+        public abstract bool ShouldBeDeleted { get; set; }
         public abstract IEnumerable<IMapObject> DeleteResult();
 
         public virtual IShape HitBox { get; }
@@ -20,5 +20,7 @@ namespace YOBAGame.MapObjects
                 throw new ArgumentNullException();
             HitBox = hitBox;
         }
+
+        public abstract void Decide(GameState gameState);
     }
 }

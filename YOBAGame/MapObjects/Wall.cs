@@ -15,12 +15,20 @@ namespace YOBAGame.MapObjects
             return Enumerable.Empty<IMapObject>();
         }
 
-        public override bool ShouldBeDeleted => false;
+        public override bool ShouldBeDeleted
+        {
+            get { return false; }
+            set { }
+        }
+
+
         public override IEnumerable<IMapObject> DeleteResult()
         {
             return Enumerable.Empty<IMapObject>();
         }
 
-        public sealed override IShape HitBox => base.HitBox;
+        public override void Decide(GameState gameState)
+        {
+        }
     }
 }

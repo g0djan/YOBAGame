@@ -53,14 +53,15 @@
     <Compile Include="MapObjects\AbstractStaticPhysicalObject.cs" />
     <Compile Include="MapObjects\IBullet.cs" />
     <Compile Include="MapObjects\AbstractKillableObject.cs" />
-    <Compile Include="MapObjects\Bullet.cs" />
+    <Compile Include="MapObjects\AbstractBullet.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="MapObjects\IDrawableObject.cs" />
     <Compile Include="MapObjects\IMapObject.cs" />
     <Compile Include="MapObjects\IKillableObject.cs" />
-    <Compile Include="MapObjects\MoveableObject.cs" />
     <Compile Include="MapObjects\IPhysicalObject.cs" />
     <Compile Include="MapObjects\Sprite.cs" />
+    <Compile Include="MapObjects\SwordSwing.cs" />
+    <Compile Include="MapObjects\UsualBullet.cs" />
     <Compile Include="MapObjects\Wall.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

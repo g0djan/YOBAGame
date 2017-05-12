@@ -42,7 +42,7 @@ namespace YOBAGame
             foreach (var obj in Objects)
                 (obj as Unit)?.Decide(dt, CurrentGameState);
 
-                foreach (var obj in Objects)
+            foreach (var obj in Objects)
                 obj.Coordinates += obj.Speed * dt;
 
             var toDelete = ResolveCollisions();
@@ -112,12 +112,54 @@ namespace YOBAGame
         private static IEnumerable<IMapObject> ResolveCollision(IMapObject firstObject,
             IMapObject secondObject)
         {
-            //TODO: do things
+            if (firstObject is IPhysicalObject && secondObject is IPhysicalObject)
+            {
+                var first = (firstObject as IPhysicalObject);
+                var second = (secondObject as IPhysicalObject);
+                if (first.HitBox.HasCollision(second.HitBox))
+                {
+                    if (first is Wall)
+                        CollideWithWall(second, first as Wall);
+                    else if (second is Wall)
+                        CollideWithWall(first, second as Wall);
+                    else if (first is AbstractBullet)
+                        ShootWithBullet(second, first as AbstractBullet);
+                    else if (second is AbstractBullet)
+                        ShootWithBullet(first, second as AbstractBullet);
+                    else if (first is Unit && second is Weapon)
+                        TakeWeaponBy(second as Weapon, first as Unit);
+                    else if (second is Unit && second is Weapon)
+                        TakeWeaponBy(second as Weapon, first as Unit);
+                }
+            }
 
             if (firstObject.ShouldBeDeleted)
                 yield return firstObject;
             if (secondObject.ShouldBeDeleted)
                 yield return secondObject;
+        }
+
+        private static void TakeWeaponBy(Weapon weapon, Unit unit)
+        {
+            if (unit.SeeksForWeapon)
+                unit.TakeWeapon(weapon);
+        }
+
+        private static void ShootWithBullet(IPhysicalObject obj, AbstractBullet bullet)
+        {
+            var unit = obj as Unit;
+            if (unit != null)
+                unit.TakeDamage(bullet);
+            else
+                bullet.ShouldBeDeleted = true;
+        }
+
+        private static void CollideWithWall(IPhysicalObject obj, Wall wall)
+        {
+            if (obj is AbstractBullet)
+                ((AbstractBullet) obj).ShouldBeDeleted = true;
+            else
+                // TODO: solve physical collision
         }
 
 
