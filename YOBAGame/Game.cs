@@ -21,43 +21,29 @@ namespace YOBAGame
 
     internal class Game
     {
-        public SizeD MapSize { get; private set; }
+        public SizeD MapSize { get; }
         protected HashSet<IMapObject> Objects { get; set; }
-        protected SpecialTimer GameTimer { get; }
-        public double CurrentTime => GameTimer.CurrentTime;
+        public double CurrentTime { get; private set; }
 
-        protected bool ShouldExit { get; set; }
-        private Action _onExit;
+        // TODO:???
         private const double MaxSpeed = 10;
 
 
         public Game(double width, double height)
         {
             MapSize = new SizeD(width, height);
-            GameTimer = new SpecialTimer();
-            BlokingActions = new List<ConditionalAction>();
+            CurrentTime = 0.0;
         }
 
-        public event Action OnExit
+        private void Step(double dt)
         {
-            add { _onExit += value; }
-            // ReSharper disable once DelegateSubtraction
-            remove { _onExit -= value; }
-        }
+            CurrentTime += dt;
 
-        public List<
-                ConditionalAction>
-            BlokingActions { get; }
-
-        private
-            void Tic(double dt)
-        {
             foreach (var obj in Objects)
-            {
+                (obj as Unit)?.Decide(dt, CurrentGameState);
+
+                foreach (var obj in Objects)
                 obj.Coordinates += obj.Speed * dt;
-                if (obj is Unit)
-                    (obj as Unit).Dir = obj.Speed.GetAngleToXLegacy();
-            }
 
             var toDelete = ResolveCollisions();
             DeleteObjects(toDelete);
@@ -67,6 +53,8 @@ namespace YOBAGame
                     current?.Concat(obj.GeneratedObjects()) ?? obj.GeneratedObjects());
             Objects.UnionWith(toAdd);
         }
+
+        public GameState CurrentGameState => new GameState(MapSize, Objects, CurrentTime);
 
         private void DeleteObjects(IEnumerable<IMapObject> toDelete)
         {
@@ -146,31 +134,6 @@ namespace YOBAGame
                 yield return res;
             if (chunks.TryGetValue(new Point(chunkKey.X, chunkKey.Y + 1), out res))
                 yield return res;
-        }
-
-        public void Run()
-        {
-            GameTimer.Resume();
-            while (true)
-            {
-                if (ShouldExit)
-                {
-                    GameTimer.Pause();
-                    _onExit?.Invoke();
-                    break;
-                }
-
-                foreach (var blokingAction in BlokingActions)
-                    if (blokingAction.Condition())
-                    {
-                        GameTimer.Pause();
-                        blokingAction.Act();
-                        GameTimer.Resume();
-                    }
-
-                var dt = GameTimer.LastTimeSpan();
-                Tic(dt);
-            }
         }
     }
 }

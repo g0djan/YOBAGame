@@ -47,5 +47,10 @@ namespace YOBAGame.MapObjects
                     .GetRotated(rotateAngle));
             return bullets;
         }
+
+        public void Decide(double d, GameState gameState)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
