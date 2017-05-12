@@ -30,6 +30,8 @@ namespace YOBAGame
 
         protected bool ShouldExit { get; set; }
         private Action _onExit;
+        private const double MaxSpeed = 10;
+
 
         public Game(double width, double height)
         {
@@ -54,7 +56,7 @@ namespace YOBAGame
                 obj.Coordinates += obj.Speed * dt;
                 var acceleration = obj.Acceleration;
                 obj.Speed += acceleration * dt;
-                if (obj.Speed.Length > obj.MaxSpeed)
+                if (obj.Speed.Length > MaxSpeed)
                     obj.Speed *= obj.MaxSpeed / obj.Speed.Length;
                 if (obj is Unit)
                     (obj as Unit).Dir = obj.Speed.GetAngleToXLegacy();

@@ -13,10 +13,9 @@ namespace YOBAGame.MapObjects
         public Vector2 Coordinates { get; set; }
         public Vector2 Speed { get; set; }
 
-        public Unit(Vector2 coordinates)
+        public Unit(Vector2 coordinates) : base(coordinates)
         {
             Dir = Angle.HalfRotation;
-            Coordinates = coordinates;
             //MaxSpeed =
             Speed = Vector2.Zero;
         }
