@@ -28,6 +28,8 @@ namespace YOBAGame
 
         protected bool ShouldExit { get; set; }
         private Action _onExit;
+        private const double MaxSpeed = 10;
+
 
         public Game(double width, double height)
         {

@@ -10,18 +10,19 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Units;
+using YOBAGame.MapObjects;
 
 namespace YOBAGame
 {
     public partial class YOBAWindow : Form
     {
         private Game _game;
-        private Player _player;
+        private Unit _player;
 
         public YOBAWindow()
         {
             var timer = new Timer {Interval = 1};
-            _player = new Player(Vector2.Zero); //temporary start coordinates
+            _player = new Unit(Vector2.Zero); //temporary start coordinates
             timer.Tick += TimerTick;
             timer.Start();
         }
