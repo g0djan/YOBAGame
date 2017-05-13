@@ -27,7 +27,7 @@ namespace YOBAGame.MapObjects
             return Enumerable.Empty<IMapObject>();
         }
 
-        public override void Decide(GameState gameState)
+        public override void Decide(double dt, GameState gameState)
         {
         }
     }

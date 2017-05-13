@@ -9,5 +9,7 @@ namespace YOBAGame.MapObjects
         Vector2 Speed { get; }
         bool ShouldDropWeapon { get; }
         bool ShouldFire { get; }
+        bool ShouldPickUpWeapon { get; }
+        bool ShouldWaveSword { get; }
     }
 }

@@ -23,7 +23,7 @@ namespace YOBAGame.MapObjects
         public override Vector2 Speed { get; set; }
         public override bool ShouldBeDeleted { get; set; }
 
-        public override void Decide(GameState gameState)
+        public override void Decide(double dt, GameState gameState)
         {
             ShouldBeDeleted = gameState.CurrentTime < _timeToDelete;
         }

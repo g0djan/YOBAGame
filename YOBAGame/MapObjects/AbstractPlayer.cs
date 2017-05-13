@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
-using Archimedes.Geometry.Units;
 
 namespace YOBAGame.MapObjects
 {
     internal abstract class AbstractPlayer : Unit
     {
         private IControlSource Control { get; }
-        private List<IMapObject> objectsToGenerate;
+        private List<IMapObject> ObjectsToGenerate { get; set; }
 
         public override Vector2 Speed { get; set; }
 
-        public override bool SeeksForWeapon
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override bool SeeksForWeapon { get; protected set; }
 
         protected AbstractPlayer(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox,
             IControlSource control) : base(hitPoints, weapon, coordinates, hitBox)
@@ -44,8 +38,8 @@ namespace YOBAGame.MapObjects
 
         public override IEnumerable<IMapObject> GeneratedObjects()
         {
-            var res = objectsToGenerate ?? Enumerable.Empty<IMapObject>();
-            objectsToGenerate = null;
+            var res = ObjectsToGenerate ?? Enumerable.Empty<IMapObject>();
+            ObjectsToGenerate = null;
             return res;
             /*const int bulletCount = 5;
             var bullets = new AbstractBullet[bulletCount];
@@ -65,18 +59,18 @@ namespace YOBAGame.MapObjects
 
         private void AddToGenerated(IMapObject obj)
         {
-            if (objectsToGenerate == null)
-                objectsToGenerate = new List<IMapObject>() {obj};
+            if (ObjectsToGenerate == null)
+                ObjectsToGenerate = new List<IMapObject>() {obj};
             else
-                objectsToGenerate.Add(obj);
+                ObjectsToGenerate.Add(obj);
         }
 
         private void AddToGenerated(IEnumerable<IBullet> enumerable)
         {
-            if (objectsToGenerate == null)
-                objectsToGenerate = new List<IMapObject>(enumerable);
+            if (ObjectsToGenerate == null)
+                ObjectsToGenerate = new List<IMapObject>(enumerable);
             else
-                objectsToGenerate.AddRange(enumerable);
+                ObjectsToGenerate.AddRange(enumerable);
         }
 
         private void DropWeapon()
@@ -84,21 +78,35 @@ namespace YOBAGame.MapObjects
             if (Gun == null)
                 return;
             Gun.Coordinates = Coordinates;
-            Gun.Speed =; //TODO: make settings and set default dropped weapon speed
+            Gun.Speed = Vector2.UnitX.GetRotated(Direction) * Rules.DroppedGunSpeed; //TODO: make settings and set default dropped weapon speed
             AddToGenerated(Gun);
             Gun = null;
         }
 
         public override void Decide(double dt, GameState gameState)
         {
+            // to let gun cool down
+            Gun.Decide(dt, gameState);
+
             Direction = Control.Direction;
-            Speed = Control.Speed;
-            if (Control.ShouldDropWeapon)
-                DropWeapon();
+            Speed = SetSpeedFromControl(Control.Speed, dt);
+
             if (Control.ShouldFire)
                 TryFire();
-            // TODO: Aidar stoped here
+            if (Control.ShouldWaveSword)
+                TryWaveSword();
+
+            if (Control.ShouldDropWeapon)
+                DropWeapon();
+            SeeksForWeapon = Control.ShouldPickUpWeapon;
         }
+
+        private void TryWaveSword()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected abstract Vector2 SetSpeedFromControl(Vector2 controlSpeed, double dt);
 
         private void TryFire()
         {

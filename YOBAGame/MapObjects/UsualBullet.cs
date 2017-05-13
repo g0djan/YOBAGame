@@ -24,7 +24,7 @@ namespace YOBAGame.MapObjects
         }
 
         public override Vector2 Coordinates { get; set; }
-        public override void Decide(GameState gameState)
+        public override void Decide(double dt, GameState gameState)
         {
         }
     }

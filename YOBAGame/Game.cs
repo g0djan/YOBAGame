@@ -1,36 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Archimedes.Geometry;
+using YOBAGame.GameRules;
 using YOBAGame.MapObjects;
 
 namespace YOBAGame
 {
-    internal class ConditionalAction
-    {
-        public Func<bool> Condition { get; }
-        public Action Act { get; }
-
-        public ConditionalAction(Func<bool> condition, Action act)
-        {
-            Act = act;
-            Condition = condition;
-        }
-    }
-
     internal class Game
     {
+        public IGameRules Rules { get; }
         public SizeD MapSize { get; }
         protected HashSet<IMapObject> Objects { get; set; }
         public double CurrentTime { get; private set; }
 
-        // TODO:???
-        private const double MaxSpeed = 10;
-
-
-        public Game(double width, double height)
+        public Game(double width, double height, IGameRules rules)
         {
+            Rules = rules;
             MapSize = new SizeD(width, height);
             CurrentTime = 0.0;
         }
@@ -112,10 +98,10 @@ namespace YOBAGame
         private static IEnumerable<IMapObject> ResolveCollision(IMapObject firstObject,
             IMapObject secondObject)
         {
-            if (firstObject is IPhysicalObject && secondObject is IPhysicalObject)
+            var first = (firstObject as IPhysicalObject);
+            var second = (secondObject as IPhysicalObject);
+            if (first != null && second != null)
             {
-                var first = (firstObject as IPhysicalObject);
-                var second = (secondObject as IPhysicalObject);
                 if (first.HitBox.HasCollision(second.HitBox))
                 {
                     if (first is Wall)
@@ -128,8 +114,8 @@ namespace YOBAGame
                         ShootWithBullet(first, second as AbstractBullet);
                     else if (first is Unit && second is Weapon)
                         TakeWeaponBy(second as Weapon, first as Unit);
-                    else if (second is Unit && second is Weapon)
-                        TakeWeaponBy(second as Weapon, first as Unit);
+                    else if (second is Unit && first is Weapon)
+                        TakeWeaponBy(first as Weapon, second as Unit);
                 }
             }
 
@@ -159,7 +145,7 @@ namespace YOBAGame
             if (obj is AbstractBullet)
                 ((AbstractBullet) obj).ShouldBeDeleted = true;
             else
-                // TODO: solve physical collision
+            // TODO: solve physical collision
         }
 
 
