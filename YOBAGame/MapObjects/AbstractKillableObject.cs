@@ -6,8 +6,8 @@ namespace YOBAGame.MapObjects
     public abstract class AbstractKillableObject : IKillableObject
     {
         public Vector2 Coordinates { get; set; }
-        public abstract Vector2 Speed { get; set; }
-        public abstract IEnumerable<IMapObject> GeneratedObjects();
+        public Vector2 Speed { get; set; }
+        
         public abstract IEnumerable<IMapObject> DeleteResult();
         public abstract int HitPoints { get; protected set; }
 
@@ -20,6 +20,8 @@ namespace YOBAGame.MapObjects
         {
             HitPoints -= bullet.Damage;
         }
+
+        public IEnumerable<IMapObject> GeneratedObjects();
 
         public bool ShouldBeDeleted => HitPoints > 0;
     }

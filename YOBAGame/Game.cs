@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
 using Archimedes.Geometry;
@@ -32,12 +33,15 @@ namespace YOBAGame
         private Action _onExit;
         private const double MaxSpeed = 10;
 
+        public Player Player;
+
 
         public Game(double width, double height)
         {
             MapSize = new SizeD(width, height);
             GameTimer = new SpecialTimer();
             BlokingActions = new List<ConditionalAction>();
+            Player = new Player();
         }
 
         public event Action OnExit
@@ -54,12 +58,6 @@ namespace YOBAGame
             foreach (var obj in Objects)
             {
                 obj.Coordinates += obj.Speed * dt;
-                var acceleration = obj.Acceleration;
-                obj.Speed += acceleration * dt;
-                if (obj.Speed.Length > MaxSpeed)
-                    obj.Speed *= obj.MaxSpeed / obj.Speed.Length;
-                if (obj is Unit)
-                    (obj as Unit).Dir = obj.Speed.GetAngleToXLegacy();
             }
 
             var toDelete = ResolveCollisions();

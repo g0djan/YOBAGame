@@ -11,7 +11,6 @@ namespace YOBAGame.MapObjects
         //protected Weapon _weapon;
         public Angle Dir;
         public Vector2 Coordinates { get; set; }
-        public Vector2 Speed { get; set; }
 
         public Unit(Vector2 coordinates) : base(coordinates)
         {
