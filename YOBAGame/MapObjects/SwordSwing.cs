@@ -1,10 +1,11 @@
 ﻿using System;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
+using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    public class SwordSwing : AbstractBullet
+    public class SwordSwing : AbstractBullet, IShootableObject
     {
         private readonly double _timeToDelete;
 
@@ -14,8 +15,8 @@ namespace YOBAGame.MapObjects
             set { }
         }
 
-        public SwordSwing(Circle2 hitBox, IMapObject owner, double timeToDelete, int damage = Int32.MaxValue)
-            : base(hitBox, owner, damage)
+        public SwordSwing(Circle2 hitBox, IMapObject owner, double timeToDelete, IGameRules rules, int damage = Int32.MaxValue)
+            : base(hitBox, owner, rules, damage)
         {
             _timeToDelete = timeToDelete;
         }
@@ -26,6 +27,11 @@ namespace YOBAGame.MapObjects
         public override void Decide(double dt, GameState gameState)
         {
             ShouldBeDeleted = gameState.CurrentTime < _timeToDelete;
+        }
+
+        public void GetShot(IBullet bullet)
+        {
+            //TODO: throw bullets back
         }
     }
 }

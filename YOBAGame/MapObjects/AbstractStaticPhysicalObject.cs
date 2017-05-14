@@ -1,4 +1,5 @@
 ﻿using Archimedes.Geometry;
+using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
@@ -6,7 +7,8 @@ namespace YOBAGame.MapObjects
     {
         private readonly Vector2 _coordinates;
 
-        protected AbstractStaticPhysicalObject(Vector2 coordinates, IShape hitBox) : base(hitBox)
+        protected AbstractStaticPhysicalObject(Vector2 coordinates, IShape hitBox, IGameRules rules)
+            : base(hitBox, rules)
         {
             _coordinates = coordinates;
         }
@@ -19,13 +21,8 @@ namespace YOBAGame.MapObjects
 
         public sealed override Vector2 Speed
         {
-            get
-            {
-                return Vector2.Zero;
-            }
-            set
-            {
-            }
+            get { return Vector2.Zero; }
+            set { }
         }
     }
 }

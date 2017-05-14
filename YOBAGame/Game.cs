@@ -133,19 +133,18 @@ namespace YOBAGame
 
         private static void ShootWithBullet(IPhysicalObject obj, AbstractBullet bullet)
         {
-            var unit = obj as Unit;
-            if (unit != null)
-                unit.TakeDamage(bullet);
-            else
-                bullet.ShouldBeDeleted = true;
+            (obj as IShootableObject)?.GetShot(bullet);
         }
 
         private static void CollideWithWall(IPhysicalObject obj, Wall wall)
         {
-            if (obj is AbstractBullet)
-                ((AbstractBullet) obj).ShouldBeDeleted = true;
+            if (obj is AbstractStaticPhysicalObject)
+                return;
+
+            if (obj is UsualBullet)
+                obj.ShouldBeDeleted = true;
             else
-            // TODO: solve physical collision
+                // TODO: resolve physicalcollisions
         }
 
 

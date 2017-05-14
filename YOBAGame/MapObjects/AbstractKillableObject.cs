@@ -13,7 +13,7 @@ namespace YOBAGame.MapObjects
         {
         }
 
-        public void TakeDamage(AbstractBullet bullet)
+        public void GetShot(IBullet bullet)
         {
             HitPoints -= bullet.Damage;
             bullet.ShouldBeDeleted = true;

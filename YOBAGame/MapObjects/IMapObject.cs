@@ -15,7 +15,7 @@ namespace YOBAGame.MapObjects
         
         IEnumerable<IMapObject> GeneratedObjects();
 
-        bool ShouldBeDeleted { get; }
+        bool ShouldBeDeleted { get; set; }
         IEnumerable<IMapObject> DeleteResult();
     }
 }

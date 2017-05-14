@@ -2,6 +2,7 @@
 using System.Linq;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
+using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
@@ -15,7 +16,7 @@ namespace YOBAGame.MapObjects
         public override bool SeeksForWeapon { get; protected set; }
 
         protected AbstractPlayer(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox,
-            IControlSource control) : base(hitPoints, weapon, coordinates, hitBox)
+            IControlSource control, IGameRules rules) : base(hitPoints, weapon, coordinates, hitBox, rules)
         {
             Control = control;
         }
