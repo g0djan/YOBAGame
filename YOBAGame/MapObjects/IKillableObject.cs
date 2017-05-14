@@ -3,6 +3,6 @@
     public interface IKillableObject : IMapObject
     {
         int HitPoints { get; }
-        void TakeDamage(Bullet bullet);
+        void TakeDamage(AbstractBullet bullet);
     }
 }

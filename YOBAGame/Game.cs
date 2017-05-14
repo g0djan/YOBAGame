@@ -1,73 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Media;
-using System.Runtime.Serialization;
-using System.Windows.Forms;
 using Archimedes.Geometry;
+using YOBAGame.GameRules;
 using YOBAGame.MapObjects;
 
 namespace YOBAGame
 {
-    class ConditionalAction
-    {
-        public Func<bool> Condition { get; }
-        public Action Act { get; }
-
-        public ConditionalAction(Func<bool> condition, Action act)
-        {
-            Act = act;
-            Condition = condition;
-        }
-    }
-
     internal class Game
     {
-        public SizeD MapSize { get; private set; }
+        public IGameRules Rules { get; }
+        public SizeD MapSize { get; }
         protected HashSet<IMapObject> Objects { get; set; }
-        protected SpecialTimer GameTimer { get; }
-        public double CurrentTime => GameTimer.CurrentTime;
+        public double CurrentTime { get; private set; }
 
-        protected bool ShouldExit { get; set; }
-        private Action _onExit;
-        private const double MaxSpeed = 10;
-
-        public Player Player;
-
-
-        public Game(double width, double height)
+        public Game(double width, double height, IGameRules rules)
         {
+            Rules = rules;
             MapSize = new SizeD(width, height);
-            GameTimer = new SpecialTimer();
-            BlokingActions = new List<ConditionalAction>();
-            Player = new Player();
+            CurrentTime = 0.0;
         }
 
-        public event Action OnExit
+        private void Step(double dt)
         {
-            add => _onExit += value;
-            // ReSharper disable once DelegateSubtraction
-            remove => _onExit -= value;
-        }
+            CurrentTime += dt;
 
-        public List<ConditionalAction> BlokingActions { get; }
-
-        private void Tic(double dt)
-        {
             foreach (var obj in Objects)
-            {
+                (obj as Unit)?.Decide(dt, CurrentGameState);
+
+            foreach (var obj in Objects)
                 obj.Coordinates += obj.Speed * dt;
-            }
 
             var toDelete = ResolveCollisions();
             DeleteObjects(toDelete);
 
-            var toAdd = Objects
-                .Aggregate<IMapObject, IEnumerable<IMapObject>>(null, (current, obj) =>
-                    current?.Concat(obj.GeneratedObjects()) ?? obj.GeneratedObjects());
+            var toAdd = Enumerable.Empty<IMapObject>();
+            foreach (var obj in Objects)
+                toAdd = toAdd.Concat(obj.GeneratedObjects());
             Objects.UnionWith(toAdd);
         }
+
+        public GameState CurrentGameState => new GameState(MapSize, Objects, CurrentTime);
 
         private void DeleteObjects(IEnumerable<IMapObject> toDelete)
         {
@@ -84,10 +57,11 @@ namespace YOBAGame
             foreach (var obj in Objects)
             {
                 var key = new Point((int) obj.Coordinates.X, (int) obj.Coordinates.Y);
+                // ReSharper disable once CollectionNeverQueried.Local
                 if (chunks.TryGetValue(key, out List<IMapObject> elem))
                     elem.Add(obj);
                 else
-                    chunks[key] = new List<IMapObject>() { obj };
+                    chunks[key] = new List<IMapObject>() {obj};
             }
 
             var toDelete = new HashSet<IMapObject>();
@@ -124,15 +98,56 @@ namespace YOBAGame
         private static IEnumerable<IMapObject> ResolveCollision(IMapObject firstObject,
             IMapObject secondObject)
         {
-            //TODO: do things
+            var first = (firstObject as IPhysicalObject);
+            var second = (secondObject as IPhysicalObject);
+            if (first != null && second != null)
+            {
+                if (first.HitBox.HasCollision(second.HitBox))
+                {
+                    if (first is Wall)
+                        CollideWithWall(second, first as Wall);
+                    else if (second is Wall)
+                        CollideWithWall(first, second as Wall);
+                    else if (first is AbstractBullet)
+                        ShootWithBullet(second, first as AbstractBullet);
+                    else if (second is AbstractBullet)
+                        ShootWithBullet(first, second as AbstractBullet);
+                    else if (first is Unit && second is Weapon)
+                        TakeWeaponBy(second as Weapon, first as Unit);
+                    else if (second is Unit && first is Weapon)
+                        TakeWeaponBy(first as Weapon, second as Unit);
+                }
+            }
 
-            if (firstObject.ShouldBeDeleted())
+            if (firstObject.ShouldBeDeleted)
                 yield return firstObject;
-            if (secondObject.ShouldBeDeleted())
+            if (secondObject.ShouldBeDeleted)
                 yield return secondObject;
         }
 
-        
+        private static void TakeWeaponBy(Weapon weapon, Unit unit)
+        {
+            if (unit.SeeksForWeapon)
+                unit.TakeWeapon(weapon);
+        }
+
+        private static void ShootWithBullet(IPhysicalObject obj, AbstractBullet bullet)
+        {
+            var unit = obj as Unit;
+            if (unit != null)
+                unit.TakeDamage(bullet);
+            else
+                bullet.ShouldBeDeleted = true;
+        }
+
+        private static void CollideWithWall(IPhysicalObject obj, Wall wall)
+        {
+            if (obj is AbstractBullet)
+                ((AbstractBullet) obj).ShouldBeDeleted = true;
+            else
+            // TODO: solve physical collision
+        }
+
 
         private static IEnumerable<List<IMapObject>> ChunkNeighbours(
             Point chunkKey,
@@ -147,31 +162,6 @@ namespace YOBAGame
                 yield return res;
             if (chunks.TryGetValue(new Point(chunkKey.X, chunkKey.Y + 1), out res))
                 yield return res;
-        }
-
-        public void Run()
-        {
-            GameTimer.Resume();
-            while (true)
-            {
-                if (ShouldExit)
-                {
-                    GameTimer.Pause();
-                    _onExit?.Invoke();
-                    break;
-                }
-
-                foreach (var blokingAction in BlokingActions)
-                    if (blokingAction.Condition())
-                    {
-                        GameTimer.Pause();
-                        blokingAction.Act();
-                        GameTimer.Resume();
-                    }
-
-                var dt = GameTimer.LastTimeSpan();
-                Tic(dt);
-            }
         }
     }
 }

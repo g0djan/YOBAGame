@@ -1,28 +1,24 @@
-﻿using System.Collections.Generic;
-using Archimedes.Geometry;
+﻿using Archimedes.Geometry;
+using Archimedes.Geometry.Primitives;
+using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    public abstract class AbstractKillableObject : IKillableObject
+    public abstract class AbstractKillableObject : AbstractPhysicalObject, IKillableObject
     {
-        public Vector2 Coordinates { get; set; }
-        public Vector2 Speed { get; set; }
-        
-        public abstract IEnumerable<IMapObject> DeleteResult();
+        public override Vector2 Coordinates { get; set; }
         public abstract int HitPoints { get; protected set; }
 
-        protected AbstractKillableObject(Vector2 coordinates)
+        protected AbstractKillableObject(Circle2 hitBox, IGameRules rules) : base(hitBox, rules)
         {
-            Coordinates = coordinates;
         }
 
-        public void TakeDamage(Bullet bullet)
+        public void TakeDamage(AbstractBullet bullet)
         {
             HitPoints -= bullet.Damage;
+            bullet.ShouldBeDeleted = true;
         }
 
-        public IEnumerable<IMapObject> GeneratedObjects();
-
-        public bool ShouldBeDeleted => HitPoints > 0;
+        public override bool ShouldBeDeleted => HitPoints > 0;
     }
 }

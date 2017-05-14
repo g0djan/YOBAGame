@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
 using Archimedes.Geometry;
+using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
     public interface IMapObject
     {
-        Vector2 Coordinates { get; set; }
+        IGameRules Rules { get; }
 
+        Vector2 Coordinates { get; set; }
         Vector2 Speed { get; set; }
+
+        void Decide(double dt, GameState gameState);
         
         IEnumerable<IMapObject> GeneratedObjects();
 

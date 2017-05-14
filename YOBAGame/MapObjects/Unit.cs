@@ -1,50 +1,34 @@
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using Archimedes.Geometry;
+using Archimedes.Geometry.Primitives;
 using Archimedes.Geometry.Units;
+using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    abstract class Unit : AbstractKillableObject
+    internal abstract class Unit : AbstractKillableObject
     {
-        //protected Weapon _weapon;
-        public Angle Dir;
-        public Vector2 Coordinates { get; set; }
+        public Weapon Gun { get; protected set; }
+        public Angle Direction { get; protected set; }
+        public override Vector2 Speed { get; set; }
+        public override int HitPoints { get; protected set; }
 
-        public Unit(Vector2 coordinates) : base(coordinates)
+        public abstract bool SeeksForWeapon { get; protected set; }
+
+        protected Unit(int hitPoints, Weapon weapon,Vector2 coordinates, Circle2 hitBox, IGameRules rules) : base(hitBox, rules)
         {
-            Dir = Angle.HalfRotation;
-            //MaxSpeed =
+            HitPoints = hitPoints;
+            Direction = default(Angle);
             Speed = Vector2.Zero;
+            if (weapon != null)
+                TakeWeapon(weapon);
         }
 
-        public void ChangeDirection(Point mouse)
+        public virtual void TakeWeapon(Weapon weapon)
         {
-            double dx = mouse.X - Coordinates.X;
-            double dy = mouse.Y - Coordinates.Y;
-            Angle newDirection = Angle.FromRadians(
-                Math.Atan2(dy, dx));
-            Speed = Speed.GetRotated(newDirection);
-            Dir = Dir + Angle.FromRadians(Math.Atan2(dy, dx));
-        }
-        
-        public void ChangeAcceleration(Vector2 force)
-        {
-            const int forceModule = 1;
-            Dir = Speed.GetAngleToXLegacy();
-        }
-
-        public override IEnumerable<IMapObject> GeneratedObjects()
-        {
-            const int bulletCount = 5;
-            var bullets = new Bullet[bulletCount];
-            var rotateAngle = Angle.Zero;
-            var bulletSpeed = 5 * Speed.Length;
-            for (var i = 0; i < bulletCount; i++)
-                bullets[i] = new Bullet(Coordinates, (bulletSpeed * Speed.Normalize())
-                    .GetRotated(rotateAngle));
-            return bullets;
+            Gun = weapon;
+            Gun.Owner = this;
+            Gun.Taken = true;
         }
     }
 }
