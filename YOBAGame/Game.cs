@@ -1,13 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Archimedes.Geometry;
+using Archimedes.Geometry.Primitives;
+using Archimedes.Geometry.Units;
+using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 using YOBAGame.MapObjects;
 
 namespace YOBAGame
 {
-    internal class Game
+    internal class Game : IGame
     {
         public IGameRules Rules { get; }
         public SizeD MapSize { get; }
@@ -21,7 +25,7 @@ namespace YOBAGame
             CurrentTime = 0.0;
         }
 
-        private void Step(double dt)
+        public void Step(double dt)
         {
             CurrentTime += dt;
 
@@ -104,14 +108,16 @@ namespace YOBAGame
             {
                 if (first.HitBox.HasCollision(second.HitBox))
                 {
-                    if (first is Wall)
-                        CollideWithWall(second, first as Wall);
-                    else if (second is Wall)
-                        CollideWithWall(first, second as Wall);
-                    else if (first is AbstractBullet)
+                    if (first is AbstractBullet)
                         ShootWithBullet(second, first as AbstractBullet);
                     else if (second is AbstractBullet)
                         ShootWithBullet(first, second as AbstractBullet);
+
+                    else if (first is Wall)
+                        CollideWithWall(second, first as Wall);
+                    else if (second is Wall)
+                        CollideWithWall(first, second as Wall);
+
                     else if (first is Unit && second is Weapon)
                         TakeWeaponBy(second as Weapon, first as Unit);
                     else if (second is Unit && first is Weapon)
@@ -142,9 +148,12 @@ namespace YOBAGame
                 return;
 
             if (obj is UsualBullet)
+            {
                 obj.ShouldBeDeleted = true;
-            else
-                // TODO: resolve physicalcollisions
+                return;
+            }
+
+            wall.PushOut(obj);
         }
 
 

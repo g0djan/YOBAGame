@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Archimedes.Geometry;
+using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
@@ -7,9 +8,12 @@ namespace YOBAGame.MapObjects
     {
         private readonly Vector2 _coordinates;
 
-        protected StaticObject(Vector2 coordinates)
+        public IGameRules Rules { get; }
+
+        protected StaticObject(Vector2 coordinates, IGameRules rules)
         {
             _coordinates = coordinates;
+            Rules = rules;
         }
 
         public Vector2 Coordinates
@@ -30,8 +34,8 @@ namespace YOBAGame.MapObjects
         }
 
         public abstract IEnumerable<IMapObject> GeneratedObjects();
-        public abstract bool ShouldBeDeleted { get; }
+        public abstract bool ShouldBeDeleted { get; set; }
         public abstract IEnumerable<IMapObject> DeleteResult();
-        public abstract void Decide(GameState gameState);
+        public abstract void Decide(double dt, GameState gameState);
     }
 }

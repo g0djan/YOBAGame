@@ -9,8 +9,9 @@ namespace YOBAGame.MapObjects
         public override Vector2 Coordinates { get; set; }
         public abstract int HitPoints { get; protected set; }
 
-        protected AbstractKillableObject(Circle2 hitBox, IGameRules rules) : base(hitBox, rules)
+        protected AbstractKillableObject(Vector2 coordinates, Circle2 hitBox, IGameRules rules) : base(hitBox, rules)
         {
+            Coordinates = coordinates;
         }
 
         public void GetShot(IBullet bullet)

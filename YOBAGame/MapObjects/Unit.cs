@@ -15,7 +15,8 @@ namespace YOBAGame.MapObjects
 
         public abstract bool SeeksForWeapon { get; protected set; }
 
-        protected Unit(int hitPoints, Weapon weapon,Vector2 coordinates, Circle2 hitBox, IGameRules rules) : base(hitBox, rules)
+        protected Unit(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
+            : base(coordinates, hitBox, rules)
         {
             HitPoints = hitPoints;
             Direction = default(Angle);

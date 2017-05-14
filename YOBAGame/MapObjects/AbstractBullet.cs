@@ -5,7 +5,7 @@ using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    public abstract class AbstractBullet : AbstractPhysicalObject, IBullet, IDrawableObject
+    public abstract class AbstractBullet : AbstractPhysicalObject, IBullet
     {
         protected AbstractBullet(IShape hitBox, IMapObject owner, IGameRules rules, int damage = int.MaxValue)
             : base(hitBox, rules)

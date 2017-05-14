@@ -5,7 +5,7 @@ using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    public class SwordSwing : AbstractBullet, IShootableObject
+    public class SwordSwing : AbstractBullet, IShootableObject, IDrawableObject
     {
         private readonly double _timeToDelete;
 
