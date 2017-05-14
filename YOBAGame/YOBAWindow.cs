@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Media;
@@ -17,12 +18,11 @@ namespace YOBAGame
     public partial class YOBAWindow : Form
     {
         private Game _game;
-        private Unit _player;
 
         public YOBAWindow()
         {
             var timer = new Timer {Interval = 1};
-            _player = new Unit(Vector2.Zero); //temporary start coordinates
+            _game = new Game(); //temporary start coordinates
             timer.Tick += TimerTick;
             timer.Start();
         }
@@ -36,11 +36,11 @@ namespace YOBAGame
         {
             HandleKeyComands(Keys.None);
         }
-
+        //блет тут по другому
         private void HandleKeyComands(Keys key)
         {
             var force = Vector2.Zero;
-            var playerNorm = _player.Speed.Normalize();
+            var playerNorm = _game.Player.Speed.Normalize();
             switch (key)
             {
                 case Keys.Up:
@@ -59,12 +59,12 @@ namespace YOBAGame
                     force = Vector2.Zero;
                     break;
             }
-            _player.ChangeAcceleration(force);
+            _game.Player.ChangeAcceleration(force);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            _player.ChangeDirection(e.Location);
+            _game.Player.ChangeDirection(e.Location);
         }
 
         protected override bool IsInputKey(Keys keyData) => 
@@ -74,6 +74,7 @@ namespace YOBAGame
 
         void TimerTick(object sender, EventArgs args)
         {
+            _game.Step(dt);
             tickCount++;
             Invalidate();
         }
