@@ -31,7 +31,11 @@ namespace YOBAGame.MapObjects
 
         public void GetShot(IBullet bullet)
         {
-            //TODO: throw bullets back
+            var circleCenter = Coordinates;
+            var B = bullet.Coordinates;
+            var OB = (B - circleCenter).Normalize();
+            bullet.Speed -= OB * (OB.DotProduct(bullet.Speed) * 2);
+            // TODO: should HitBox be rotated? what is bullet's HitBox?
         }
     }
 }

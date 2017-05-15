@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Archimedes.Geometry;
-using Archimedes.Geometry.Primitives;
-using Archimedes.Geometry.Units;
-using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 using YOBAGame.MapObjects;
 
@@ -170,6 +166,11 @@ namespace YOBAGame
                 yield return res;
             if (chunks.TryGetValue(new Point(chunkKey.X, chunkKey.Y + 1), out res))
                 yield return res;
+        }
+
+        public void AddObject(IMapObject obj)
+        {
+            Objects.Add(obj);
         }
     }
 }

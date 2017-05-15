@@ -1,6 +1,6 @@
 ﻿namespace YOBAGame.MapObjects
 {
-    public interface IBullet : IMapObject
+    public interface IBullet : IPhysicalObject
     {
         int Damage { get; }
         IMapObject Owner { get; }

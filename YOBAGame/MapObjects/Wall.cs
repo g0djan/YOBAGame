@@ -41,8 +41,8 @@ namespace YOBAGame.MapObjects
             if (!(wall.HitBox is Polygon2) || !(obj.HitBox is Circle2))
                 throw new NotImplementedException("Only Polygon2 with Circle2 collisions can be resolved.");
 
-            var polygon = wall.HitBox as Polygon2;
-            var circle = obj.HitBox as Circle2;
+            var polygon = (Polygon2) wall.HitBox;
+            var circle = (Circle2) obj.HitBox;
             var O = obj.Coordinates - wall.Coordinates;
             foreach (var threeGramm in Enumerable
                 .Range(0, polygon.VerticesCount)
