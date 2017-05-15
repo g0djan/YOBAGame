@@ -48,8 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\GeometeyExtension.cs" />
+    <Compile Include="Extensions\LinqExtension.cs" />
     <Compile Include="GameRules\IGameRules.cs" />
+    <Compile Include="GameRules\UsualRules.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="IGame.cs" />
     <Compile Include="MapObjects\AbstractPhysicalObject.cs" />
     <Compile Include="MapObjects\AbstractStaticPhysicalObject.cs" />
     <Compile Include="MapObjects\DevicesHandler.cs" />
@@ -62,8 +66,10 @@
     <Compile Include="MapObjects\IMapObject.cs" />
     <Compile Include="MapObjects\IKillableObject.cs" />
     <Compile Include="MapObjects\IPhysicalObject.cs" />
-    <Compile Include="MapObjects\AbstractPlayer.cs" />
+    <Compile Include="MapObjects\Player.cs" />
+    <Compile Include="MapObjects\IShootableObject.cs" />
     <Compile Include="MapObjects\Sprite.cs" />
+    <Compile Include="MapObjects\Sword.cs" />
     <Compile Include="MapObjects\SwordSwing.cs" />
     <Compile Include="MapObjects\UsualBullet.cs" />
     <Compile Include="MapObjects\Wall.cs" />

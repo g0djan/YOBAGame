@@ -1,8 +1,7 @@
 ﻿namespace YOBAGame.MapObjects
 {
-    public interface IKillableObject : IMapObject
+    public interface IKillableObject : IShootableObject
     {
         int HitPoints { get; }
-        void TakeDamage(AbstractBullet bullet);
     }
 }

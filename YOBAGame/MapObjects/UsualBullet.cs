@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
 using Archimedes.Geometry;
+using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    public class UsualBullet : AbstractBullet
+    public class UsualBullet : AbstractBullet, IDrawableObject
     {
         private readonly Vector2 _speed;
 
-        public UsualBullet(Vector2 coordinates, Vector2 speed, IShape hitBox, IMapObject owner, int damage = int.MaxValue)
-            : base(hitBox, owner, damage)
+        public UsualBullet(Vector2 coordinates, Vector2 speed, IShape hitBox, IMapObject owner, IGameRules rules, int damage = int.MaxValue)
+            : base(hitBox, owner, rules, damage)
         {
             Coordinates = coordinates;
             _speed = speed;

@@ -5,13 +5,17 @@ using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    internal abstract class Weapon : AbstractPhysicalObject, IDrawableObject
+    public abstract class Weapon : AbstractPhysicalObject, IDrawableObject
     {
         private double _timeToReload;
         public Unit Owner { get; set; }
         public bool Taken { get; set; }
 
-        public override bool ShouldBeDeleted => Taken;
+        public override bool ShouldBeDeleted
+        {
+            get { return Taken; }
+            set { }
+        }
 
         protected abstract double ReloadDuration { get; }
 
@@ -41,6 +45,10 @@ namespace YOBAGame.MapObjects
         {
             TimeToReload -= dt;
 
+            if (Taken)
+                return;
+
+            if (Speed == Vector2.Zero) return;
             if (Speed.Length > double.Epsilon)
                 Speed -= Speed * (1 * Rules.FrictionAcceleration * dt / Speed.Length);
             else

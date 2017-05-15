@@ -7,7 +7,7 @@ using YOBAGame.MapObjects;
 
 namespace YOBAGame
 {
-    internal class Game
+    internal class Game : IGame
     {
         public IGameRules Rules { get; }
         public SizeD MapSize { get; }
@@ -18,15 +18,16 @@ namespace YOBAGame
         {
             MapSize = new SizeD(width, height);
             CurrentTime = 0.0;
+            Objects = new HashSet<IMapObject>();
             Rules = rules;
         }
 
-        private void Step(double dt)
+        public void Step(double dt)
         {
             CurrentTime += dt;
 
             foreach (var obj in Objects)
-                (obj as Unit)?.Decide(dt, CurrentGameState);
+                obj.Decide(dt, CurrentGameState);
 
             foreach (var obj in Objects)
                 obj.Coordinates += obj.Speed * dt;
@@ -47,7 +48,7 @@ namespace YOBAGame
             foreach (var obj in toDelete)
             {
                 Objects.Remove(obj);
-                Objects.UnionWith(obj.DeleteResult());
+                Objects.UnionWith(obj.DeletionResult());
             }
         }
 
@@ -104,14 +105,16 @@ namespace YOBAGame
             {
                 if (first.HitBox.HasCollision(second.HitBox))
                 {
-                    if (first is Wall)
-                        CollideWithWall(second, first as Wall);
-                    else if (second is Wall)
-                        CollideWithWall(first, second as Wall);
-                    else if (first is AbstractBullet)
+                    if (first is AbstractBullet)
                         ShootWithBullet(second, first as AbstractBullet);
                     else if (second is AbstractBullet)
                         ShootWithBullet(first, second as AbstractBullet);
+
+                    else if (first is Wall)
+                        CollideWithWall(second, first as Wall);
+                    else if (second is Wall)
+                        CollideWithWall(first, second as Wall);
+
                     else if (first is Unit && second is Weapon)
                         TakeWeaponBy(second as Weapon, first as Unit);
                     else if (second is Unit && first is Weapon)
@@ -133,19 +136,21 @@ namespace YOBAGame
 
         private static void ShootWithBullet(IPhysicalObject obj, AbstractBullet bullet)
         {
-            var unit = obj as Unit;
-            if (unit != null)
-                unit.TakeDamage(bullet);
-            else
-                bullet.ShouldBeDeleted = true;
+            (obj as IShootableObject)?.GetShot(bullet);
         }
 
         private static void CollideWithWall(IPhysicalObject obj, Wall wall)
         {
-            if (obj is AbstractBullet)
-                ((AbstractBullet) obj).ShouldBeDeleted = true;
-            else
-            // TODO: solve physical collision
+            if (obj is AbstractStaticPhysicalObject)
+                return;
+
+            if (obj is UsualBullet)
+            {
+                obj.ShouldBeDeleted = true;
+                return;
+            }
+
+            wall.PushOut(obj);
         }
 
 
@@ -162,6 +167,11 @@ namespace YOBAGame
                 yield return res;
             if (chunks.TryGetValue(new Point(chunkKey.X, chunkKey.Y + 1), out res))
                 yield return res;
+        }
+
+        public void AddObject(IMapObject obj)
+        {
+            Objects.Add(obj);
         }
     }
 }

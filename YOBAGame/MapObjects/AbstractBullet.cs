@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Archimedes.Geometry;
+using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    public abstract class AbstractBullet : AbstractPhysicalObject, IBullet, IDrawableObject
+    public abstract class AbstractBullet : AbstractPhysicalObject, IBullet
     {
-        protected AbstractBullet(IShape hitBox, IMapObject owner, int damage = int.MaxValue)
-            : base(hitBox)
+        protected AbstractBullet(IShape hitBox, IMapObject owner, IGameRules rules, int damage = int.MaxValue)
+            : base(hitBox, rules)
         {
             Damage = damage;
             Owner = owner;
@@ -18,7 +19,7 @@ namespace YOBAGame.MapObjects
             return Enumerable.Empty<IMapObject>();
         }
 
-        public override IEnumerable<IMapObject> DeleteResult()
+        public override IEnumerable<IMapObject> DeletionResult()
         {
             return Enumerable.Empty<IMapObject>();
         }
