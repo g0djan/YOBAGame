@@ -35,7 +35,7 @@ namespace YOBAGame.MapObjects
 
         public abstract IEnumerable<IMapObject> GeneratedObjects();
         public abstract bool ShouldBeDeleted { get; set; }
-        public abstract IEnumerable<IMapObject> DeleteResult();
+        public abstract IEnumerable<IMapObject> DeletionResult();
         public abstract void Decide(double dt, GameState gameState);
     }
 }

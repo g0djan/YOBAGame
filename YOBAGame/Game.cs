@@ -47,7 +47,7 @@ namespace YOBAGame
             foreach (var obj in toDelete)
             {
                 Objects.Remove(obj);
-                Objects.UnionWith(obj.DeleteResult());
+                Objects.UnionWith(obj.DeletionResult());
             }
         }
 

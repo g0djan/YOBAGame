@@ -64,9 +64,10 @@
     <Compile Include="MapObjects\IMapObject.cs" />
     <Compile Include="MapObjects\IKillableObject.cs" />
     <Compile Include="MapObjects\IPhysicalObject.cs" />
-    <Compile Include="MapObjects\AbstractPlayer.cs" />
+    <Compile Include="MapObjects\Player.cs" />
     <Compile Include="MapObjects\IShootableObject.cs" />
     <Compile Include="MapObjects\Sprite.cs" />
+    <Compile Include="MapObjects\Sword.cs" />
     <Compile Include="MapObjects\SwordSwing.cs" />
     <Compile Include="MapObjects\UsualBullet.cs" />
     <Compile Include="MapObjects\Wall.cs" />

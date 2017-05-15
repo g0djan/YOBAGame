@@ -1,4 +1,3 @@
-using System;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using Archimedes.Geometry.Units;
@@ -6,7 +5,7 @@ using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    internal abstract class Unit : AbstractKillableObject
+    public abstract class Unit : AbstractKillableObject
     {
         public Weapon Gun { get; protected set; }
         public Angle Direction { get; protected set; }

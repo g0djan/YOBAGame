@@ -18,7 +18,7 @@ namespace YOBAGame.MapObjects
 
         public override bool ShouldBeDeleted { get; set; }
 
-        public override IEnumerable<IMapObject> DeleteResult()
+        public override IEnumerable<IMapObject> DeletionResult()
         {
             return Enumerable.Empty<IMapObject>();
         }

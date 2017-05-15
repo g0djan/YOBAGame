@@ -12,7 +12,7 @@ namespace YOBAGame.MapObjects
         public abstract Vector2 Speed { get; set; }
         public abstract IEnumerable<IMapObject> GeneratedObjects();
         public abstract bool ShouldBeDeleted { get; set; }
-        public abstract IEnumerable<IMapObject> DeleteResult();
+        public abstract IEnumerable<IMapObject> DeletionResult();
 
         public virtual IShape HitBox { get; }
 
