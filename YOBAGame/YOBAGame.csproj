@@ -51,6 +51,7 @@
     <Compile Include="Extensions\GeometeyExtension.cs" />
     <Compile Include="Extensions\LinqExtension.cs" />
     <Compile Include="GameRules\IGameRules.cs" />
+    <Compile Include="GameRules\UsualRules.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="MapObjects\AbstractPhysicalObject.cs" />

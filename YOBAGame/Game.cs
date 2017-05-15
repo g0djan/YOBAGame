@@ -19,6 +19,7 @@ namespace YOBAGame
             Rules = rules;
             MapSize = new SizeD(width, height);
             CurrentTime = 0.0;
+            Objects = new HashSet<IMapObject>();
         }
 
         public void Step(double dt)
@@ -26,7 +27,7 @@ namespace YOBAGame
             CurrentTime += dt;
 
             foreach (var obj in Objects)
-                (obj as Unit)?.Decide(dt, CurrentGameState);
+                obj.Decide(dt, CurrentGameState);
 
             foreach (var obj in Objects)
                 obj.Coordinates += obj.Speed * dt;
