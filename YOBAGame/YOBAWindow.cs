@@ -17,54 +17,64 @@ namespace YOBAGame
 {
     public partial class YOBAWindow : Form
     {
+        public HashSet<Keys> PressedKeys { get; }
+        public Point MouseLocation { get; private set; }
         private Game _game;
+        private DevicesHandler _devicesHandler;
+        public bool LeftButtonPressed { get; private set; }
+        public bool RightButtonPressed { get; private set; }
 
         public YOBAWindow()
         {
+            PressedKeys = new HashSet<Keys>();
+            MouseLocation = new Point();
+            _devicesHandler = new DevicesHandler(this, _game.Player);
+            
             var timer = new Timer {Interval = 1};
-            _game = new Game(); //temporary start coordinates
+            _game = new Game();
             timer.Tick += TimerTick;
             timer.Start();
+
+            MouseDown += OnMouseDown;
+            MouseUp += OnMouseUp;
+            MouseMove += (sender, args) => MouseLocation = args.Location;
         }
+
+        private void OnMouseDown(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    LeftButtonPressed = true;
+                    break;
+                case MouseButtons.Right:
+                    RightButtonPressed = true;
+                    break;
+            }
+        }
+
+        private void OnMouseUp(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    LeftButtonPressed = false;
+                    break;
+                case MouseButtons.Right:
+                    RightButtonPressed = false;
+                    break;
+            }
+        }
+
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            HandleKeyComands(e.KeyCode);
+            PressedKeys.Add(e.KeyCode);
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            HandleKeyComands(Keys.None);
-        }
-        //блет тут по другому
-        private void HandleKeyComands(Keys key)
-        {
-            var force = Vector2.Zero;
-            var playerNorm = _game.Player.Speed.Normalize();
-            switch (key)
-            {
-                case Keys.Up:
-                    force = playerNorm;
-                    break;
-                case Keys.Down:
-                    force = -1 * playerNorm;
-                    break;
-                case Keys.Left:
-                    force = playerNorm.GetRotated(Angle.HalfRotation);
-                    break;
-                case Keys.Right:
-                    force = -1 * playerNorm.GetRotated(Angle.HalfRotation);
-                    break;
-                case Keys.None:
-                    force = Vector2.Zero;
-                    break;
-            }
-            _game.Player.ChangeAcceleration(force);
-        }
-
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            _game.Player.ChangeDirection(e.Location);
+            PressedKeys.Remove(e.KeyCode);
         }
 
         protected override bool IsInputKey(Keys keyData) => 
@@ -78,5 +88,7 @@ namespace YOBAGame
             tickCount++;
             Invalidate();
         }
+
+        
     }
 }

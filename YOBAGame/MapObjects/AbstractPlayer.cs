@@ -106,7 +106,8 @@ namespace YOBAGame.MapObjects
             throw new System.NotImplementedException();
         }
 
-        protected abstract Vector2 SetSpeedFromControl(Vector2 controlSpeed, double dt);
+        //ускорение мне как-то больше нравилось, ограничение скорости точно было полезно
+        protected Vector2 SetSpeedFromControl(Vector2 controlSpeed, double dt) => Speed + controlSpeed; 
 
         private void TryFire()
         {

@@ -52,7 +52,8 @@
     <Compile Include="GameState.cs" />
     <Compile Include="MapObjects\AbstractPhysicalObject.cs" />
     <Compile Include="MapObjects\AbstractStaticPhysicalObject.cs" />
-    <Compile Include="MapObjects\ControlSource.cs" />
+    <Compile Include="MapObjects\DevicesHandler.cs" />
+    <Compile Include="MapObjects\IControlSource.cs" />
     <Compile Include="MapObjects\IBullet.cs" />
     <Compile Include="MapObjects\AbstractKillableObject.cs" />
     <Compile Include="MapObjects\AbstractBullet.cs" />
@@ -96,6 +97,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

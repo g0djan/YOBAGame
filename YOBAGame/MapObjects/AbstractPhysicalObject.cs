@@ -18,9 +18,7 @@ namespace YOBAGame.MapObjects
 
         protected AbstractPhysicalObject(IShape hitBox, IGameRules rules)
         {
-            if (hitBox == null)
-                throw new ArgumentNullException();
-            HitBox = hitBox;
+            HitBox = hitBox ?? throw new ArgumentNullException();
             Rules = rules;
         }
 

@@ -16,9 +16,9 @@ namespace YOBAGame
 
         public Game(double width, double height, IGameRules rules)
         {
-            Rules = rules;
             MapSize = new SizeD(width, height);
             CurrentTime = 0.0;
+            Rules = rules;
         }
 
         private void Step(double dt)
@@ -61,7 +61,7 @@ namespace YOBAGame
                 if (chunks.TryGetValue(key, out List<IMapObject> elem))
                     elem.Add(obj);
                 else
-                    chunks[key] = new List<IMapObject>() {obj};
+                    chunks[key] = new List<IMapObject> {obj};
             }
 
             var toDelete = new HashSet<IMapObject>();

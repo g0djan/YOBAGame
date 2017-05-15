@@ -2,5 +2,7 @@
 {
     public interface IDrawableObject : IMapObject
     {
+        string[] ImagesFileNames { get; }
+        int DrawingPriority { get; }
     }
 }
