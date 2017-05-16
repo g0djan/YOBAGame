@@ -109,10 +109,17 @@ namespace YOBAGame.MapObjects
 
         protected void SetSpeedFromControl(Vector2 controlSpeed, double dt)
         {
-            var newSpeed = double.IsPositiveInfinity(Rules.PlayerAcceleration) ? controlSpeed : (Speed + controlSpeed * (Rules.PlayerAcceleration / controlSpeed.Length));
-            if (newSpeed.Length > Rules.MaxPlayerSpeed)
-                newSpeed *= Rules.MaxPlayerSpeed / newSpeed.Length;
-            Speed = newSpeed;
+            if (controlSpeed == Vector2.Zero)
+            {
+                var speedLength = Speed.Length;
+                var dSpeed = Speed * (-Rules.FrictionAcceleration * dt / speedLength);
+                if (speedLength > dSpeed.Length + double.Epsilon)
+                    Speed += dSpeed;
+                else
+                    Speed = Vector2.Zero;
+            }
+            else
+                Speed = controlSpeed * (Rules.MaxPlayerSpeed / controlSpeed.Length);
         }
 
         private void TryFire()
