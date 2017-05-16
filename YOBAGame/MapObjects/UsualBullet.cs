@@ -1,19 +1,49 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Net.Mime;
 using System.Windows.Forms;
 using Archimedes.Geometry;
+using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame
 {
     public class UsualBullet : AbstractBullet, IDrawableObject
     {
         private readonly Vector2 _speed;
+        public string ImageFileName { get; }
+        public int DrawingPriority { get; }
 
-        public UsualBullet(Vector2 coordinates, Vector2 speed, IShape hitBox, IMapObject owner, IGameRules rules, int damage = int.MaxValue)
+        private readonly int _scaleCoefficient; // TODO: настроитть оба
+        private readonly int _bulletNumber;
+        public Bitmap bulletImage; //вот здесь неплохо бы избавится от public
+        public bool needToScale;
+
+        public IEnumerable<Bitmap> ForDrawing
+        {
+            get
+            {
+                if (needToScale)
+                {
+                    Bitmap[] pictures = PictureParse(ImageFileName);
+                    bulletImage = pictures[_bulletNumber].Scale(_scaleCoefficient);
+                }
+                return new[]{bulletImage.RotateImage(_speed.GetRadiansVector2Angle())};
+            }
+        }
+
+        public UsualBullet(Vector2 coordinates, Vector2 speed, IShape hitBox, Unit owner, IGameRules rules, int damage = int.MaxValue)
             : base(hitBox, owner, rules, damage)
         {
             Coordinates = coordinates;
             _speed = speed;
+
+            _bulletNumber = 
+            _scaleCoefficient = 5;
+            needToScale = true;
+            DrawingPriority = 1;
+            ImageFileName =
         }
 
         public override bool ShouldBeDeleted { get; set; }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Archimedes.Geometry;
-using YOBAGame.MapObjects;
+using YOBAGame;
 
 namespace YOBAGame
 {

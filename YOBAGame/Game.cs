@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Linq;
 using Archimedes.Geometry;
 using YOBAGame.GameRules;
-using YOBAGame.MapObjects;
+using YOBAGame;
 
 namespace YOBAGame
 {
@@ -11,7 +11,7 @@ namespace YOBAGame
     {
         public IGameRules Rules { get; }
         public SizeD MapSize { get; }
-        protected HashSet<IMapObject> Objects { get; set; }
+        public HashSet<IMapObject> Objects { get; }
         public double CurrentTime { get; private set; }
 
         public Game(double width, double height, IGameRules rules)

@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Archimedes.Geometry;
-using Archimedes.Geometry.Units;
-using YOBAGame.MapObjects;
+using YOBAGame.Extensions;
+using YOBAGame;
 
 namespace YOBAGame
 {
@@ -28,7 +21,7 @@ namespace YOBAGame
         {
             PressedKeys = new HashSet<Keys>();
             MouseLocation = new Point();
-            _devicesHandler = new DevicesHandler(this, _game.Player);
+            _devicesHandler = new DevicesHandler(this, _game.Player, _game.Rules);
             
             var timer = new Timer {Interval = 1};
             _game = new Game();
@@ -37,7 +30,7 @@ namespace YOBAGame
 
             MouseDown += OnMouseDown;
             MouseUp += OnMouseUp;
-            MouseMove += (sender, args) => MouseLocation = args.Location;
+            MouseMove += (sender, args) => MouseLocation = PointToClient(args.Location);
         }
 
         private void OnMouseDown(object sender, MouseEventArgs e)
@@ -80,6 +73,31 @@ namespace YOBAGame
         protected override bool IsInputKey(Keys keyData) => 
             keyData == Keys.Escape || base.IsInputKey(keyData);
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            foreach (var obj in _game.Objects)
+            {
+                if (obj is Wall)
+                    DrawWall(e, obj as Wall);
+                else if (obj is IDrawableObject)
+                    DrawImage(e, obj);
+            }
+        }
+
+        private void DrawWall(PaintEventArgs e, Wall wall)
+        {
+            e.Graphics.FillPolygon(
+                wall.Color,
+                wall.HitBox.ToVertices().Select(v => v.ToLocation()).ToArray());
+        }
+
+        private void DrawImage(PaintEventArgs e, IMapObject obj)
+        {
+            var forDrawing = (obj as IDrawableObject).ForDrawing;
+            foreach (var image in forDrawing)
+                e.Graphics.DrawImage(image, obj.Coordinates.ToLocation());
+        }
+
         int tickCount = 0;
 
         void TimerTick(object sender, EventArgs args)
@@ -88,7 +106,5 @@ namespace YOBAGame
             tickCount++;
             Invalidate();
         }
-
-        
     }
 }

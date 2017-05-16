@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Archimedes.Geometry;
 using YOBAGame.GameRules;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame
 {
     public abstract class Weapon : AbstractPhysicalObject, IDrawableObject
     {
@@ -11,9 +12,32 @@ namespace YOBAGame.MapObjects
         public Unit Owner { get; set; }
         public bool Taken { get; set; }
 
+        public int DrawingPriority { get; }
+        public string ImageFileName { get; }
+
+        public IEnumerable<Bitmap> ForDrawing
+        {
+            get
+            {
+                Bitmap[] pictures = PictureParse(ImageFileName);
+                if (!Taken)
+                    return new[] {pictures[2]};
+                if (Owner.IsRightSide())
+                    return new[] {pictures[1]};
+                return new[] {pictures[0]};
+            }
+        }
+
+        protected Weapon(IShape hitBox, IGameRules rules) : base(hitBox, rules)
+        {
+            Owner = null;
+            DrawingPriority = 3;
+            ImageFileName =
+        }
+
         public override bool ShouldBeDeleted
         {
-            get { return Taken; }
+            get => Taken;
             set { }
         }
 
@@ -21,16 +45,11 @@ namespace YOBAGame.MapObjects
 
         protected double TimeToReload
         {
-            get { return _timeToReload; }
-            set { _timeToReload = value >= 0 ? value : 0; }
+            get => _timeToReload;
+            set => _timeToReload = value >= 0 ? value : 0;
         }
 
         protected abstract IEnumerable<IBullet> FiredBullets { get; }
-
-        protected Weapon(IShape hitBox, IGameRules rules) : base(hitBox, rules)
-        {
-            Owner = null;
-        }
 
         public IEnumerable<IBullet> Fire()
         {

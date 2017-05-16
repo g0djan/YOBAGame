@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame
 {
     public interface IShootableObject : IPhysicalObject
     {

@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame
 {
     public class Wall : AbstractStaticPhysicalObject, IDrawableObject
     {
+        public string ImageFileName { get; }
+        public int DrawingPriority { get; }
+        public Brush Color { get; }
+        public IEnumerable<Bitmap> ForDrawing => null;
+
         public Wall(Vector2 coordinates, IShape hitBox, IGameRules rules) : base(coordinates, hitBox.ToPolygon2(), rules)
         {
+            Color = Brushes.CornflowerBlue;
+            DrawingPriority = 4;
         }
 
         public override IEnumerable<IMapObject> GeneratedObjects()

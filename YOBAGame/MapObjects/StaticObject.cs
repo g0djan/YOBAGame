@@ -2,7 +2,7 @@
 using Archimedes.Geometry;
 using YOBAGame.GameRules;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame
 {
     public abstract class StaticObject : IMapObject
     {
@@ -18,19 +18,14 @@ namespace YOBAGame.MapObjects
 
         public Vector2 Coordinates
         {
-            get { return _coordinates; }
+            get => _coordinates;
             set { }
         }
 
         public Vector2 Speed
         {
-            get
-            {
-                return Vector2.Zero;
-            }
-            set
-            {
-            }
+            get => Vector2.Zero;
+            set { } 
         }
 
         public abstract IEnumerable<IMapObject> GeneratedObjects();

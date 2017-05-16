@@ -1,4 +1,4 @@
-﻿namespace YOBAGame.MapObjects
+﻿namespace YOBAGame
 {
     public interface IKillableObject : IShootableObject
     {

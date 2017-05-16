@@ -20,25 +20,4 @@ namespace YOBAGame
             Application.Run(new YOBAWindow());
         }
     }
-
-    /*
-
-    internal abstract class Weapon
-    {
-        // TODO: все умирают от одного попадания, но на будущее можно оставить
-        public double _damage { get; protected set; }
-//        private double _velocity;
-//        public string Name { get; protected set; }
-
-        public Weapon(double damage /*, double velocity#1#)
-        {
-            _damage = damage;
-//            _velocity = velocity;
-//            Name = name;
-        }
-
-        public abstract List<Bullet> Fire(double direction, PointF coordinates);
-    }
-
-    */
 }

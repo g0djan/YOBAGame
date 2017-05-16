@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Units;
+using YOBAGame.GameRules;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame
 {
     class DevicesHandler : IControlSource
     {
-        private YOBAWindow _window;
-        private AbstractPlayer _player;
+        private readonly YOBAWindow _window;
+        private readonly Player _player;
+        private readonly IGameRules _rules;
 
         public Angle Direction
         {
@@ -24,14 +26,14 @@ namespace YOBAGame.MapObjects
             }
         }
 
-        private const double addedSpeedLength = 1; //TODO: настроить
+        private const double AddedSpeedLength = 1; //TODO: настроить
         public Vector2 Speed
         {
             get
             {
                 var velocity = new Vector2();
                 var keys = new List<Keys>{Keys.W, Keys.A, Keys.D, Keys.S, Keys.Up, Keys.Left, Keys.Right, Keys.Down};
-                var currentVector = _player.Speed.Normalize();
+                Vector2 currentVector = _player.Speed.Normalize();
                 foreach (var key in keys)
                     if (_window.PressedKeys.Contains(key))
                         switch (key)
@@ -53,7 +55,7 @@ namespace YOBAGame.MapObjects
                                 velocity -= currentVector;
                                 break;
                         }
-                return addedSpeedLength * currentVector.Normalize();
+                return _rules.MaxPlayerSpeed * currentVector.Normalize();
             }
         }
 
@@ -64,10 +66,11 @@ namespace YOBAGame.MapObjects
         public bool ShouldPickUpWeapon => _window.PressedKeys.Contains(Keys.G);
         public bool ShouldWaveSword => _window.PressedKeys.Contains(Keys.E);
 
-        public DevicesHandler(YOBAWindow window, AbstractPlayer player)
+        public DevicesHandler(YOBAWindow window, Player player, IGameRules rules)
         {
             _window = window;
             _player = player;
+            _rules = rules;
         }
     }
 }

@@ -4,7 +4,7 @@ using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using YOBAGame.GameRules;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame
 {
     internal class Player : Unit
     {
@@ -21,35 +21,11 @@ namespace YOBAGame.MapObjects
             Control = control;
         }
 
-        /*public void ChangeDirection(Point mouse)
-        {
-            double dx = mouse.X - Coordinates.X;
-            double dy = mouse.Y - Coordinates.Y;
-            Angle newDirection = Angle.FromRadians(
-                Math.Atan2(dy, dx));
-            Speed = Speed.GetRotated(newDirection);
-            Dir = Dir + Angle.FromRadians(Math.Atan2(dy, dx));
-        }*/
-
-        /*public void ChangeAcceleration(Vector2 force)
-        {
-            const int forceModule = 1;
-            Dir = Speed.GetAngleToXLegacy();
-        }*/
-
         public override IEnumerable<IMapObject> GeneratedObjects()
         {
             var res = ObjectsToGenerate ?? Enumerable.Empty<IMapObject>();
             ObjectsToGenerate = null;
             return res;
-            /*const int bulletCount = 5;
-            var bullets = new AbstractBullet[bulletCount];
-            var rotateAngle = Angle.Zero;
-            var bulletSpeed = 5 * Speed.Length;
-            for (var i = 0; i < bulletCount; i++)
-                bullets[i] = new AbstractBullet(Coordinates, (bulletSpeed * Speed.Normalize())
-                    .GetRotated(rotateAngle));
-            return bullets;*/
         }
 
         public override void TakeWeapon(Weapon weapon)

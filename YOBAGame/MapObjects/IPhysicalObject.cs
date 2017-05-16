@@ -1,6 +1,6 @@
 ﻿using Archimedes.Geometry;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame
 {
     public interface IPhysicalObject : IMapObject
     {

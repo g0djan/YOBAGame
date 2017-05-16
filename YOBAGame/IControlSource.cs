@@ -1,7 +1,7 @@
 ﻿using Archimedes.Geometry;
 using Archimedes.Geometry.Units;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame
 {
     internal interface IControlSource
     {

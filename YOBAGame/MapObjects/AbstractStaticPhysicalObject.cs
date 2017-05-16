@@ -1,7 +1,7 @@
 ﻿using Archimedes.Geometry;
 using YOBAGame.GameRules;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame
 {
     public abstract class AbstractStaticPhysicalObject : AbstractPhysicalObject
     {

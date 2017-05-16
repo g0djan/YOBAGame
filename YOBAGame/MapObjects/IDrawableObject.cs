@@ -1,8 +1,13 @@
-﻿namespace YOBAGame.MapObjects
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+
+namespace YOBAGame
 {
     public interface IDrawableObject : IMapObject
     {
-        string[] ImagesFileNames { get; }
+        string ImageFileName { get; }
         int DrawingPriority { get; }
+        IEnumerable<Bitmap> ForDrawing { get; }
     }
 }
