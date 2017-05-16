@@ -1,4 +1,6 @@
-﻿namespace YOBAGame.GameRules
+﻿using Archimedes.Geometry.Primitives;
+
+namespace YOBAGame.GameRules
 {
     public interface IGameRules
     {
@@ -9,5 +11,6 @@
         double SwordReloadDuration { get; }
         double SwordSwingRadius { get; }
         double SwordSwingLifeTime { get; }
+        Circle2 WeaponDefaultHitBox { get; }
     }
 }
