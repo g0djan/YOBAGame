@@ -105,8 +105,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Images\" />
+    <Content Include="Resources\Images\enemy1_sprites.png" />
+    <Content Include="Resources\Images\player_sprites.png" />
+    <Content Include="Resources\Images\sword_swing_sprites.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
