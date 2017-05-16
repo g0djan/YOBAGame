@@ -10,6 +10,8 @@ namespace YOBAGame
     {
         private IControlSource Control { get; }
         private List<IMapObject> ObjectsToGenerate { get; set; }
+        private Sword CarriedSword { get; set; }
+        private Weapon CarriedGun { get; set; }
 
         public override Vector2 Speed { get; set; }
 
@@ -18,6 +20,7 @@ namespace YOBAGame
         protected Player(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox,
             IControlSource control, IGameRules rules) : base(hitPoints, weapon, coordinates, hitBox, rules)
         {
+            CarriedSword = new Sword(Rules.WeaponDefaultHitBox, rules);
             Control = control;
         }
 
@@ -52,12 +55,19 @@ namespace YOBAGame
 
         private void DropWeapon()
         {
-            if (Gun == null)
+            if (CarriedGun == null)
                 return;
-            Gun.Coordinates = Coordinates;
-            Gun.Speed = Vector2.UnitX.GetRotated(Direction) * Rules.DroppedGunSpeed; //TODO: make settings and set default dropped weapon speed
+            if (Gun != null && !(Gun is Sword))
+                Gun = null;
+            
+            //TODO: should HitBoxes be checked for being Circle2 if they are supposed but obligated to be?
+            CarriedGun.Coordinates = Coordinates +
+                                     Vector2.FromAngleAndLenght(Direction,
+                                         (HitBox as Circle2).Radius + (CarriedGun.HitBox as Circle2).Radius +
+                                         double.Epsilon);
+            CarriedGun.Speed = Vector2.UnitX.GetRotated(Direction) * Rules.DroppedGunSpeed;
             AddToGenerated(Gun);
-            Gun = null;
+            CarriedGun = null;
         }
 
         public override void Decide(double dt, GameState gameState)
@@ -80,22 +90,35 @@ namespace YOBAGame
 
         private void TryWaveSword()
         {
-            throw new System.NotImplementedException();
+            if (Gun != null && !(Gun is Sword))
+                if (CarriedSword != null && CarriedGun.Reloaded && CarriedSword.Reloaded)
+                    Gun = CarriedSword;
+            if (Gun != null)
+                AddToGenerated(Gun.Fire());
         }
 
         protected void SetSpeedFromControl(Vector2 controlSpeed, double dt)
         {
-            var newSpeed = double.IsPositiveInfinity(Rules.PlayerAcceleration) ? controlSpeed : (Speed + controlSpeed * (Rules.PlayerAcceleration / controlSpeed.Length));
-            if (newSpeed.Length > Rules.MaxPlayerSpeed)
-                newSpeed *= Rules.MaxPlayerSpeed / newSpeed.Length;
-            Speed = newSpeed;
+            if (controlSpeed == Vector2.Zero)
+            {
+                var speedLength = Speed.Length;
+                var dSpeed = Speed * (-Rules.FrictionAcceleration * dt / speedLength);
+                if (speedLength > dSpeed.Length + double.Epsilon)
+                    Speed += dSpeed;
+                else
+                    Speed = Vector2.Zero;
+            }
+            else
+                Speed = controlSpeed * (Rules.MaxPlayerSpeed / controlSpeed.Length);
         }
 
         private void TryFire()
         {
-            if (Gun == null)
-                return;
-            AddToGenerated(Gun.Fire());
+            if (Gun is Sword)
+                if (CarriedGun != null && CarriedSword.Reloaded && CarriedGun.Reloaded)
+                    Gun = CarriedGun;
+            if (Gun != null)
+                AddToGenerated(Gun.Fire());
         }
 
         public override IEnumerable<IMapObject> DeletionResult()

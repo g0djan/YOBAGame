@@ -11,6 +11,7 @@ namespace YOBAGame
         private double _timeToReload;
         public Unit Owner { get; set; }
         public bool Taken { get; set; }
+        public bool Reloaded => TimeToReload < double.Epsilon;
 
         public int DrawingPriority { get; }
         public string ImageFileName { get; }
