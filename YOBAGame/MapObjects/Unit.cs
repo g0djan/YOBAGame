@@ -25,7 +25,7 @@ namespace YOBAGame
             get
             {
                 //number of needed picture evaluates from itteration and height of image here
-                Bitmap[] pictures = PictureParse(ImageFileName);
+                Bitmap[] pictures = ImageParser.ParsePicture(ImageFileName);
                 var imageHeight = pictures.Length / 2;
                 var changeDir = WasChangedDirection(imageHeight);
                 var changeMove = BeganOrStopedMove(imageHeight);
@@ -40,7 +40,7 @@ namespace YOBAGame
                 if (WeaponInHand != null)
                 {
                     var weaponPictureNumber = IsRightSide() ? 1 : 0;
-                    Bitmap[] weaponPictures = PictureParse(WeaponInHand.ImageFileName);
+                    Bitmap[] weaponPictures = ImageParser.ParsePicture(WeaponInHand.ImageFileName);
                     forDrawing.Add(weaponPictures[weaponPictureNumber].RotateImage(Direction.Radians));
                 }
                 return forDrawing;

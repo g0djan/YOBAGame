@@ -19,7 +19,7 @@ namespace YOBAGame
         {
             get
             {
-                Bitmap[] pictures = PictureParse(ImageFileName);
+                Bitmap[] pictures = ImageParser.ParsePicture(ImageFileName);
                 var imageHeight = pictures.Length / 2;
                 var dirChange = WasChangedDirection(imageHeight);
                 if (dirChange)
