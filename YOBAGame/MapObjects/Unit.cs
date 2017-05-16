@@ -10,7 +10,7 @@ namespace YOBAGame
 {
     public abstract class Unit : AbstractKillableObject, IDrawableObject
     {
-        public Weapon Gun { get; protected set; }
+        public Weapon WeaponInHand { get; protected set; }
         public Angle Direction { get; protected set; }
         public override Vector2 Speed { get; set; }
         public override int HitPoints { get; protected set; }
@@ -37,10 +37,10 @@ namespace YOBAGame
                 var forDrawing = new List<Bitmap>();
                 forDrawing.Add(pictures[Itteration]);
 
-                if (Gun != null)
+                if (WeaponInHand != null)
                 {
                     var weaponPictureNumber = IsRightSide() ? 1 : 0;
-                    Bitmap[] weaponPictures = PictureParse(Gun.ImageFileName);
+                    Bitmap[] weaponPictures = PictureParse(WeaponInHand.ImageFileName);
                     forDrawing.Add(weaponPictures[weaponPictureNumber].RotateImage(Direction.Radians));
                 }
                 return forDrawing;
@@ -91,9 +91,9 @@ namespace YOBAGame
 
         public virtual void TakeWeapon(Weapon weapon)
         {
-            Gun = weapon;
-            Gun.Owner = this;
-            Gun.Taken = true;
+            WeaponInHand = weapon;
+            WeaponInHand.Owner = this;
+            WeaponInHand.Taken = true;
         }
     }
 }

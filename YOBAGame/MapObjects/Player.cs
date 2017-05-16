@@ -57,8 +57,8 @@ namespace YOBAGame
         {
             if (CarriedGun == null)
                 return;
-            if (Gun != null && !(Gun is Sword))
-                Gun = null;
+            if (WeaponInHand != null && !(WeaponInHand is Sword))
+                WeaponInHand = null;
             
             //TODO: should HitBoxes be checked for being Circle2 if they are supposed but obligated to be?
             CarriedGun.Coordinates = Coordinates +
@@ -66,14 +66,14 @@ namespace YOBAGame
                                          (HitBox as Circle2).Radius + (CarriedGun.HitBox as Circle2).Radius +
                                          double.Epsilon);
             CarriedGun.Speed = Vector2.UnitX.GetRotated(Direction) * Rules.DroppedGunSpeed;
-            AddToGenerated(Gun);
+            AddToGenerated(WeaponInHand);
             CarriedGun = null;
         }
 
         public override void Decide(double dt, GameState gameState)
         {
             // to let gun cool down
-            Gun.Decide(dt, gameState);
+            WeaponInHand.Decide(dt, gameState);
 
             Direction = Control.Direction;
             SetSpeedFromControl(Control.Speed, dt);
@@ -90,11 +90,11 @@ namespace YOBAGame
 
         private void TryWaveSword()
         {
-            if (Gun != null && !(Gun is Sword))
+            if (WeaponInHand != null && !(WeaponInHand is Sword))
                 if (CarriedSword != null && CarriedGun.Reloaded && CarriedSword.Reloaded)
-                    Gun = CarriedSword;
-            if (Gun != null)
-                AddToGenerated(Gun.Fire());
+                    WeaponInHand = CarriedSword;
+            if (WeaponInHand != null)
+                AddToGenerated(WeaponInHand.Fire());
         }
 
         protected void SetSpeedFromControl(Vector2 controlSpeed, double dt)
@@ -114,11 +114,11 @@ namespace YOBAGame
 
         private void TryFire()
         {
-            if (Gun is Sword)
+            if (WeaponInHand is Sword)
                 if (CarriedGun != null && CarriedSword.Reloaded && CarriedGun.Reloaded)
-                    Gun = CarriedGun;
-            if (Gun != null)
-                AddToGenerated(Gun.Fire());
+                    WeaponInHand = CarriedGun;
+            if (WeaponInHand != null)
+                AddToGenerated(WeaponInHand.Fire());
         }
 
         public override IEnumerable<IMapObject> DeletionResult()
