@@ -109,7 +109,9 @@
   <ItemGroup>
     <Content Include="Resources\Images\enemy1_sprites.png" />
     <Content Include="Resources\Images\player_sprites.png" />
+    <Content Include="Resources\Images\sword_sprites.png" />
     <Content Include="Resources\Images\sword_swing_sprites.png" />
+    <Content Include="Resources\Images\weapon1_sprites.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
