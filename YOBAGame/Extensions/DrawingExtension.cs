@@ -5,6 +5,16 @@ namespace YOBAGame.Extensions
 {
     public static class DrawingExtension
     {
+        public static Bitmap ScaleImage(this Bitmap img, double sx, double sy)
+        {
+            var bmp = new Bitmap(img.Width, img.Height);
+            var g = Graphics.FromImage(bmp);
+            g.ScaleTransform((float)sx, (float)sy);
+            g.DrawImage(img, 0, 0);
+            g.Dispose();
+            return bmp;
+        }
+
         public static Bitmap RotateImage(this Bitmap img, double angle)
         {
             return RotateImg(img, -(float)(angle * 180 / Math.PI), Color.Transparent);

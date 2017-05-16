@@ -27,7 +27,8 @@ namespace YOBAGame
                 if (needToScale)
                 {
                     Bitmap[] pictures = PictureParse(ImageFileName);
-                    bulletImage = pictures[_bulletNumber].Scale(_scaleCoefficient);
+                    bulletImage = pictures[_bulletNumber].ScaleImage(_scaleCoefficient, 1);
+                    needToScale = false;
                 }
                 return new[]{bulletImage.RotateImage(_speed.GetRadiansVector2Angle())};
             }
