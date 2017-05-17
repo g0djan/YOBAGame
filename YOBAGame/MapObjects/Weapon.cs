@@ -20,7 +20,7 @@ namespace YOBAGame
         {
             get
             {
-                Bitmap[] pictures = PictureParse(ImageFileName);
+                var pictures = ImageParser.ParsePicture(ImageFileName);
                 if (!Taken)
                     return new[] {pictures[2]};
                 if (Owner.IsRightSide())
@@ -42,7 +42,7 @@ namespace YOBAGame
             set { }
         }
 
-        protected abstract double ReloadDuration { get; }
+        
 
         protected double TimeToReload
         {
@@ -51,6 +51,7 @@ namespace YOBAGame
         }
 
         protected abstract IEnumerable<IBullet> FiredBullets { get; }
+        protected abstract double ReloadDuration { get; } //TODO: не проинициализирвоана
 
         public IEnumerable<IBullet> Fire()
         {

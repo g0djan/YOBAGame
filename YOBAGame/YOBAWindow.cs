@@ -5,26 +5,29 @@ using System.Linq;
 using System.Windows.Forms;
 using YOBAGame.Extensions;
 using YOBAGame;
+using YOBAGame.GameRules;
 
 namespace YOBAGame
 {
     public partial class YOBAWindow : Form
     {
-        public HashSet<Keys> PressedKeys { get; }
-        public Point MouseLocation { get; private set; }
         private Game _game;
         private DevicesHandler _devicesHandler;
+
+        public HashSet<Keys> PressedKeys { get; }
+        public Point MouseLocation { get; private set; }
         public bool LeftButtonPressed { get; private set; }
         public bool RightButtonPressed { get; private set; }
 
         public YOBAWindow()
         {
+            var timer = new Timer { Interval = 1 };
+            _game = new Game(, ,new UsualRules());
+            _devicesHandler = new DevicesHandler(this, _game.Player, _game.Rules);
+
             PressedKeys = new HashSet<Keys>();
             MouseLocation = new Point();
-            _devicesHandler = new DevicesHandler(this, _game.Player, _game.Rules);
             
-            var timer = new Timer {Interval = 1};
-            _game = new Game();
             timer.Tick += TimerTick;
             timer.Start();
 

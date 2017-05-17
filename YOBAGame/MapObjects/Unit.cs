@@ -18,14 +18,14 @@ namespace YOBAGame
         public virtual string ImageFileName { get; }
         public int DrawingPriority { get; }
 
-        public int Itteration { get; set; }
+        private int Itteration { get; set; }
 
         public virtual IEnumerable<Bitmap> ForDrawing
         {
             get
             {
                 //number of needed picture evaluates from itteration and height of image here
-                Bitmap[] pictures = ImageParser.ParsePicture(ImageFileName);
+                var pictures = ImageParser.ParsePicture(ImageFileName);
                 var imageHeight = pictures.Length / 2;
                 var changeDir = WasChangedDirection(imageHeight);
                 var changeMove = BeganOrStopedMove(imageHeight);
@@ -40,14 +40,14 @@ namespace YOBAGame
                 if (WeaponInHand != null)
                 {
                     var weaponPictureNumber = IsRightSide() ? 1 : 0;
-                    Bitmap[] weaponPictures = ImageParser.ParsePicture(WeaponInHand.ImageFileName);
+                    var weaponPictures = ImageParser.ParsePicture(WeaponInHand.ImageFileName);
                     forDrawing.Add(weaponPictures[weaponPictureNumber].RotateImage(Direction.Radians));
                 }
                 return forDrawing;
             }
         }
 
-        void IncrementItteration(int imageHeight)
+        private void IncrementItteration(int imageHeight)
         {
             int addedPart = Speed == Vector2.Zero ? imageHeight / 2 : 0;
             Itteration = (Itteration + 1) % (imageHeight / 2);
@@ -59,13 +59,13 @@ namespace YOBAGame
             return Direction >= -Angle.HalfRotation && Direction <= Angle.HalfRotation;
         }
 
-        bool WasChangedDirection(int imageHeight)
+        private bool WasChangedDirection(int imageHeight)
         {
             return Itteration < imageHeight && IsRightSide() ||
                 Itteration > imageHeight && !IsRightSide();
         }
 
-        bool BeganOrStopedMove(int imageHeight)
+        private bool BeganOrStopedMove(int imageHeight)
         {
             return (Itteration < imageHeight / 2 || Itteration > imageHeight && Itteration < 3 * imageHeight / 2) &&
                    Speed == Vector2.Zero ||

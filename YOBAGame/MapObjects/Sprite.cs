@@ -17,8 +17,8 @@ namespace YOBAGame
         {
             get
             {
-                var pictures = ParsePicture(ImageFileName);
-                return pictures[numberOfSprite];
+                var pictures = ImageParser.ParsePicture(ImageFileName);
+                return new []{pictures[numberOfSprite]};
             }
         }
 

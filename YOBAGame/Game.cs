@@ -18,7 +18,7 @@ namespace YOBAGame
         {
             MapSize = new SizeD(width, height);
             CurrentTime = 0.0;
-            Objects = new HashSet<IMapObject>();
+            Objects = new HashSet<IMapObject>(); //TODO: карту нада
             Rules = rules;
         }
 
@@ -99,8 +99,8 @@ namespace YOBAGame
         private static IEnumerable<IMapObject> ResolveCollision(IMapObject firstObject,
             IMapObject secondObject)
         {
-            var first = (firstObject as IPhysicalObject);
-            var second = (secondObject as IPhysicalObject);
+            var first = firstObject as IPhysicalObject;
+            var second = secondObject as IPhysicalObject;
             if (first != null && second != null)
             {
                 if (first.HitBox.HasCollision(second.HitBox))
