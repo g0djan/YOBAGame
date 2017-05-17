@@ -30,7 +30,7 @@ namespace YOBAGame
             {
                 var velocity = Vector2.Zero;
                 var keys = new List<Keys>{Keys.W, Keys.A, Keys.D, Keys.S, Keys.Up, Keys.Left, Keys.Right, Keys.Down};
-                Vector2 currentVector = Vector2.FromAngleAndLenght(_player.Direction, 1);
+                var currentVector = Vector2.FromAngleAndLenght(_player.Direction, 1);
                 foreach (var key in keys)
                     if (_window.PressedKeys.Contains(key))
                         switch (key)
