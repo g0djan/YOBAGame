@@ -14,24 +14,24 @@ namespace YOBAGame.MapObjects
 
         private readonly int _scaleCoefficient; // TODO: настроитть оба
         private readonly int _bulletNumber;
-        public Bitmap bulletImage; //вот здесь неплохо бы избавится от public
-        public bool needToScale;
+        private Bitmap _bulletImage;
+        private bool _needToScale;
 
         public IEnumerable<Bitmap> ForDrawing
         {
             get
             {
-                if (needToScale)
+                if (_needToScale)
                 {
-                    Bitmap[] pictures = PictureParse(ImageFileName);
-                    bulletImage = pictures[_bulletNumber].ScaleImage(_scaleCoefficient, 1);
-                    needToScale = false;
+                    var pictures = ImageParser.ParsePicture(ImageFileName);
+                    _bulletImage = pictures[_bulletNumber].ScaleImage(_scaleCoefficient, 1);
+                    _needToScale = false;
                 }
-                return new[]{bulletImage.RotateImage(_speed.GetRadiansVector2Angle())};
+                return new[]{_bulletImage.RotateImage(_speed.GetRadiansVector2Angle())};
             }
         }
 
-        public UsualBullet(Vector2 coordinates, Vector2 speed, IShape hitBox, Unit owner, IGameRules rules, int damage = int.MaxValue)
+        public UsualBullet(Vector2 coordinates, Vector2 speed, IShape hitBox, AbstractUnit owner, IGameRules rules, int damage = int.MaxValue)
             : base(hitBox, owner, rules, damage)
         {
             Coordinates = coordinates;
@@ -39,7 +39,7 @@ namespace YOBAGame.MapObjects
 
             _bulletNumber = 
             _scaleCoefficient = 5;
-            needToScale = true;
+            _needToScale = true;
             DrawingPriority = 1;
             ImageFileName =
         }

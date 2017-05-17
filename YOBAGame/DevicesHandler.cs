@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Units;
@@ -27,14 +24,13 @@ namespace YOBAGame
             }
         }
 
-        private const double AddedSpeedLength = 1; //TODO: настроить
         public Vector2 Speed
         {
             get
             {
-                var velocity = new Vector2();
+                var velocity = Vector2.Zero;
                 var keys = new List<Keys>{Keys.W, Keys.A, Keys.D, Keys.S, Keys.Up, Keys.Left, Keys.Right, Keys.Down};
-                Vector2 currentVector = _player.Speed.Normalize();
+                Vector2 currentVector = Vector2.FromAngleAndLenght(_player.Direction, 1);
                 foreach (var key in keys)
                     if (_window.PressedKeys.Contains(key))
                         switch (key)

@@ -9,7 +9,7 @@ namespace YOBAGame.MapObjects
     public abstract class Weapon : AbstractPhysicalObject, IDrawableObject
     {
         private double _timeToReload;
-        public Unit Owner { get; set; }
+        public AbstractUnit Owner { get; set; }
         public bool Taken { get; set; }
         public bool Reloaded => TimeToReload < double.Epsilon;
 
@@ -20,7 +20,7 @@ namespace YOBAGame.MapObjects
         {
             get
             {
-                Bitmap[] pictures = PictureParse(ImageFileName);
+                var pictures = ImageParser.ParsePicture(ImageFileName);
                 if (!Taken)
                     return new[] {pictures[2]};
                 if (Owner.IsRightSide())
@@ -42,7 +42,7 @@ namespace YOBAGame.MapObjects
             set { }
         }
 
-        protected abstract double ReloadDuration { get; }
+        
 
         protected double TimeToReload
         {
@@ -51,6 +51,7 @@ namespace YOBAGame.MapObjects
         }
 
         protected abstract IEnumerable<IBullet> FiredBullets { get; }
+        protected abstract double ReloadDuration { get; } //TODO: не проинициализирвоана
 
         public IEnumerable<IBullet> Fire()
         {

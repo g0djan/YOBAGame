@@ -18,7 +18,7 @@ namespace YOBAGame
         {
             MapSize = new SizeD(width, height);
             CurrentTime = 0.0;
-            Objects = new HashSet<IMapObject>();
+            Objects = new HashSet<IMapObject>(); //TODO: карту нада
             Rules = rules;
         }
 
@@ -99,8 +99,8 @@ namespace YOBAGame
         private static IEnumerable<IMapObject> ResolveCollision(IMapObject firstObject,
             IMapObject secondObject)
         {
-            var first = (firstObject as IPhysicalObject);
-            var second = (secondObject as IPhysicalObject);
+            var first = firstObject as IPhysicalObject;
+            var second = secondObject as IPhysicalObject;
             if (first != null && second != null)
             {
                 if (first.HitBox.HasCollision(second.HitBox))
@@ -115,10 +115,10 @@ namespace YOBAGame
                     else if (second is Wall)
                         CollideWithWall(first, second as Wall);
 
-                    else if (first is Unit && second is Weapon)
-                        TakeWeaponBy(second as Weapon, first as Unit);
-                    else if (second is Unit && first is Weapon)
-                        TakeWeaponBy(first as Weapon, second as Unit);
+                    else if (first is AbstractUnit && second is Weapon)
+                        TakeWeaponBy(second as Weapon, first as AbstractUnit);
+                    else if (second is AbstractUnit && first is Weapon)
+                        TakeWeaponBy(first as Weapon, second as AbstractUnit);
                 }
             }
 
@@ -128,7 +128,7 @@ namespace YOBAGame
                 yield return secondObject;
         }
 
-        private static void TakeWeaponBy(Weapon weapon, Unit unit)
+        private static void TakeWeaponBy(Weapon weapon, AbstractUnit unit)
         {
             if (unit.SeeksForWeapon)
                 unit.TakeWeapon(weapon);

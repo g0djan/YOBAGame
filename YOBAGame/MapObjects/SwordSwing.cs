@@ -13,13 +13,13 @@ namespace YOBAGame.MapObjects
         public string ImageFileName { get; }
         public int DrawingPriority { get; }
 
-        public int Itteration { get; set; }
+        private int Itteration { get; set; }
 
         IEnumerable<Bitmap> IDrawableObject.ForDrawing
         {
             get
             {
-                Bitmap[] pictures = ImageParser.ParsePicture(ImageFileName);
+                var pictures = ImageParser.ParsePicture(ImageFileName);
                 var imageHeight = pictures.Length / 2;
                 var dirChange = WasChangedDirection(imageHeight);
                 if (dirChange)
@@ -31,7 +31,7 @@ namespace YOBAGame.MapObjects
             }
         }
 
-        bool WasChangedDirection(int imageHeight)
+        private bool WasChangedDirection(int imageHeight)
         {
             return Itteration < imageHeight && Owner.IsRightSide() ||
                    Itteration > imageHeight && !Owner.IsRightSide();
@@ -43,10 +43,10 @@ namespace YOBAGame.MapObjects
             set { }
         }
 
-        public SwordSwing(Circle2 hitBox, Unit owner, double timeToDelete, IGameRules rules, int damage = Int32.MaxValue)
+        public SwordSwing(Circle2 hitBox, AbstractUnit owner, double timeToDelete, IGameRules rules, int damage = Int32.MaxValue)
             : base(hitBox, owner, rules, damage)
         {
-            Itteration = 0;
+            Itteration = -1;
             _timeToDelete = timeToDelete;
             DrawingPriority = 1;
             ImageFileName = 

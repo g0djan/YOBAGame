@@ -7,11 +7,12 @@ namespace YOBAGame
         public static Bitmap[] ParsePicture(string ImageFilename)
         {
             var src = Image.FromFile(ImageFilename) as Bitmap;
-            var countImages = 2 * src.Height / 24; // ну вот здесь крч нужно знать их количество либо размер каждого битмапа во всех файлах должен быть одинаковым
-            var width = src.Width / 2;
+
+            var countImages = 2 * src.Height / 24; // ну вот здесь крч нужно знать их количество 
+            var width = src.Width / 2;            //либо размер каждого битмапа во всех файлах должен быть одинаковым
             var height = 2 * src.Height / countImages;
+
             var pictures = new Bitmap[countImages];
-            Rectangle cropRect;
             var upperLeft = new Point(0, 0);
             var x = 0;
             var y = 0;

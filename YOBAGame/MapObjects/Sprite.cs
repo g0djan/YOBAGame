@@ -5,7 +5,7 @@ using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using YOBAGame.GameRules;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects
 {
     public class Sprite : StaticObject, IDrawableObject
     {
@@ -17,8 +17,8 @@ namespace YOBAGame
         {
             get
             {
-                var pictures = ParsePicture(ImageFileName);
-                return pictures[numberOfSprite];
+                var pictures = ImageParser.ParsePicture(ImageFileName);
+                return new []{pictures[numberOfSprite]};
             }
         }
 

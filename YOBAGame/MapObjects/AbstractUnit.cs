@@ -9,7 +9,7 @@ using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    public abstract class Unit : AbstractKillableObject, IDrawableObject
+    public abstract class AbstractUnit : AbstractKillableObject, IDrawableObject
     {
         protected List<IMapObject> ObjectsToGenerate { get; set; }
         protected Weapon WeaponInHand { get; set; }
@@ -20,14 +20,14 @@ namespace YOBAGame.MapObjects
         public virtual string ImageFileName { get; }
         public int DrawingPriority { get; }
 
-        public int Itteration { get; set; }
+        private int Itteration { get; set; }
 
         public virtual IEnumerable<Bitmap> ForDrawing
         {
             get
             {
                 //number of needed picture evaluates from itteration and height of image here
-                Bitmap[] pictures = ImageParser.ParsePicture(ImageFileName);
+                var pictures = ImageParser.ParsePicture(ImageFileName);
                 var imageHeight = pictures.Length / 2;
                 var changeDir = WasChangedDirection(imageHeight);
                 var changeMove = BeganOrStopedMove(imageHeight);
@@ -42,14 +42,14 @@ namespace YOBAGame.MapObjects
                 if (WeaponInHand != null)
                 {
                     var weaponPictureNumber = IsRightSide() ? 1 : 0;
-                    Bitmap[] weaponPictures = ImageParser.ParsePicture(WeaponInHand.ImageFileName);
+                    var weaponPictures = ImageParser.ParsePicture(WeaponInHand.ImageFileName);
                     forDrawing.Add(weaponPictures[weaponPictureNumber].RotateImage(Direction.Radians));
                 }
                 return forDrawing;
             }
         }
 
-        void IncrementItteration(int imageHeight)
+        private void IncrementItteration(int imageHeight)
         {
             int addedPart = Speed == Vector2.Zero ? imageHeight / 2 : 0;
             Itteration = (Itteration + 1) % (imageHeight / 2);
@@ -61,13 +61,13 @@ namespace YOBAGame.MapObjects
             return Direction >= -Angle.HalfRotation && Direction <= Angle.HalfRotation;
         }
 
-        bool WasChangedDirection(int imageHeight)
+        private bool WasChangedDirection(int imageHeight)
         {
             return Itteration < imageHeight && IsRightSide() ||
                 Itteration > imageHeight && !IsRightSide();
         }
 
-        bool BeganOrStopedMove(int imageHeight)
+        private bool BeganOrStopedMove(int imageHeight)
         {
             return (Itteration < imageHeight / 2 || Itteration > imageHeight && Itteration < 3 * imageHeight / 2) &&
                    Speed == Vector2.Zero ||
@@ -77,7 +77,7 @@ namespace YOBAGame.MapObjects
 
         public abstract bool SeeksForWeapon { get; protected set; }
 
-        protected Unit(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
+        protected AbstractUnit(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
             : base(coordinates, hitBox, rules)
         {
             HitPoints = hitPoints;

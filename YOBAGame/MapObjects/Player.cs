@@ -6,7 +6,7 @@ using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    internal class Player : Unit
+    internal class Player : AbstractUnit
     {
         private IControlSource Control { get; }
         private Sword CarriedSword { get; set; }
