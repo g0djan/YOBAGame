@@ -13,7 +13,7 @@ namespace YOBAGame.MapObjects
     {
         protected List<IMapObject> ObjectsToGenerate { get; set; }
         protected Weapon WeaponInHand { get; set; }
-        protected Angle Direction { get; set; }
+        public Angle Direction { get; protected set; }
         public override Vector2 Speed { get; set; }
         public override int HitPoints { get; protected set; }
 

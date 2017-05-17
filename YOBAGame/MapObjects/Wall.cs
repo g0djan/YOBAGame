@@ -7,7 +7,7 @@ using Archimedes.Geometry.Primitives;
 using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects
 {
     public class Wall : AbstractStaticPhysicalObject, IDrawableObject
     {

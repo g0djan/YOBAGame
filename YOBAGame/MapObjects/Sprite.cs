@@ -11,20 +11,20 @@ namespace YOBAGame.MapObjects
     {
         public string ImageFileName { get; }
         public int DrawingPriority { get; }
-        private int numberOfSprite;
+        private readonly int _numberOfSprite;
 
         public IEnumerable<Bitmap> ForDrawing
         {
             get
             {
                 var pictures = ImageParser.ParsePicture(ImageFileName);
-                return new []{pictures[numberOfSprite]};
+                return new []{pictures[_numberOfSprite]};
             }
         }
 
         public Sprite(Vector2 coordinates, IGameRules rules) : base(coordinates, rules)
         {
-            numberOfSprite =
+            _numberOfSprite =
 
             DrawingPriority = 0;
             ImageFileName = 
