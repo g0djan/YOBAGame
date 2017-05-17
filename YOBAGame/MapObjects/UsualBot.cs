@@ -18,6 +18,16 @@ namespace YOBAGame
         public UsualBot(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
             : base(hitPoints, weapon, coordinates, hitBox, rules)
         {
+            ImageFileName = "enemy1_sprites.png";
+            if (ImageParser.Enemy == null)
+            {
+                Images = ImageParser.ParsePicture(ImageFileName, 4);
+                ImageParser.Enemy = Images;
+            }
+            else
+            {
+                Images = ImageParser.Enemy;
+            }
         }
 
         public override void Decide(double dt, GameState gameState)

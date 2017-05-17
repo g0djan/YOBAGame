@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
+using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
@@ -10,15 +12,15 @@ namespace YOBAGame.MapObjects
     public class Sprite : StaticObject, IDrawableObject
     {
         public string ImageFileName { get; }
+        public Tuple<Bitmap, Point>[][] Images { get; }
         public int DrawingPriority { get; }
         private readonly int _numberOfSprite;
-
-        public IEnumerable<Bitmap> ForDrawing
+        IEnumerable<Tuple<Bitmap, Point>> IDrawableObject.ForDrawing
         {
             get
             {
-                var pictures = ImageParser.ParsePicture(ImageFileName);
-                return new []{pictures[_numberOfSprite]};
+                return new[] {Tuple.Create(Images[0][_numberOfSprite].Item1, 
+                new Point((int)Coordinates.X, (int)Coordinates.Y))};
             }
         }
 
@@ -27,7 +29,16 @@ namespace YOBAGame.MapObjects
             _numberOfSprite =
 
             DrawingPriority = 0;
-            ImageFileName = 
+            ImageFileName = "sprites.png";
+            if (ImageParser.Sprites == null)
+            {
+                Images = ImageParser.ParsePicture(ImageFileName, 1);
+                ImageParser.Sprites = Images;
+            }
+            else
+            {
+                Images = ImageParser.Sprites;
+            }
         }
 
         public override IEnumerable<IMapObject> GeneratedObjects()

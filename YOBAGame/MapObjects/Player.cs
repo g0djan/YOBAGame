@@ -21,6 +21,17 @@ namespace YOBAGame.MapObjects
         {
             CarriedSword = new Sword(Rules.WeaponDefaultHitBox, rules);
             Control = control;
+
+            ImageFileName = "player_sprites";
+            if (ImageParser.Player == null)
+            {
+                Images = ImageParser.ParsePicture(ImageFileName, 4);
+                ImageParser.Player = Images;
+            }
+            else
+            {
+                Images = ImageParser.Player;
+            }
         }
 
         public override void TakeWeapon(Weapon weapon)

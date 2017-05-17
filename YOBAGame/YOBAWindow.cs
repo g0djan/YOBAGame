@@ -97,8 +97,8 @@ namespace YOBAGame
         private void DrawImage(PaintEventArgs e, IMapObject obj)
         {
             var forDrawing = (obj as IDrawableObject).ForDrawing;
-            foreach (var image in forDrawing)
-                e.Graphics.DrawImage(image, obj.Coordinates.ToLocation());
+            foreach (var tuple in forDrawing)
+                e.Graphics.DrawImage(tuple.Item1, tuple.Item2);
         }
 
         int tickCount = 0;

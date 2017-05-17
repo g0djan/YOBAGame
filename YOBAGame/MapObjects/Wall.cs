@@ -12,9 +12,11 @@ namespace YOBAGame.MapObjects
     public class Wall : AbstractStaticPhysicalObject, IDrawableObject
     {
         public string ImageFileName { get; }
+        public Tuple<Bitmap, Point>[][] Images { get; }
         public int DrawingPriority { get; }
+        IEnumerable<Tuple<Bitmap, Point>> IDrawableObject.ForDrawing => null;
+
         public Brush Color { get; }
-        public IEnumerable<Bitmap> ForDrawing => null;
 
         public Wall(Vector2 coordinates, IShape hitBox, IGameRules rules) : base(coordinates, hitBox.ToPolygon2(), rules)
         {

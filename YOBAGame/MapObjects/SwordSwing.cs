@@ -11,31 +11,30 @@ namespace YOBAGame.MapObjects
     {
         private readonly double _timeToDelete;
         public string ImageFileName { get; }
+        public Tuple<Bitmap, Point>[][] Images { get; }
         public int DrawingPriority { get; }
 
-        private int Itteration { get; set; }
-
-        IEnumerable<Bitmap> IDrawableObject.ForDrawing
+        private int part;
+        private int itteration;
+        public IEnumerable<Tuple<Bitmap, Point>> ForDrawing
         {
             get
             {
-                var pictures = ImageParser.ParsePicture(ImageFileName);
-                var imageHeight = pictures.Length / 2;
-                var dirChange = WasChangedDirection(imageHeight);
-                if (dirChange)
-                    Itteration = -1;
-                Itteration = (Itteration + 1) % imageHeight;
-                if (Owner.IsRightSide() && Itteration == 0)
-                    Itteration += imageHeight;
-                return new[] {pictures[Itteration]};
+                if (Owner.IsRightSide() && part == 0)
+                {
+                    part = 1;
+                    itteration = 0;
+                }
+                else if (!Owner.IsRightSide() && part == 1)
+                {
+                    part = 0;
+                    itteration = 0;
+                }
+                var pic = Images[part][itteration].Item1;
+                return new[] {Tuple.Create(pic, new Point((int)Coordinates.X, (int)Coordinates.Y))};
             }
         }
 
-        private bool WasChangedDirection(int imageHeight)
-        {
-            return Itteration < imageHeight && Owner.IsRightSide() ||
-                   Itteration > imageHeight && !Owner.IsRightSide();
-        }
 
         public override Vector2 Coordinates
         {
@@ -46,10 +45,21 @@ namespace YOBAGame.MapObjects
         public SwordSwing(Circle2 hitBox, AbstractUnit owner, double timeToDelete, IGameRules rules, int damage = Int32.MaxValue)
             : base(hitBox, owner, rules, damage)
         {
-            Itteration = -1;
             _timeToDelete = timeToDelete;
             DrawingPriority = 1;
-            ImageFileName = 
+
+            part = 0;
+            itteration = 0;
+            ImageFileName = "sword_swing_sprites.png";
+            if (ImageParser.SwordSwing == null)
+            {
+                Images = ImageParser.ParsePicture(ImageFileName, 2);
+                ImageParser.SwordSwing = Images;
+            }
+            else
+            {
+                Images = ImageParser.SwordSwing;
+            }
         }
 
         public override Vector2 Speed { get; set; }

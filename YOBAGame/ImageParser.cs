@@ -1,46 +1,63 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 
 namespace YOBAGame
 {
-    public static class ImageParser
+    public class ImageParser
     {
-        public static Bitmap[] ParsePicture(string ImageFilename)
+        public static Tuple<Bitmap, Point>[][] Player;
+        public static Tuple<Bitmap, Point>[][] Enemy;
+        public static Tuple<Bitmap, Point>[][] Sword;
+        public static Tuple<Bitmap, Point>[][] SwordSwing;
+        public static Tuple<Bitmap, Point>[][] PlayerGun;
+        public static Tuple<Bitmap, Point>[][] EnemyGun;
+        public static Tuple<Bitmap, Point>[][] Bullet;
+        public static Tuple<Bitmap, Point>[][] Sprites;
+
+        public static Tuple<Bitmap, Point>[][] ParsePicture(string ImageFilename, int partsCount)
         {
             var src = Image.FromFile(ImageFilename) as Bitmap;
-
-
             var annotation = ImageFilename.Substring(0, ImageFilename.Length - 3) + "annotation";
             var data = File.ReadAllLines(annotation);
-            var countImages = data.Length / 3; 
-            int width;
-            int height;
-
-            var pictures = new Bitmap[countImages];
-            Point upperLeft;
-            int x;
-            int y;
+            var countImages = data.Length / 3;
+            int x, y, width, height, rotateX, rotateY, centreX, centreY;
+            Point upperLeft, removalPoint;
             Size cropSize;
-            
-            var s = new string[3][];
-            for (var i = 0; i < countImages; i++)
+
+            var imageParts = new Tuple<Bitmap, Point>[partsCount][];
+            for (var partNumber = 0; partNumber < partsCount; partNumber++)
             {
-                for (var j = 0; j < 3; j++)
-                    s[j] = data[3 * i + j].Split();
-                x = int.Parse(s[0][0]);
-                y = int.Parse(s[0][1]);
-                width = int.Parse(s[1][0]);
-                height = int.Parse(s[1][1]);
-                upperLeft = new Point(x, y);
-                cropSize = new Size(width, height);
-                var target = new Bitmap(width, height);
-                var g = Graphics.FromImage(target);
-                g.DrawImage(src, new Rectangle(0, 0, width, height), new Rectangle(upperLeft, cropSize),
-                    GraphicsUnit.Pixel);
-                g.Dispose();
-                pictures[i] = target;
+                var partSize = countImages / partsCount;
+                var imagePart = new Tuple<Bitmap, Point>[partSize];
+                for (var picNumer = 0; picNumer < partSize; picNumer++)
+                {
+                    var s = new string[3][];
+                    var imageIndex = partNumber * partSize + picNumer;
+                    for (var j = 0; j < 3; j++)
+                        s[j] = data[3 * imageIndex + j].Split();
+                    x = int.Parse(s[0][0]);
+                    y = int.Parse(s[0][1]);
+                    width = int.Parse(s[1][0]);
+                    height = int.Parse(s[1][1]);
+                    rotateX = int.Parse(s[2][0]);
+                    rotateY = int.Parse(s[2][1]);
+                    centreX = width / 2;
+                    centreY = height / 2;
+                    upperLeft = new Point(x, y);
+                    cropSize = new Size(width, height);
+                    removalPoint = new Point(rotateX - centreX, rotateY - centreY);
+                    var target = new Bitmap(width, height);
+                    var g = Graphics.FromImage(target);
+                    g.DrawImage(src, new Rectangle(0, 0, width, height), new Rectangle(upperLeft, cropSize),
+                        GraphicsUnit.Pixel);
+                    g.Dispose();
+                    imagePart[picNumer] = Tuple.Create(target, removalPoint);
+                }
+                imageParts[partNumber] = imagePart;
             }
-            return pictures;
+            return imageParts;
         }
     }
 }

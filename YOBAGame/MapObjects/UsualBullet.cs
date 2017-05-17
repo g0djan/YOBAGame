@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using Archimedes.Geometry;
+using Archimedes.Geometry.Units;
 using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 
@@ -10,38 +13,43 @@ namespace YOBAGame.MapObjects
     {
         private readonly Vector2 _speed;
         public string ImageFileName { get; }
+        public Tuple<Bitmap, Point>[][] Images { get; }
         public int DrawingPriority { get; }
 
-        private readonly int _scaleCoefficient; // TODO: настроитть оба
-        private readonly int _bulletNumber;
-        private Bitmap _bulletImage;
-        private bool _needToScale;
-
-        public IEnumerable<Bitmap> ForDrawing
+        IEnumerable<Tuple<Bitmap, Point>> IDrawableObject.ForDrawing
         {
             get
             {
-                if (_needToScale)
-                {
-                    var pictures = ImageParser.ParsePicture(ImageFileName);
-                    _bulletImage = pictures[_bulletNumber].ScaleImage(_scaleCoefficient, 1);
-                    _needToScale = false;
-                }
-                return new[]{_bulletImage.RotateImage(_speed.GetRadiansVector2Angle())};
+                var relative = Owner.IsRightSide() ? Angle.Zero : Angle.HalfRotation;
+                var pic = Images[0][0].Item1.RotateImage((Owner.Direction - relative).Degrees);
+                var loc = new Point(
+                    (int)Owner.Coordinates.X + Images[0][0].Item2.X,
+                    (int)Owner.Coordinates.X + Images[0][0].Item2.X);
+                return new[] {Tuple.Create(pic, loc)};
             }
         }
+
+        private readonly int _scaleCoefficient; // TODO: настроить
 
         public UsualBullet(Vector2 coordinates, Vector2 speed, IShape hitBox, AbstractUnit owner, IGameRules rules, int damage = int.MaxValue)
             : base(hitBox, owner, rules, damage)
         {
             Coordinates = coordinates;
             _speed = speed;
-
-            _bulletNumber = 
+            
             _scaleCoefficient = 5;
-            _needToScale = true;
             DrawingPriority = 1;
-            ImageFileName =
+            ImageFileName = "bullet_sprites.png";
+            if (ImageParser.Bullet == null)
+            {
+                var tuple = ImageParser.ParsePicture(ImageFileName, 1)[0][0];
+                Images = new []{new[]{Tuple.Create(tuple.Item1.ScaleImage(_scaleCoefficient, 1), tuple.Item2)}};
+                ImageParser.Bullet = Images;
+            }
+            else
+            {
+                Images = ImageParser.Bullet;
+            }
         }
 
         public override bool ShouldBeDeleted { get; set; }

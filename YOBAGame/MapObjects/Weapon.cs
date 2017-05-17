@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Archimedes.Geometry;
@@ -13,19 +14,18 @@ namespace YOBAGame.MapObjects
         public bool Taken { get; set; }
         public bool Reloaded => TimeToReload < double.Epsilon;
 
-        public int DrawingPriority { get; }
         public string ImageFileName { get; }
-
-        public IEnumerable<Bitmap> ForDrawing
+        public Tuple<Bitmap, Point>[][] Images { get; }
+        public int DrawingPriority { get; }
+        public IEnumerable<Tuple<Bitmap, Point>> ForDrawing
         {
             get
             {
-                var pictures = ImageParser.ParsePicture(ImageFileName);
-                if (!Taken)
-                    return new[] {pictures[2]};
-                if (Owner.IsRightSide())
-                    return new[] {pictures[1]};
-                return new[] {pictures[0]};
+                var pic = Images[2][0].Item1;
+                var loc = new Point(
+                    (int)Owner.Coordinates.X + Images[2][0].Item2.X,
+                    (int)Owner.Coordinates.Y + Images[2][0].Item2.Y);
+                return new[] {Tuple.Create(pic, loc)};
             }
         }
 
@@ -33,7 +33,25 @@ namespace YOBAGame.MapObjects
         {
             Owner = null;
             DrawingPriority = 3;
-            ImageFileName =
+            ImageFileName = Owner is Player ? "weapon_player.png" : "weapon_enemy.png";
+            if (ImageParser.PlayerGun == null && Owner is Player)
+            {
+                Images = ImageParser.ParsePicture(ImageFileName, 3);
+                ImageParser.PlayerGun = Images;
+            }
+            else if (ImageParser.EnemyGun == null && Owner is UsualBot)
+            {
+                Images = ImageParser.ParsePicture(ImageFileName, 3);
+                ImageParser.EnemyGun = Images;
+            }
+            else if (Owner is Player)
+            {
+                Images = ImageParser.PlayerGun;
+            }
+            else if (Owner is UsualBot)
+            {
+                Images = ImageParser.EnemyGun;
+            }
         }
 
         public override bool ShouldBeDeleted

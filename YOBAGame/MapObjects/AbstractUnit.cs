@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -17,43 +18,52 @@ namespace YOBAGame.MapObjects
         public override Vector2 Speed { get; set; }
         public override int HitPoints { get; protected set; }
 
-        public virtual string ImageFileName { get; }
+        public virtual string ImageFileName { get; protected set; }
+        public Tuple<Bitmap, Point>[][] Images { get; protected set; }
         public int DrawingPriority { get; }
 
-        private int Itteration { get; set; }
-
-        public virtual IEnumerable<Bitmap> ForDrawing
+        private int _part;
+        private int _itteration;
+        public virtual IEnumerable<Tuple<Bitmap, Point>> ForDrawing
         {
             get
             {
-                //number of needed picture evaluates from itteration and height of image here
-                var pictures = ImageParser.ParsePicture(ImageFileName);
-                var imageHeight = pictures.Length / 2;
-                var changeDir = WasChangedDirection(imageHeight);
-                var changeMove = BeganOrStopedMove(imageHeight);
-                if (changeDir || changeMove)
-                    Itteration = -1;
-                IncrementItteration(imageHeight);
-                if (IsRightSide())
-                    Itteration += imageHeight;
-                var forDrawing = new List<Bitmap>();
-                forDrawing.Add(pictures[Itteration]);
-
+                if (_part != ChoosePartOfImage())
+                {
+                    _part = ChoosePartOfImage();
+                    _itteration = 0;
+                }
+                var pic = Images[_part][_itteration].Item1;
+                var loc = new Point(
+                    (int)Coordinates.X + Images[_part][_itteration].Item2.X,
+                    (int)Coordinates.Y + Images[_part][_itteration].Item2.Y);
+                var unitImage = Tuple.Create(pic, loc);
+                _itteration = (_itteration + 1) % Images[0].Length;
+                var sequence = new List<Tuple<Bitmap, Point>>();
+                sequence.Add(unitImage);
                 if (WeaponInHand != null)
                 {
-                    var weaponPictureNumber = IsRightSide() ? 1 : 0;
-                    var weaponPictures = ImageParser.ParsePicture(WeaponInHand.ImageFileName);
-                    forDrawing.Add(weaponPictures[weaponPictureNumber].RotateImage(Direction.Radians));
+                    _part = IsRightSide() ? 1 : 0;
+                    var relative = IsRightSide() ? Angle.Zero : Angle.HalfRotation;
+                    pic = WeaponInHand.Images[_part][0].Item1.RotateImage((Direction - relative).Radians);
+                    loc = new Point(
+                        (int)Coordinates.X + WeaponInHand.Images[_part][0].Item2.X,
+                        (int)Coordinates.Y + WeaponInHand.Images[_part][0].Item2.Y);
+                    sequence.Add(Tuple.Create(pic, loc));
                 }
-                return forDrawing;
+                return sequence;
             }
         }
 
-        private void IncrementItteration(int imageHeight)
+        int ChoosePartOfImage()
         {
-            int addedPart = Speed == Vector2.Zero ? imageHeight / 2 : 0;
-            Itteration = (Itteration + 1) % (imageHeight / 2);
-            Itteration += addedPart;
+            if (IsMoving() && !IsRightSide())
+                return 0;
+            if (!IsMoving() && !IsRightSide())
+                return 1;
+            if (IsMoving() && IsRightSide())
+                return 2;
+            return 3;
         }
 
         public bool IsRightSide()
@@ -61,18 +71,9 @@ namespace YOBAGame.MapObjects
             return Direction >= -Angle.HalfRotation && Direction <= Angle.HalfRotation;
         }
 
-        private bool WasChangedDirection(int imageHeight)
+        public bool IsMoving()
         {
-            return Itteration < imageHeight && IsRightSide() ||
-                Itteration > imageHeight && !IsRightSide();
-        }
-
-        private bool BeganOrStopedMove(int imageHeight)
-        {
-            return (Itteration < imageHeight / 2 || Itteration > imageHeight && Itteration < 3 * imageHeight / 2) &&
-                   Speed == Vector2.Zero ||
-                   (Itteration > imageHeight / 2 && Itteration < imageHeight  || Itteration > 3 * imageHeight / 2) &&
-                   Speed != Vector2.Zero;
+            return Speed != Vector2.Zero;
         }
 
         public abstract bool SeeksForWeapon { get; protected set; }
@@ -86,9 +87,9 @@ namespace YOBAGame.MapObjects
             if (weapon != null)
                 TakeWeapon(weapon);
 
-            Itteration = -1;
+            _part = 0;
+            _itteration = 0;
             DrawingPriority = 2;
-            ImageFileName =
         }
 
         public virtual void TakeWeapon(Weapon weapon)
