@@ -104,5 +104,21 @@ namespace YOBAGame.MapObjects
             ObjectsToGenerate = null;
             return res;
         }
+
+        protected void AddToGenerated(IMapObject obj)
+        {
+            if (ObjectsToGenerate == null)
+                ObjectsToGenerate = new List<IMapObject>() { obj };
+            else
+                ObjectsToGenerate.Add(obj);
+        }
+
+        protected void AddToGenerated(IEnumerable<IBullet> enumerable)
+        {
+            if (ObjectsToGenerate == null)
+                ObjectsToGenerate = new List<IMapObject>(enumerable);
+            else
+                ObjectsToGenerate.AddRange(enumerable);
+        }
     }
 }

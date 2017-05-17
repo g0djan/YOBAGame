@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
+using Archimedes.Geometry.Units;
 using YOBAGame.GameRules;
 using YOBAGame.MapObjects;
 
@@ -10,6 +13,7 @@ namespace YOBAGame
     public class UsualBot : Unit
     {
         private Unit Target { get; set; }
+        private Random rnd = new Random();
 
         public UsualBot(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
             : base(hitPoints, weapon, coordinates, hitBox, rules)
@@ -18,25 +22,37 @@ namespace YOBAGame
 
         public override void Decide(double dt, GameState gameState)
         {
-
-
             if (Target == null)
                 return;
 
+            var gotTarVis = TargetGotVisual(gameState);
+
             if (Speed.Length < Rules.BotMinDesieredSpeed)
-                ChooseSpeed();
+            {
+                if (gotTarVis)
+                {
+                    var vect =
+                        Vector2.FromAngleAndLenght(Direction, rnd.NextDouble() * Rules.MaxPlayerSpeed) +
+                        Vector2.FromAngleAndLenght(Angle.FullRotation * rnd.NextDouble(),
+                            Rules.MaxPlayerSpeed);
+                    vect *= Rules.MaxPlayerSpeed / vect.Length;
+                    Speed = vect;
+                }
+            }
 
             var toTarget = Target.Coordinates - Coordinates;
 
             Direction = toTarget.AngleSignedTo(Vector2.UnitX, false);
 
-            if (toTarget.Length < Rules.BotMinShootingDistance && TargetGotVisual && Rando)
-
+            if (toTarget.Length < Rules.BotMinShootingDistance && gotTarVis &&
+                rnd.NextDouble() < Rules.BotShootingProbability)
+                AddToGenerated(WeaponInHand.Fire());
         }
 
-        private void ChooseSpeed()
+        private bool TargetGotVisual(GameState gameState)
         {
-            throw new System.NotImplementedException();
+            var segm = new LineSegment2(Coordinates, Target.Coordinates);
+            return gameState.Objects.All(obj => !(obj is Wall) || ((Wall) obj).HitBox.HasCollision(segm));
         }
 
         public override IEnumerable<IMapObject> DeletionResult()
@@ -50,7 +66,5 @@ namespace YOBAGame
             get { return false; }
             protected set { }
         }
-
-        override 
     }
 }

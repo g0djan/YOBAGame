@@ -38,7 +38,7 @@ namespace YOBAGame.MapObjects
 
         public override bool ShouldBeDeleted
         {
-            get => Taken;
+            get { return Taken; }
             set { }
         }
 
@@ -46,8 +46,8 @@ namespace YOBAGame.MapObjects
 
         protected double TimeToReload
         {
-            get => _timeToReload;
-            set => _timeToReload = value >= 0 ? value : 0;
+            get { return _timeToReload; }
+            set { _timeToReload = value >= 0 ? value : 0; }
         }
 
         protected abstract IEnumerable<IBullet> FiredBullets { get; }

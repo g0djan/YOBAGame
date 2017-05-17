@@ -29,22 +29,6 @@ namespace YOBAGame.MapObjects
             base.TakeWeapon(weapon);
         }
 
-        private void AddToGenerated(IMapObject obj)
-        {
-            if (ObjectsToGenerate == null)
-                ObjectsToGenerate = new List<IMapObject>() {obj};
-            else
-                ObjectsToGenerate.Add(obj);
-        }
-
-        private void AddToGenerated(IEnumerable<IBullet> enumerable)
-        {
-            if (ObjectsToGenerate == null)
-                ObjectsToGenerate = new List<IMapObject>(enumerable);
-            else
-                ObjectsToGenerate.AddRange(enumerable);
-        }
-
         private void DropWeapon()
         {
             if (CarriedGun == null)

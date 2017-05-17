@@ -14,5 +14,6 @@ namespace YOBAGame.GameRules
         Circle2 WeaponDefaultHitBox { get; }
         double BotMinDesieredSpeed { get; }
         double BotMinShootingDistance { get; }
+        double BotShootingProbability { get; }
     }
 }
