@@ -1,4 +1,5 @@
-﻿using Archimedes.Geometry.Primitives;
+﻿using Archimedes.Geometry;
+using Archimedes.Geometry.Primitives;
 
 namespace YOBAGame.GameRules
 {
@@ -13,6 +14,9 @@ namespace YOBAGame.GameRules
         public double SwordReloadDuration => 1;
         public double SwordSwingRadius => 3;
         public double SwordSwingLifeTime => 0.5;
-        public Circle2 WeaponDefaultHitBox { get; }
+        public Circle2 WeaponDefaultHitBox { get; } = new Circle2(Vector2.Zero, 1);
+        public double BotMinDesieredSpeed => 1;
+        public double BotMinShootingDistance => 5;
+        public double BotShootingProbability => 0.7;
     }
 }

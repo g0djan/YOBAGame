@@ -39,7 +39,7 @@ namespace YOBAGame.MapObjects
 
         public override Vector2 Coordinates
         {
-            get => Owner.Coordinates;
+            get { return Owner.Coordinates; }
             set { }
         }
 

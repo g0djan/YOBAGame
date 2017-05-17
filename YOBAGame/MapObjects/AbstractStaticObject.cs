@@ -18,13 +18,13 @@ namespace YOBAGame.MapObjects
 
         public Vector2 Coordinates
         {
-            get => _coordinates;
+            get { return _coordinates; }
             set { }
         }
 
         public Vector2 Speed
         {
-            get => Vector2.Zero;
+            get { return Vector2.Zero; }
             set { } 
         }
 
