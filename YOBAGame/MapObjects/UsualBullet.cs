@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Net.Mime;
-using System.Windows.Forms;
 using Archimedes.Geometry;
 using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects
 {
     public class UsualBullet : AbstractBullet, IDrawableObject
     {

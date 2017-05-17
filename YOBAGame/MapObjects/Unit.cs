@@ -1,17 +1,19 @@
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using Archimedes.Geometry.Units;
 using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects
 {
     public abstract class Unit : AbstractKillableObject, IDrawableObject
     {
-        public Weapon WeaponInHand { get; protected set; }
-        public Angle Direction { get; protected set; }
+        protected List<IMapObject> ObjectsToGenerate { get; set; }
+        protected Weapon WeaponInHand { get; set; }
+        protected Angle Direction { get; set; }
         public override Vector2 Speed { get; set; }
         public override int HitPoints { get; protected set; }
 
@@ -94,6 +96,13 @@ namespace YOBAGame
             WeaponInHand = weapon;
             WeaponInHand.Owner = this;
             WeaponInHand.Taken = true;
+        }
+
+        public sealed override IEnumerable<IMapObject> GeneratedObjects()
+        {
+            var res = ObjectsToGenerate ?? Enumerable.Empty<IMapObject>();
+            ObjectsToGenerate = null;
+            return res;
         }
     }
 }

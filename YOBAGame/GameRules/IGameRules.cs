@@ -12,5 +12,7 @@ namespace YOBAGame.GameRules
         double SwordSwingRadius { get; }
         double SwordSwingLifeTime { get; }
         Circle2 WeaponDefaultHitBox { get; }
+        double BotMinDesieredSpeed { get; }
+        double BotMinShootingDistance { get; }
     }
 }

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Units;
 using YOBAGame.GameRules;
+using YOBAGame.MapObjects;
 
 namespace YOBAGame
 {

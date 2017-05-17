@@ -4,7 +4,7 @@ using System.Linq;
 using Archimedes.Geometry;
 using YOBAGame.GameRules;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects
 {
     public abstract class Weapon : AbstractPhysicalObject, IDrawableObject
     {
@@ -70,7 +70,7 @@ namespace YOBAGame
 
             if (Speed == Vector2.Zero) return;
             if (Speed.Length > double.Epsilon)
-                Speed -= Speed * (1 * Rules.FrictionAcceleration * dt / Speed.Length);
+                Speed += Speed * (-Rules.FrictionAcceleration * dt / Speed.Length);
             else
                 Speed = Vector2.Zero;
         }
