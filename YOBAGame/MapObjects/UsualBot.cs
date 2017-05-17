@@ -38,6 +38,13 @@ namespace YOBAGame
                     vect *= Rules.MaxPlayerSpeed / vect.Length;
                     Speed = vect;
                 }
+                else
+                {
+                    var vect = Vector2.FromAngleAndLenght(Angle.FullRotation * rnd.NextDouble(),
+                        Rules.MaxPlayerSpeed);
+                    vect *= Rules.MaxPlayerSpeed / vect.Length;
+                    Speed = vect;
+                }
             }
 
             var toTarget = Target.Coordinates - Coordinates;
