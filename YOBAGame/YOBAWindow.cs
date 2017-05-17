@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using YOBAGame.Extensions;
-using YOBAGame;
+using YOBAGame.MapObjects;
 using YOBAGame.GameRules;
 
 namespace YOBAGame
