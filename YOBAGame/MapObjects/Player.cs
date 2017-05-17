@@ -4,12 +4,11 @@ using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using YOBAGame.GameRules;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects
 {
     internal class Player : Unit
     {
         private IControlSource Control { get; }
-        private List<IMapObject> ObjectsToGenerate { get; set; }
         private Sword CarriedSword { get; set; }
         private Weapon CarriedGun { get; set; }
 
@@ -22,13 +21,6 @@ namespace YOBAGame
         {
             CarriedSword = new Sword(Rules.WeaponDefaultHitBox, rules);
             Control = control;
-        }
-
-        public override IEnumerable<IMapObject> GeneratedObjects()
-        {
-            var res = ObjectsToGenerate ?? Enumerable.Empty<IMapObject>();
-            ObjectsToGenerate = null;
-            return res;
         }
 
         public override void TakeWeapon(Weapon weapon)

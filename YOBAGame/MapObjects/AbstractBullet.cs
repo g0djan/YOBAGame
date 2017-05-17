@@ -3,7 +3,7 @@ using System.Linq;
 using Archimedes.Geometry;
 using YOBAGame.GameRules;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects
 {
     public abstract class AbstractBullet : AbstractPhysicalObject, IBullet
     {

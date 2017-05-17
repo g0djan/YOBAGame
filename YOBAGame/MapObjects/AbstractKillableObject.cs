@@ -2,7 +2,7 @@
 using Archimedes.Geometry.Primitives;
 using YOBAGame.GameRules;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects
 {
     public abstract class AbstractKillableObject : AbstractPhysicalObject, IKillableObject
     {

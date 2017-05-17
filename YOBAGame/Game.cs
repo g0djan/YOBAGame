@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Linq;
 using Archimedes.Geometry;
 using YOBAGame.GameRules;
-using YOBAGame;
+using YOBAGame.MapObjects;
 
 namespace YOBAGame
 {
