@@ -122,6 +122,7 @@
     </Compile>
     <None Include="Resources\Images\enemy1_sprites.anotation" />
     <None Include="Resources\Images\player_sprites.anotation" />
+    <None Include="Resources\Images\sword_swing_sprites.anotation" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
