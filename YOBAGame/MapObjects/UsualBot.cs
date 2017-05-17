@@ -7,9 +7,9 @@ using YOBAGame.MapObjects;
 
 namespace YOBAGame
 {
-    public class UsualBot : Unit
+    public class UsualBot : AbstractUnit
     {
-        private Unit Target { get; set; }
+        private AbstractUnit Target { get; set; }
 
         public UsualBot(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
             : base(hitPoints, weapon, coordinates, hitBox, rules)

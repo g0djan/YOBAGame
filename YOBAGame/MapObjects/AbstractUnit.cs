@@ -9,7 +9,7 @@ using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    public abstract class Unit : AbstractKillableObject, IDrawableObject
+    public abstract class AbstractUnit : AbstractKillableObject, IDrawableObject
     {
         protected List<IMapObject> ObjectsToGenerate { get; set; }
         protected Weapon WeaponInHand { get; set; }
@@ -77,7 +77,7 @@ namespace YOBAGame.MapObjects
 
         public abstract bool SeeksForWeapon { get; protected set; }
 
-        protected Unit(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
+        protected AbstractUnit(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
             : base(coordinates, hitBox, rules)
         {
             HitPoints = hitPoints;

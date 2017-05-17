@@ -2,7 +2,7 @@
 using Archimedes.Geometry;
 using YOBAGame.GameRules;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects
 {
     public abstract class StaticObject : IMapObject
     {

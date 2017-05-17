@@ -5,7 +5,7 @@ using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using YOBAGame.GameRules;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects
 {
     public class Sprite : StaticObject, IDrawableObject
     {

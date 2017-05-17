@@ -31,7 +31,7 @@ namespace YOBAGame.MapObjects
             }
         }
 
-        public UsualBullet(Vector2 coordinates, Vector2 speed, IShape hitBox, Unit owner, IGameRules rules, int damage = int.MaxValue)
+        public UsualBullet(Vector2 coordinates, Vector2 speed, IShape hitBox, AbstractUnit owner, IGameRules rules, int damage = int.MaxValue)
             : base(hitBox, owner, rules, damage)
         {
             Coordinates = coordinates;

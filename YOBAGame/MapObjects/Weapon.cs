@@ -9,7 +9,7 @@ namespace YOBAGame.MapObjects
     public abstract class Weapon : AbstractPhysicalObject, IDrawableObject
     {
         private double _timeToReload;
-        public Unit Owner { get; set; }
+        public AbstractUnit Owner { get; set; }
         public bool Taken { get; set; }
         public bool Reloaded => TimeToReload < double.Epsilon;
 

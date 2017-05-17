@@ -7,7 +7,7 @@ namespace YOBAGame.MapObjects
 {
     public abstract class AbstractBullet : AbstractPhysicalObject, IBullet
     {
-        protected AbstractBullet(IShape hitBox, Unit owner, IGameRules rules, int damage = int.MaxValue)
+        protected AbstractBullet(IShape hitBox, AbstractUnit owner, IGameRules rules, int damage = int.MaxValue)
             : base(hitBox, rules)
         {
             Damage = damage;
@@ -25,6 +25,6 @@ namespace YOBAGame.MapObjects
         }
 
         public int Damage { get; }
-        public Unit Owner { get; }
+        public AbstractUnit Owner { get; }
     }
 }
