@@ -120,6 +120,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Images\enemy1_sprites.anotation" />
+    <None Include="Resources\Images\player_sprites.anotation" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
