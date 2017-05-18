@@ -27,6 +27,6 @@ namespace YOBAGame.MapObjects
         }
 
         public int Damage { get; }
-        public AbstractUnit Owner { get; }
+        public AbstractUnit Owner { get; set; }
     }
 }

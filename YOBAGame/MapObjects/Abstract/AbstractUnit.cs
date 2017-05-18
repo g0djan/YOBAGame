@@ -45,9 +45,10 @@ namespace YOBAGame.MapObjects.Abstract
                     _part = IsRightSide() ? 1 : 0;
                     var relative = IsRightSide() ? Angle.Zero : Angle.HalfRotation;
                     pic = WeaponInHand.Resources.Images[_part][0].Item1.RotateImage((Direction - relative).Radians);
+                    var displacedLoc = WeaponInHand.Resources.Images[_part][0].Item2.RotatePoint((Direction - relative).Radians);
                     loc = new Point(
-                        (int)Coordinates.X + WeaponInHand.Resources.Images[_part][0].Item2.X,
-                        (int)Coordinates.Y + WeaponInHand.Resources.Images[_part][0].Item2.Y);
+                        (int)Coordinates.X - displacedLoc.X,
+                        (int)Coordinates.Y - displacedLoc.Y);
                     sequence.Add(Tuple.Create(pic, loc));
                 }
                 return sequence;
@@ -67,7 +68,7 @@ namespace YOBAGame.MapObjects.Abstract
 
         public bool IsRightSide()
         {
-            return Direction >= -Angle.HalfRotation && Direction <= Angle.HalfRotation;
+            return Direction >= -Angle.HalfRotation / 2 && Direction <= Angle.HalfRotation / 2;
         }
 
         protected abstract bool IsMoving();
@@ -82,7 +83,16 @@ namespace YOBAGame.MapObjects.Abstract
             Direction = default(Angle);
             Speed = Vector2.Zero;
             if (weapon != null)
+            {
+                weapon.Owner = this;
+                if (weapon is UsualWeapon)
+                {
+                    var usualWeapon = weapon as UsualWeapon;
+                    usualWeapon.Ammo.Owner = this;
+                    weapon = usualWeapon;
+                }
                 TakeWeapon(weapon);
+            }
 
             _part = 0;
             _itteration = 0;

@@ -11,7 +11,7 @@ namespace YOBAGame.MapObjects
     public class UsualWeapon : AbstractWeapon
     {
         private int _bulletsNumber;
-        private UsualBullet Ammo { get; }
+        public UsualBullet Ammo { get; }
 
         private int BulletsNumber
         {

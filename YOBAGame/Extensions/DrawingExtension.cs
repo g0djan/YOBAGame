@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using Archimedes.Geometry;
 
 namespace YOBAGame.Extensions
 {
@@ -18,6 +19,15 @@ namespace YOBAGame.Extensions
             g.DrawImage(img, 0, 0);
             g.Dispose();
             return bmp;
+        }
+
+        public static Point RotatePoint(this Point point, double angle)
+        {
+            var sin = Math.Abs(Math.Sin(angle));
+            var cos = Math.Abs(Math.Cos(angle));
+            var x1 = point.X * cos - point.Y * sin;
+            var y1 = point.X * sin + point.Y * cos;
+            return new Point((int)x1, (int)y1);
         }
 
         public static Bitmap RotateImage(this Bitmap img, double angle)

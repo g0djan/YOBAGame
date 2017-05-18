@@ -11,6 +11,7 @@ using Archimedes.Geometry.Units;
 using YOBAGame.Extensions;
 using YOBAGame.MapObjects;
 using YOBAGame.GameRules;
+using YOBAGame.MapObjects.Abstract;
 
 namespace YOBAGame
 {
@@ -151,9 +152,16 @@ namespace YOBAGame
             {
                 if (obj is Wall)
                     DrawWall(e, obj as Wall);
+                if (obj is AbstractUnit)
+                    DebugCircle(e, obj as AbstractUnit);
                 else if (obj is IDrawableObject)
                     DrawImage(e, obj);
             }
+        }
+
+        private void DebugCircle(PaintEventArgs e, AbstractUnit unit)
+        {
+            e.Graphics.FillEllipse(Brushes.Coral, (float)unit.Coordinates.X, (float)unit.Coordinates.Y, 20, 20);
         }
 
         private void DrawWall(PaintEventArgs e, Wall wall)

@@ -15,7 +15,7 @@ namespace YOBAGame.MapObjects
         private readonly Vector2 _speed;
         public Resources Resources { get; }
 
-        IEnumerable<Tuple<Bitmap, Point>> IDrawableObject.ForDrawing
+        public IEnumerable<Tuple<Bitmap, Point>> ForDrawing
         {
             get
             {
