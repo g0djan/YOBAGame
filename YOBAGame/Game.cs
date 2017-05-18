@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using Archimedes.Geometry;
+using Archimedes.Geometry.Primitives;
+using YOBAGame.Exceptions;
 using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 using YOBAGame.MapObjects;
@@ -12,16 +15,15 @@ namespace YOBAGame
     internal class Game : IGame
     {
         public IGameRules Rules { get; }
-        public SizeD MapSize { get; }
+        public SizeD MapSize { get; private set; }
         public HashSet<IMapObject> Objects { get; }
         public double CurrentTime { get; private set; }
 
         public static Dictionary<string, Tuple<Bitmap, Point>[][]> pictures { get; }
 
         
-        public Game(double width, double height, IGameRules rules)
+        public Game(IGameRules rules)
         {
-            MapSize = new SizeD(width, height);
             CurrentTime = 0.0;
             Objects = new HashSet<IMapObject>(); //TODO: карту нада
             Rules = rules;
@@ -193,6 +195,34 @@ namespace YOBAGame
         public void AddObject(IMapObject obj)
         {
             Objects.Add(obj);
+        }
+
+        public void LoadMap(StreamReader source)
+        {
+            try
+            {
+                var sizes = source.ReadLine().Split().Select(s => double.Parse(s)).ToArray();
+                MapSize = new SizeD(sizes[0], sizes[1]);
+
+                var wallsNumber = int.Parse(source.ReadLine());
+
+                for (var j = 0; j < wallsNumber; j++)
+                {
+                    var n = int.Parse(source.ReadLine());
+                    var hitBox =
+                        new Polygon2(
+                            Enumerable.Range(0, n)
+                                .Select(
+                                    i =>
+                                        new Vector2(
+                                            source.ReadLine().Split().Select(s => double.Parse(s)).ToArray())));
+                    AddObject(new Wall(Vector2.Zero, hitBox, Rules));
+                }
+            }
+            catch (IOException e)
+            {
+                throw new MapLoadingException(e);
+            }
         }
     }
 }

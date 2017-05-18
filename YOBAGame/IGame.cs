@@ -1,3 +1,4 @@
+using System.IO;
 using Archimedes.Geometry;
 using YOBAGame.GameRules;
 using YOBAGame;
@@ -12,5 +13,6 @@ namespace YOBAGame
         GameState CurrentGameState { get; }
         void Step(double dt);
         void AddObject(IMapObject obj);
+        void LoadMap(FileStream source);
     }
 }
