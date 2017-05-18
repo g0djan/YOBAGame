@@ -167,11 +167,23 @@ namespace YOBAGame
                 e.Graphics.DrawImage(tuple.Item1, tuple.Item2.Sub(_cameraLeftUpper));
         }
 
-        
+
+        private double dt = -1;
+        private DateTime t;
+        private readonly double redrawInterval = 33;
+        private DateTime lastRedraw = DateTime.MinValue;
         void TimerTick(object sender, EventArgs args)
         {
-            _game.Step(_timer.Interval);
-            Invalidate();
+            var _t = DateTime.Now;
+            dt = dt == -1 ? 0 : (_t - t).TotalMilliseconds;
+            t = _t;
+            _game.Step(dt);
+            if ((_t - lastRedraw).TotalSeconds > redrawInterval)
+            {
+                lastRedraw = _t;
+                Invalidate();
+            }
+
         }
     }
 }
