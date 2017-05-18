@@ -166,13 +166,12 @@ namespace YOBAGame
         }
 
 
-        private double dt = 0;
-        private DateTime t = new DateTime();
+        private double dt = -1;
+        private DateTime t;
         void TimerTick(object sender, EventArgs args)
         {
-            if (t != 0)
-            { }
-                t = DateTime.Now;
+            dt = dt == -1 ? 0 : (DateTime.Now - t).TotalMilliseconds;
+            t = DateTime.Now;
             _game.Step(dt);
             Invalidate();
 
