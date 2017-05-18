@@ -168,12 +168,19 @@ namespace YOBAGame
 
         private double dt = -1;
         private DateTime t;
+        private readonly double redrawInterval = 33;
+        private DateTime lastRedraw = DateTime.MinValue;
         void TimerTick(object sender, EventArgs args)
         {
-            dt = dt == -1 ? 0 : (DateTime.Now - t).TotalMilliseconds;
-            t = DateTime.Now;
+            var _t = DateTime.Now;
+            dt = dt == -1 ? 0 : (_t - t).TotalMilliseconds;
+            t = _t;
             _game.Step(dt);
-            Invalidate();
+            if ((_t - lastRedraw).TotalSeconds > redrawInterval)
+            {
+                lastRedraw = _t;
+                Invalidate();
+            }
 
         }
     }
