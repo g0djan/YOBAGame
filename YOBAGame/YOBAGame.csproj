@@ -110,7 +110,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Resources\Images\weapon1_sprites.anotation" />
+    <None Include="Resources\Images\bullet1_sprites.annotation" />
+    <None Include="Resources\Images\enemy1_sprites.annotation" />
+    <None Include="Resources\Images\player_sprites.annotation" />
+    <None Include="Resources\Images\sword_sprites.annotation" />
+    <None Include="Resources\Images\sword_swing_sprites.annotation" />
+    <None Include="Resources\Images\weapon1_dropped_sprites.annotation" />
+    <None Include="Resources\Images\weapon1_sprites.annotation" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -121,12 +127,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\Images\bullet1_sprites.anotation" />
-    <Content Include="Resources\Images\enemy1_sprites.txt" />
-    <None Include="Resources\Images\player_sprites.anotation" />
-    <None Include="Resources\Images\sword_sprites.anotation" />
-    <None Include="Resources\Images\sword_swing_sprites.anotation" />
-    <None Include="Resources\Images\weapon1_dropped_sprites.anotation" />
     <None Include="Resources\Maps\map1.map" />
   </ItemGroup>
   <ItemGroup>
