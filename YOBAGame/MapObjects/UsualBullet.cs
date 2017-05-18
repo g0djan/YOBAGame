@@ -34,6 +34,11 @@ namespace YOBAGame.MapObjects
             Resources = resources;
         }
 
+        public UsualBullet(UsualBullet bullet, Vector2 coordinates, Vector2 speed)
+            : this(coordinates, speed, bullet.HitBox, bullet.Owner, bullet.Rules, bullet.Damage)
+        {
+        }
+
         public override bool ShouldBeDeleted { get; set; }
 
         public override Vector2 Speed
@@ -43,6 +48,7 @@ namespace YOBAGame.MapObjects
         }
 
         public override Vector2 Coordinates { get; set; }
+
         public override void Decide(double dt, GameState gameState)
         {
         }

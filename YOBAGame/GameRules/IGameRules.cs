@@ -15,5 +15,7 @@ namespace YOBAGame.GameRules
         double BotMinDesieredSpeed { get; }
         double BotMinShootingDistance { get; }
         double BotShootingProbability { get; }
+        double BotBulletSpeed { get; }
+        double PlayerBulletSpeed { get; }
     }
 }
