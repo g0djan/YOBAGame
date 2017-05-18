@@ -53,12 +53,14 @@ namespace YOBAGame
                     Speed = vect;
                 }
             }
+            else
+                Speed += Speed * (-Rules.FrictionAcceleration / Speed.Length);
 
             var toTarget = Target.Coordinates - Coordinates;
 
             Direction = toTarget.AngleSignedTo(Vector2.UnitX, false);
 
-            if (toTarget.Length < Rules.BotMinShootingDistance && gotTarVis &&
+            if (WeaponInHand.Reloaded && toTarget.Length < Rules.BotMinShootingDistance && gotTarVis &&
                 rnd.NextDouble() < Rules.BotShootingProbability)
                 AddToGenerated(WeaponInHand.Fire());
         }

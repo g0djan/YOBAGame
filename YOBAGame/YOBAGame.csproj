@@ -110,6 +110,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Resources\Images\weapon1_sprites.anotation" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -120,11 +121,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Images\bullet1_sprites.anotation" />
     <None Include="Resources\Images\enemy1_sprites.anotation" />
     <None Include="Resources\Images\player_sprites.anotation" />
     <None Include="Resources\Images\sword_sprites.anotation" />
     <None Include="Resources\Images\sword_swing_sprites.anotation" />
-    <None Include="Resources\Images\weapon1_sprites.anotation" />
+    <None Include="Resources\Images\weapon1_dropped_sprites.anotation" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -142,11 +144,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Images\weapon1_sprites.png" />
+    <Content Include="Resources\Images\bullet1_sprites.png" />
     <Content Include="Resources\Images\enemy1_sprites.png" />
     <Content Include="Resources\Images\player_sprites.png" />
     <Content Include="Resources\Images\sword_sprites.png" />
     <Content Include="Resources\Images\sword_swing_sprites.png" />
-    <Content Include="Resources\Images\weapon1_sprites.png" />
+    <Content Include="Resources\Images\weapon1_dropped_sprites.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
