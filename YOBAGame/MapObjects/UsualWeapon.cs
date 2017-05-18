@@ -9,9 +9,9 @@ using Archimedes.Geometry;
 
 namespace YOBAGame.MapObjects
 {
-    class UsualWeapon : AbstractWeapon
+    public class UsualWeapon : AbstractWeapon
     {
-        private UsualBullet Ammo;
+        public UsualBullet Ammo { get; private set; }
         public override Tuple<Bitmap, Point>[][] Images { get; }
         public override string ImageFileName { get; }
 
@@ -22,16 +22,20 @@ namespace YOBAGame.MapObjects
             Images = Game.pictures[ImageFileName];
         }
 
+        public UsualWeapon(UsualWeapon weapon) : this(weapon.HitBox, weapon.Rules, weapon.Ammo)
+        {
+        }
+
         public override Vector2 Coordinates { get; set; }
         public override Vector2 Speed { get; set; }
         public override IEnumerable<IMapObject> GeneratedObjects()
         {
-            throw new NotImplementedException();
+            return Enumerable.Empty<IMapObject>();
         }
 
         public override IEnumerable<IMapObject> DeletionResult()
         {
-            throw new NotImplementedException();
+            return Enumerable.Empty<IMapObject>();
         }
 
         protected override IEnumerable<IBullet> FiredBullets { get; }

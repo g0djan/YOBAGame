@@ -12,14 +12,18 @@ namespace YOBAGame
 {
     public class UsualBot : AbstractUnit
     {
-        private Random rnd = new Random();
+        private static readonly Random rnd = new Random();
         private AbstractUnit Target { get; set; }
 
-        public UsualBot(int hitPoints, AbstractWeapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
+        public UsualBot(int hitPoints, UsualWeapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
             : base(hitPoints, weapon, coordinates, hitBox, rules)
         {
             ImageFileName = "enemy1_sprites.png";
             Images = Game.pictures[ImageFileName];
+        }
+
+        public UsualBot(UsualBot bot, Vector2 coordinates) : base(bot.HitPoints, new UsualWeapon((UsualWeapon) bot.WeaponInHand), coordinates, bot.HitBox as Circle2, bot.Rules)
+        {
         }
 
         protected override bool IsMoving()
