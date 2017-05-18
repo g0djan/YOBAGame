@@ -11,10 +11,12 @@ namespace YOBAGame.MapObjects
     public class Sword : AbstractWeapon
     {
         public override Resources Resources { get; }
+        private SwordSwing _swing;
 
-        public Sword(Circle2 hitBox, IGameRules rules, Resources resources) : base(hitBox, rules)
+        public Sword(Circle2 hitBox, IGameRules rules, Resources resources, SwordSwing swing) : base(hitBox, rules)
         {
             Resources = resources;
+            _swing = swing;
         }
 
         public override Vector2 Coordinates { get; set; }
@@ -32,12 +34,6 @@ namespace YOBAGame.MapObjects
 
         protected override double ReloadDuration => Rules.SwordReloadDuration;
 
-        protected override IEnumerable<IBullet> FiredBullets
-            =>
-                new IBullet[]
-                {
-                    new SwordSwing(new Circle2(Vector2.Zero, Rules.SwordSwingRadius), Owner,
-                        Rules.SwordSwingLifeTime, Rules)
-                };
+        protected override IEnumerable<IBullet> FiredBullets => new IBullet[] {_swing};
     }
 }

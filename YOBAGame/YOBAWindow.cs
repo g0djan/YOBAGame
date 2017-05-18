@@ -24,6 +24,10 @@ namespace YOBAGame
         private Game _game;
         private Player _player;
         private UsualBot _bot;
+        private Sword _swordSample;
+        private readonly UsualBullet _bulletSample;
+        private readonly UsualWeapon _weaponSample;
+        private readonly SwordSwing _swordSwingSample;
 
         private DevicesHandler _devicesHandler;
         private Point _cameraLeftUpper;
@@ -38,10 +42,15 @@ namespace YOBAGame
         {
             var timer = new Timer { Interval = 1 };
             LoadResources();
-            
-            _player = new Player();
-            _bot = new UsualBot();
-            _game = new Game(, ,new UsualRules(), ExternalData);
+
+            _bulletSample = new UsualBullet(,,,,, ExternalData["Bullet"]);
+            _swordSwingSample = new SwordSwing(,,,, ExternalData["SwordSwing"]);
+            _weaponSample = new UsualWeapon(,,,_bulletSample,, ExternalData["Weapon"],);
+            _swordSample = new Sword(,, ExternalData["Sword"], _swordSwingSample);
+            _player = new Player(,_weaponSample, _swordSample,,,,, ExternalData["Player"]);
+            _bot = new UsualBot(,_weaponSample, _swordSample,,ExternalData["Enemy"],);
+
+            _game = new Game(,, new UsualRules());
             _devicesHandler = new DevicesHandler(this, _player, _game.Rules);
             _player.Control = _devicesHandler;
 

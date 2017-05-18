@@ -14,14 +14,15 @@ namespace YOBAGame.MapObjects
         private AbstractUnit Target { get; set; }
         public override Resources Resources { get; }
 
-        public UsualBot(int hitPoints, UsualWeapon weapon, Vector2 coordinates, 
+        public UsualBot(int hitPoints, UsualWeapon weapon, Vector2 coordinates,
             Circle2 hitBox, Resources resources, IGameRules rules)
             : base(hitPoints, weapon, coordinates, hitBox, rules)
         {
             Resources = resources;
         }
 
-        public UsualBot(UsualBot bot, Vector2 coordinates) : base(bot.HitPoints, new UsualWeapon((UsualWeapon) bot.WeaponInHand), coordinates, bot.HitBox as Circle2, bot.Rules)
+        public UsualBot(UsualBot bot, Vector2 coordinates) : base(bot.HitPoints,
+            new UsualWeapon((UsualWeapon) bot.WeaponInHand), coordinates, bot.HitBox as Circle2, bot.Rules)
         {
         }
 

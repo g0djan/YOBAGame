@@ -35,7 +35,7 @@ namespace YOBAGame.MapObjects
         }
 
         public UsualBullet(UsualBullet bullet, Vector2 coordinates, Vector2 speed)
-            : this(coordinates, speed, bullet.HitBox, bullet.Owner, bullet.Rules, bullet.Damage)
+            : this(coordinates, speed, bullet.HitBox, bullet.Owner, bullet.Rules, bullet.Resources, bullet.Damage)
         {
         }
 

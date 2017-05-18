@@ -16,18 +16,10 @@ namespace YOBAGame
         public HashSet<IMapObject> Objects { get; }
         public double CurrentTime { get; private set; }
 
-        public readonly Sword SwordSample;
-        public readonly UsualBullet BulletSample;
-        public readonly UsualWeapon WeaponSample;
-        public readonly SwordSwing SwordSwingSample;
         
-        public Game(double width, double height, IGameRules rules, Dictionary<string, Resources> data)
+        
+        public Game(double width, double height, IGameRules rules)
         {
-            BulletSample = new UsualBullet(,,,,, data["Bullet"]);
-            SwordSwingSample = new SwordSwing(,,,, data["SwordSwing"]);
-            WeaponSample = new UsualWeapon(,,,data["Weapon"]);
-            SwordSample = new Sword(,, data["Sword"]);
-
             CurrentTime = 0;
             Objects = new HashSet<IMapObject>();
             Rules = rules;
