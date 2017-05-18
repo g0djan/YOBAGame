@@ -44,7 +44,7 @@ namespace YOBAGame.MapObjects.Abstract
                 {
                     _part = IsRightSide() ? 1 : 0;
                     var relative = IsRightSide() ? Angle.Zero : Angle.HalfRotation;
-                    pic = WeaponInHand.Resources.Images[_part][0].Item1.RotateImage((Direction - relative).Radians);
+                    pic = WeaponInHand.Resources.Images[_part][0].Item1;//.RotateImage((Direction - relative).Radians);
                     var displacedLoc = WeaponInHand.Resources.Images[_part][0].Item2.RotatePoint((Direction - relative).Radians);
                     loc = new Point(
                         (int)Coordinates.X - displacedLoc.X,

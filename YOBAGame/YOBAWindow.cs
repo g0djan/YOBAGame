@@ -151,17 +151,17 @@ namespace YOBAGame
             foreach (var obj in _game.Objects)
             {
                 if (obj is Wall)
-                    DrawWall(e, obj as Wall);
-                if (obj is AbstractUnit)
-                    DebugCircle(e, obj as AbstractUnit);
+                    DrawWall(e, obj as Wall);           
                 else if (obj is IDrawableObject)
                     DrawImage(e, obj);
+                if (obj is AbstractUnit)
+                     DebugCircle(e, obj as AbstractUnit);
             }
         }
 
         private void DebugCircle(PaintEventArgs e, AbstractUnit unit)
         {
-            e.Graphics.FillEllipse(Brushes.Coral, (float)unit.Coordinates.X, (float)unit.Coordinates.Y, 20, 20);
+            e.Graphics.FillEllipse(Brushes.Coral, (float)unit.Coordinates.X, (float)unit.Coordinates.Y, 10, 10);
         }
 
         private void DrawWall(PaintEventArgs e, Wall wall)
