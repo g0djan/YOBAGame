@@ -39,7 +39,7 @@ namespace YOBAGame.MapObjects
             
             _scaleCoefficient = 5;
             DrawingPriority = 1;
-            ImageFileName = "bullet_sprites.png";
+            ImageFileName = "bullet1_sprites.png";
             Images = Game.pictures[ImageFileName];
         }
 

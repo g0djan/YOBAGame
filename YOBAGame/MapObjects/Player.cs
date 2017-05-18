@@ -22,7 +22,7 @@ namespace YOBAGame.MapObjects
             CarriedSword = new Sword(Rules.WeaponDefaultHitBox, rules);
             Control = control;
 
-            ImageFileName = "player_sprites";
+            ImageFileName = "player_sprites.png";
             Images = Game.pictures[ImageFileName];
         }
 

@@ -18,6 +18,9 @@ namespace YOBAGame.MapObjects
         public virtual Tuple<Bitmap, Point>[][] Images { get; }
         public int DrawingPriority { get; }
         private Tuple<Bitmap, Point>[][] DroppedImages { get; }
+
+        private IBullet Ammo { get; set; }
+
         public IEnumerable<Tuple<Bitmap, Point>> ForDrawing
         {
             get
@@ -30,14 +33,14 @@ namespace YOBAGame.MapObjects
             }
         }
 
-        protected Weapon(IShape hitBox, 
-            IGameRules rules) : base(hitBox, rules)
+        protected Weapon(IShape hitBox, IGameRules rules, IBullet bullet) : base(hitBox, rules)
         {
             Owner = null;
             DrawingPriority = 3;
             ImageFileName = "weapon1_sprites.png";
             Images = Game.pictures[ImageFileName];
-            DroppedImages = Game.pictures["weapon1_dropped.png"];
+            DroppedImages = Game.pictures["weapon1_dropped_sprites.png"];
+            Ammo = bullet;
         }
 
         public override bool ShouldBeDeleted
@@ -54,7 +57,13 @@ namespace YOBAGame.MapObjects
             set { _timeToReload = value >= 0 ? value : 0; }
         }
 
-        protected abstract IEnumerable<IBullet> FiredBullets { get; }
+        protected abstract IEnumerable<IBullet> FiredBullets
+        {
+            get
+            {
+                
+            }
+        }
         protected abstract double ReloadDuration { get; } //TODO: не проинициализирвоана
 
         public IEnumerable<IBullet> Fire()

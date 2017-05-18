@@ -21,6 +21,7 @@ namespace YOBAGame.MapObjects
         public virtual string ImageFileName { get; protected set; }
         public Tuple<Bitmap, Point>[][] Images { get; protected set; }
         public int DrawingPriority { get; }
+        public Tuple<Bitmap, Point>[][] ImagesWeapon { get; }
 
         private int _part;
         private int _itteration;
