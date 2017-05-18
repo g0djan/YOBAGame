@@ -18,7 +18,7 @@ namespace YOBAGame.MapObjects
         public override Vector2 Speed { get; set; }
         public override int HitPoints { get; protected set; }
 
-        public Resources Resources { get; }
+        public virtual Resources Resources { get; }
 
         private int _part;
         private int _itteration;
