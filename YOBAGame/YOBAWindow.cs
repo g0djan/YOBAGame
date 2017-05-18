@@ -76,7 +76,7 @@ namespace YOBAGame
 
             MouseDown += OnMouseDown;
             MouseUp += OnMouseUp;
-            MouseMove += (sender, args) => MouseLocation = PointToClient(args.Location);
+            MouseMove += (sender, args) => MouseLocation = args.Location;
         }
 
         private Dictionary<string, Resources> ExternalData;
@@ -146,22 +146,15 @@ namespace YOBAGame
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            _cameraLeftUpper = new Point((int) _player.Coordinates.X - Width / 2,
-                (int) _player.Coordinates.Y - Height / 2);
+            _cameraLeftUpper = new Point((int) _player.Coordinates.X - 783 / 2,
+                (int) _player.Coordinates.Y - 439 / 2);
             foreach (var obj in _game.Objects)
             {
                 if (obj is Wall)
                     DrawWall(e, obj as Wall);           
                 else if (obj is IDrawableObject)
                     DrawImage(e, obj);
-                if (obj is AbstractUnit)
-                     DebugCircle(e, obj as AbstractUnit);
             }
-        }
-
-        private void DebugCircle(PaintEventArgs e, AbstractUnit unit)
-        {
-            e.Graphics.FillEllipse(Brushes.Coral, (float)unit.Coordinates.X, (float)unit.Coordinates.Y, 10, 10);
         }
 
         private void DrawWall(PaintEventArgs e, Wall wall)

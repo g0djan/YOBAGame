@@ -18,8 +18,8 @@ namespace YOBAGame
         {
             get
             {
-                var dy = _window.MouseLocation.Y - _player.Coordinates.Y;
-                var dx = _window.MouseLocation.X - _player.Coordinates.X;
+                var dy = _window.MouseLocation.Y - 225;
+                var dx = _window.MouseLocation.X - 396;
                 return Angle.FromRadians(Math.Atan2(dy, dx));
             }
         }

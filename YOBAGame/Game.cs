@@ -40,8 +40,8 @@ namespace YOBAGame
             foreach (var obj in Objects)
             {
                 obj.Coordinates += obj.Speed * dt;
-//                if (obj is Player)
-//                    Console.WriteLine(obj.Coordinates);
+                if (obj is Player)
+                    Console.WriteLine((obj as Player).Direction);
             }
 
             var toDelete = ResolveCollisions();
