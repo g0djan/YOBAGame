@@ -44,7 +44,7 @@ namespace YOBAGame
         public bool RightButtonPressed { get; private set; }
 
 
-        private const double _scaleBulletCoefficient = 5; //TODO: настроить
+        
         public YOBAWindow()
         {
             this.Size = new Size(800, 480);
@@ -64,6 +64,7 @@ namespace YOBAGame
             _game.LoadMap(System.IO.File.OpenText(Path.GetFullPath(@"..\..\Resources\Maps\map1.map")));
             _devicesHandler = new DevicesHandler(this, _player, _game.Rules);
             _player.Control = _devicesHandler;
+            _game.Objects.Add(_player);
 
             PressedKeys = new HashSet<Keys>();
             MouseLocation = new Point();
@@ -78,6 +79,7 @@ namespace YOBAGame
 
         private Dictionary<string, Resources> ExternalData;
 
+        private const double _scaleBulletCoefficient = 5; //TODO: настроить
         private void LoadResources()
         {
             var picFiles = new []
