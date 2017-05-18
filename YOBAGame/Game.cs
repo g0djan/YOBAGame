@@ -21,7 +21,7 @@ namespace YOBAGame
 
         
         
-        public Game(double width, double height, IGameRules rules)
+        public Game(IGameRules rules)
         {
             CurrentTime = 0;
             Objects = new HashSet<IMapObject>();

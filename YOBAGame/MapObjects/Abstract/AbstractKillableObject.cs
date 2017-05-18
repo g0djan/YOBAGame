@@ -6,6 +6,7 @@ namespace YOBAGame.MapObjects
 {
     public abstract class AbstractKillableObject : AbstractPhysicalObject, IKillableObject
     {
+        public int Clan { get; set; }
         public override Vector2 Coordinates { get; set; }
         public abstract int HitPoints { get; protected set; }
 
@@ -13,10 +14,13 @@ namespace YOBAGame.MapObjects
             : base(hitBox, rules)
         {
             Coordinates = coordinates;
+            Clan = 0;
         }
 
         public void GetShot(IBullet bullet)
         {
+            if (bullet.Owner.Clan == Clan)
+                return;
             HitPoints -= bullet.Damage;
             bullet.ShouldBeDeleted = true;
         }

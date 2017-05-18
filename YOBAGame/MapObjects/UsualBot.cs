@@ -24,6 +24,7 @@ namespace YOBAGame.MapObjects
         public UsualBot(UsualBot bot, Vector2 coordinates) : base(bot.HitPoints,
             new UsualWeapon((UsualWeapon) bot.WeaponInHand), coordinates, bot.HitBox as Circle2, bot.Rules)
         {
+            Clan = bot.Clan;
         }
 
         protected override bool IsMoving()
