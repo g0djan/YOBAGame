@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YOBAGame.GameRules;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Units;
@@ -13,15 +11,15 @@ namespace YOBAGame.MapObjects
     public class UsualWeapon : AbstractWeapon
     {
         private int _bulletsNumber;
-        public UsualBullet Ammo { get; private set; }
+        private UsualBullet Ammo { get; }
 
-        public int BulletsNumber
+        private int BulletsNumber
         {
             get { return _bulletsNumber; }
             set { _bulletsNumber = value > 0 ? value : 1; }
         }
 
-        public Angle Scatter { get; private set; }
+        private Angle Scatter { get; set; }
         public override Tuple<Bitmap, Point>[][] Images { get; }
         public override string ImageFileName { get; }
 
