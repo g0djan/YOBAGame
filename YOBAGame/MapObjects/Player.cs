@@ -26,6 +26,7 @@ namespace YOBAGame.MapObjects
             CarriedSword = sword;
             Control = control;
             Resources = resources;
+            ObjectsToGenerate = new List<IMapObject>();
         }
 
         protected override bool IsMoving()

@@ -20,6 +20,7 @@ namespace YOBAGame.MapObjects
             : base(hitPoints, weapon, coordinates, hitBox, rules)
         {
             Resources = resources;
+            ObjectsToGenerate = new List<IMapObject>();
         }
 
         public UsualBot(UsualBot bot, Vector2 coordinates) : base(bot.HitPoints,
