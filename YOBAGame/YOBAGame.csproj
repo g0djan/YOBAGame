@@ -122,7 +122,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Resources\Images\bullet1_sprites.anotation" />
-    <None Include="Resources\Images\enemy1_sprites.anotation" />
+    <Content Include="Resources\Images\enemy1_sprites.txt" />
     <None Include="Resources\Images\player_sprites.anotation" />
     <None Include="Resources\Images\sword_sprites.anotation" />
     <None Include="Resources\Images\sword_swing_sprites.anotation" />

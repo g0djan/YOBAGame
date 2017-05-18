@@ -10,7 +10,7 @@ namespace YOBAGame
         public static List<Tuple<Bitmap, Point>[]> ParsePicture(string ImageFilename, int partsCount)
         {
             var src = Image.FromFile(ImageFilename) as Bitmap;
-            var annotation = ImageFilename.Substring(0, ImageFilename.Length - 3) + "annotation";
+            var annotation = ImageFilename.Substring(0, ImageFilename.Length - 3) + "txt";
             var data = File.ReadAllLines(annotation);
             var countImages = data.Length / 3;
             int x, y, width, height, rotateX, rotateY, centreX, centreY;
