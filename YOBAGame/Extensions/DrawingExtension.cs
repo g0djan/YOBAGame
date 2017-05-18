@@ -5,6 +5,11 @@ namespace YOBAGame.Extensions
 {
     public static class DrawingExtension
     {
+        public static Point Sub(this Point p1, Point p2)
+        {
+            return new Point(p1.X -p2.X, p1.Y - p2.Y);
+        }
+
         public static Bitmap ScaleImage(this Bitmap img, double sx, double sy)
         {
             var bmp = new Bitmap(img.Width, img.Height);

@@ -8,7 +8,7 @@ namespace YOBAGame.MapObjects
 {
     internal class Player : AbstractUnit
     {
-        private IControlSource Control { get; }
+        public IControlSource Control { get; set; }
         private Sword CarriedSword { get; set; }
         private Weapon CarriedGun { get; set; }
 
@@ -23,15 +23,12 @@ namespace YOBAGame.MapObjects
             Control = control;
 
             ImageFileName = "player_sprites";
-            if (ImageParser.Player == null)
-            {
-                Images = ImageParser.ParsePicture(ImageFileName, 4);
-                ImageParser.Player = Images;
-            }
-            else
-            {
-                Images = ImageParser.Player;
-            }
+            Images = Game.pictures[ImageFileName];
+        }
+
+        protected override bool IsMoving()
+        {
+            return Control.Speed != Vector2.Zero;
         }
 
         public override void TakeWeapon(Weapon weapon)

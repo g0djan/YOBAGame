@@ -30,15 +30,7 @@ namespace YOBAGame.MapObjects
 
             DrawingPriority = 0;
             ImageFileName = "sprites.png";
-            if (ImageParser.Sprites == null)
-            {
-                Images = ImageParser.ParsePicture(ImageFileName, 1);
-                ImageParser.Sprites = Images;
-            }
-            else
-            {
-                Images = ImageParser.Sprites;
-            }
+            Images = Game.pictures[ImageFileName];
         }
 
         public override IEnumerable<IMapObject> GeneratedObjects()

@@ -14,44 +14,30 @@ namespace YOBAGame.MapObjects
         public bool Taken { get; set; }
         public bool Reloaded => TimeToReload < double.Epsilon;
 
-        public string ImageFileName { get; }
-        public Tuple<Bitmap, Point>[][] Images { get; }
+        public virtual string ImageFileName { get; }
+        public virtual Tuple<Bitmap, Point>[][] Images { get; }
         public int DrawingPriority { get; }
+        private Tuple<Bitmap, Point>[][] DroppedImages { get; }
         public IEnumerable<Tuple<Bitmap, Point>> ForDrawing
         {
             get
             {
-                var pic = Images[2][0].Item1;
+                var pic = DroppedImages[0][0].Item1;
                 var loc = new Point(
-                    (int)Owner.Coordinates.X + Images[2][0].Item2.X,
-                    (int)Owner.Coordinates.Y + Images[2][0].Item2.Y);
+                    (int)Owner.Coordinates.X + DroppedImages[0][0].Item2.X,
+                    (int)Owner.Coordinates.Y + DroppedImages[0][0].Item2.Y);
                 return new[] {Tuple.Create(pic, loc)};
             }
         }
 
-        protected Weapon(IShape hitBox, IGameRules rules) : base(hitBox, rules)
+        protected Weapon(IShape hitBox, 
+            IGameRules rules) : base(hitBox, rules)
         {
             Owner = null;
             DrawingPriority = 3;
-            ImageFileName = Owner is Player ? "weapon_player.png" : "weapon_enemy.png";
-            if (ImageParser.PlayerGun == null && Owner is Player)
-            {
-                Images = ImageParser.ParsePicture(ImageFileName, 3);
-                ImageParser.PlayerGun = Images;
-            }
-            else if (ImageParser.EnemyGun == null && Owner is UsualBot)
-            {
-                Images = ImageParser.ParsePicture(ImageFileName, 3);
-                ImageParser.EnemyGun = Images;
-            }
-            else if (Owner is Player)
-            {
-                Images = ImageParser.PlayerGun;
-            }
-            else if (Owner is UsualBot)
-            {
-                Images = ImageParser.EnemyGun;
-            }
+            ImageFileName = "weapon1_sprites.png";
+            Images = Game.pictures[ImageFileName];
+            DroppedImages = Game.pictures["weapon1_dropped.png"];
         }
 
         public override bool ShouldBeDeleted

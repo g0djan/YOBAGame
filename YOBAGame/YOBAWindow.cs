@@ -12,7 +12,9 @@ namespace YOBAGame
     public partial class YOBAWindow : Form
     {
         private Game _game;
+        private Player _player;
         private DevicesHandler _devicesHandler;
+        private Point _cameraLeftUpper;
 
         public HashSet<Keys> PressedKeys { get; }
         public Point MouseLocation { get; private set; }
@@ -22,8 +24,10 @@ namespace YOBAGame
         public YOBAWindow()
         {
             var timer = new Timer { Interval = 1 };
+            _player = new Player();
             _game = new Game(, ,new UsualRules());
-            _devicesHandler = new DevicesHandler(this, _game.Player, _game.Rules);
+            _devicesHandler = new DevicesHandler(this, _player, _game.Rules);
+            _player.Control = _devicesHandler;
 
             PressedKeys = new HashSet<Keys>();
             MouseLocation = new Point();
@@ -78,6 +82,8 @@ namespace YOBAGame
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            _cameraLeftUpper = new Point((int) _player.Coordinates.X - Width / 2,
+                (int) _player.Coordinates.Y - Height / 2);
             foreach (var obj in _game.Objects)
             {
                 if (obj is Wall)
@@ -98,7 +104,7 @@ namespace YOBAGame
         {
             var forDrawing = (obj as IDrawableObject).ForDrawing;
             foreach (var tuple in forDrawing)
-                e.Graphics.DrawImage(tuple.Item1, tuple.Item2);
+                e.Graphics.DrawImage(tuple.Item1, tuple.Item2.Sub(_cameraLeftUpper));
         }
 
         int tickCount = 0;
