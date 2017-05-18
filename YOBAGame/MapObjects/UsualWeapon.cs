@@ -19,7 +19,7 @@ namespace YOBAGame.MapObjects
             set { _bulletsNumber = value > 0 ? value : 1; }
         }
 
-        private Angle Scatter { get; set; }
+        private Angle Scatter { get; }
         public override Tuple<Bitmap, Point>[][] Images { get; }
         public override string ImageFileName { get; }
 

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using Archimedes.Geometry.Units;
 using YOBAGame.GameRules;
-using YOBAGame.MapObjects;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects
 {
     public class UsualBot : AbstractUnit
     {
