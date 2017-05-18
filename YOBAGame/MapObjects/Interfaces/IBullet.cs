@@ -1,4 +1,6 @@
-﻿namespace YOBAGame.MapObjects
+﻿using YOBAGame.MapObjects.Abstract;
+
+namespace YOBAGame.MapObjects.Interfaces
 {
     public interface IBullet : IPhysicalObject
     {

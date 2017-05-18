@@ -5,6 +5,7 @@ using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using Archimedes.Geometry.Units;
 using YOBAGame.GameRules;
+using YOBAGame.MapObjects.Abstract;
 
 namespace YOBAGame.MapObjects
 {

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using YOBAGame.Exceptions;
-using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 using YOBAGame.MapObjects;
+using YOBAGame.MapObjects.Abstract;
+using YOBAGame.MapObjects.Interfaces;
 
 namespace YOBAGame
 {
@@ -19,8 +19,7 @@ namespace YOBAGame
         public HashSet<IMapObject> Objects { get; }
         public double CurrentTime { get; private set; }
 
-        
-        
+
         public Game(IGameRules rules)
         {
             CurrentTime = 0;
@@ -180,7 +179,7 @@ namespace YOBAGame
             Objects.Add(obj);
         }
 
-        public void LoadMap(StreamReader source)
+        public void LoadMap(TextReader source)
         {
             try
             {

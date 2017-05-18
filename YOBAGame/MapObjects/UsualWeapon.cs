@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using System.Linq;
 using YOBAGame.GameRules;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Units;
+using YOBAGame.MapObjects.Abstract;
+using YOBAGame.MapObjects.Interfaces;
 
 namespace YOBAGame.MapObjects
 {
@@ -22,7 +22,7 @@ namespace YOBAGame.MapObjects
         private Angle Scatter { get; }
         public override Resources Resources { get; }
 
-        public UsualWeapon(IShape hitBox, IGameRules rules, double reloadDuration, UsualBullet bullet,
+        public UsualWeapon(IGeometry hitBox, IGameRules rules, double reloadDuration, UsualBullet bullet,
             int bulletsNumber, Resources resources,
             Angle scatter) : base(hitBox, rules)
         {

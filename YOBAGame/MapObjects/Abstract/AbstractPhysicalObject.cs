@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using Archimedes.Geometry;
 using YOBAGame.GameRules;
+using YOBAGame.MapObjects.Interfaces;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame.MapObjects.Abstract
 {
     public abstract class AbstractPhysicalObject : IPhysicalObject
     {
@@ -14,9 +15,9 @@ namespace YOBAGame.MapObjects
         public abstract bool ShouldBeDeleted { get; set; }
         public abstract IEnumerable<IMapObject> DeletionResult();
 
-        public virtual IShape HitBox { get; }
+        public virtual IGeometry HitBox { get; }
 
-        protected AbstractPhysicalObject(IShape hitBox, IGameRules rules)
+        protected AbstractPhysicalObject(IGeometry hitBox, IGameRules rules)
         {
             if (hitBox == null)
                 throw new ArgumentNullException();

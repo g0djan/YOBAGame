@@ -1,8 +1,9 @@
 ﻿using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using YOBAGame.GameRules;
+using YOBAGame.MapObjects.Interfaces;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame.MapObjects.Abstract
 {
     public abstract class AbstractKillableObject : AbstractPhysicalObject, IKillableObject
     {

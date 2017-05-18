@@ -7,8 +7,9 @@ using Archimedes.Geometry.Primitives;
 using Archimedes.Geometry.Units;
 using YOBAGame.Extensions;
 using YOBAGame.GameRules;
+using YOBAGame.MapObjects.Interfaces;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame.MapObjects.Abstract
 {
     public abstract class AbstractUnit : AbstractKillableObject, IDrawableObject
     {

@@ -4,8 +4,9 @@ using System.Drawing;
 using System.Linq;
 using Archimedes.Geometry;
 using YOBAGame.GameRules;
+using YOBAGame.MapObjects.Interfaces;
 
-namespace YOBAGame.MapObjects
+namespace YOBAGame.MapObjects.Abstract
 {
     public abstract class AbstractWeapon : AbstractPhysicalObject, IDrawableObject
     {
@@ -28,7 +29,7 @@ namespace YOBAGame.MapObjects
             }
         }
 
-        protected AbstractWeapon(IShape hitBox, IGameRules rules) : base(hitBox, rules)
+        protected AbstractWeapon(IGeometry hitBox, IGameRules rules) : base(hitBox, rules)
         {
             Owner = null;
             

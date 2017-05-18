@@ -1,9 +1,9 @@
 ﻿using Archimedes.Geometry;
 
-namespace YOBAGame
+namespace YOBAGame.MapObjects.Interfaces
 {
     public interface IPhysicalObject : IMapObject
     {
-        IShape HitBox { get; }
+        IGeometry HitBox { get; }
     }
 }
