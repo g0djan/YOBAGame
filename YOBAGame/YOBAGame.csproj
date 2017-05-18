@@ -152,6 +152,9 @@
     <Content Include="Resources\Images\sword_sprites.png" />
     <Content Include="Resources\Images\sword_swing_sprites.png" />
     <Content Include="Resources\Images\weapon1_dropped_sprites.png" />
+    <Content Include="Resources\Sounds\bullet_cut_sound.wav" />
+    <Content Include="Resources\Sounds\sword_swing_sound.wav" />
+    <Content Include="Resources\Sounds\shot1_sound.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
