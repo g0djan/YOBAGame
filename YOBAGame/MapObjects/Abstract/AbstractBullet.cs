@@ -2,12 +2,14 @@
 using System.Linq;
 using Archimedes.Geometry;
 using YOBAGame.GameRules;
+using YOBAGame.MapObjects.Abstract;
+using YOBAGame.MapObjects.Interfaces;
 
 namespace YOBAGame.MapObjects
 {
     public abstract class AbstractBullet : AbstractPhysicalObject, IBullet
     {
-        protected AbstractBullet(IShape hitBox, AbstractUnit owner, IGameRules rules, int damage = int.MaxValue)
+        protected AbstractBullet(IGeometry hitBox, AbstractUnit owner, IGameRules rules, int damage = int.MaxValue)
             : base(hitBox, rules)
         {
             Damage = damage;

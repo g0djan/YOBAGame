@@ -5,6 +5,7 @@ using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using Archimedes.Geometry.Units;
 using YOBAGame.GameRules;
+using YOBAGame.MapObjects.Abstract;
 
 namespace YOBAGame.MapObjects
 {
@@ -24,6 +25,7 @@ namespace YOBAGame.MapObjects
         public UsualBot(UsualBot bot, Vector2 coordinates) : base(bot.HitPoints,
             new UsualWeapon((UsualWeapon) bot.WeaponInHand), coordinates, bot.HitBox as Circle2, bot.Rules)
         {
+            Clan = bot.Clan;
         }
 
         protected override bool IsMoving()

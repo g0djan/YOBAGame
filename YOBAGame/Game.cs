@@ -7,6 +7,8 @@ using Archimedes.Geometry.Primitives;
 using YOBAGame.Exceptions;
 using YOBAGame.GameRules;
 using YOBAGame.MapObjects;
+using YOBAGame.MapObjects.Abstract;
+using YOBAGame.MapObjects.Interfaces;
 
 namespace YOBAGame
 {
@@ -17,9 +19,8 @@ namespace YOBAGame
         public HashSet<IMapObject> Objects { get; }
         public double CurrentTime { get; private set; }
 
-        
-        
-        public Game(double width, double height, IGameRules rules)
+
+        public Game(IGameRules rules)
         {
             CurrentTime = 0;
             Objects = new HashSet<IMapObject>();
@@ -178,7 +179,7 @@ namespace YOBAGame
             Objects.Add(obj);
         }
 
-        public void LoadMap(StreamReader source)
+        public void LoadMap(TextReader source)
         {
             try
             {

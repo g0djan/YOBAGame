@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Archimedes.Geometry;
+using Archimedes.Geometry.Primitives;
+using Archimedes.Geometry.Units;
 using YOBAGame.Extensions;
 using YOBAGame.MapObjects;
 using YOBAGame.GameRules;
@@ -43,14 +47,17 @@ namespace YOBAGame
             var timer = new Timer { Interval = 1 };
             LoadResources();
 
-            _bulletSample = new UsualBullet(,,,,, ExternalData["Bullet"]);
-            _swordSwingSample = new SwordSwing(,,,, ExternalData["SwordSwing"]);
-            _weaponSample = new UsualWeapon(,,,_bulletSample,, ExternalData["Weapon"],);
-            _swordSample = new Sword(,, ExternalData["Sword"], _swordSwingSample);
-            _player = new Player(,_weaponSample, _swordSample,,,,, ExternalData["Player"]);
-            _bot = new UsualBot(,_weaponSample, _swordSample,,ExternalData["Enemy"],);
+            var rules = UsualRules.Default;
 
-            _game = new Game(,, new UsualRules());
+            _bulletSample = new UsualBullet(Vector2.Zero, Vector2.Zero, rules.DefaultBulletLength, null, rules, ExternalData["Bullet"]);
+            _swordSwingSample = new SwordSwing(new Circle2(Vector2.Zero, rules.SwordSwingRadius), null, double.PositiveInfinity, rules, ExternalData["SwordSwing"]);
+            _weaponSample = new UsualWeapon(new Circle2(Vector2.Zero, rules.WeaponDefaultRadius),rules,rules.DefaultReloadDuration,_bulletSample, 3, ExternalData["Weapon"], Angle.FromDegrees(30));
+            _swordSample = new Sword(new Circle2(Vector2.Zero, rules.DefaultSwordRadius),rules , ExternalData["Sword"], _swordSwingSample);
+            _player = new Player(rules.DefaultHP,_weaponSample, _swordSample, new Vector2(250, 250), new Circle2(Vector2.Zero, rules.DefaultPlayerRadius) ,null ,rules, ExternalData["Player"]);
+            _bot = new UsualBot(rules.DefaultHP,_weaponSample, Vector2.Zero, new Circle2(Vector2.Zero, rules.DefaultPlayerRadius), ExternalData["Enemy"], rules);
+
+            _game = new Game(rules);
+            _game.LoadMap(System.IO.File.OpenText(@"map1.map"));
             _devicesHandler = new DevicesHandler(this, _player, _game.Rules);
             _player.Control = _devicesHandler;
 
@@ -156,12 +163,9 @@ namespace YOBAGame
                 e.Graphics.DrawImage(tuple.Item1, tuple.Item2.Sub(_cameraLeftUpper));
         }
 
-        int tickCount = 0;
-
         void TimerTick(object sender, EventArgs args)
         {
             _game.Step(dt);
-            tickCount++;
             Invalidate();
         }
     }

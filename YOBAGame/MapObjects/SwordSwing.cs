@@ -4,6 +4,8 @@ using System.Drawing;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using YOBAGame.GameRules;
+using YOBAGame.MapObjects.Abstract;
+using YOBAGame.MapObjects.Interfaces;
 
 namespace YOBAGame.MapObjects
 {

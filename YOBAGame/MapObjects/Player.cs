@@ -3,6 +3,7 @@ using System.Linq;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using YOBAGame.GameRules;
+using YOBAGame.MapObjects.Abstract;
 
 namespace YOBAGame.MapObjects
 {
@@ -18,7 +19,7 @@ namespace YOBAGame.MapObjects
 
         public override Resources Resources { get; }
 
-        protected Player(int hitPoints, UsualWeapon weapon, Sword sword, Vector2 coordinates, Circle2 hitBox,
+        public Player(int hitPoints, UsualWeapon weapon, Sword sword, Vector2 coordinates, Circle2 hitBox,
             IControlSource control, IGameRules rules, Resources resources) 
             : base(hitPoints, weapon, coordinates, hitBox, rules)
         {
