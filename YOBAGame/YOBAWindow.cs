@@ -49,6 +49,7 @@ namespace YOBAGame
         {
             this.Size = new Size(800, 480);
             _timer = new Timer { Interval = 30 };
+            ExternalData = new Dictionary<string, Resources>();
             LoadResources();
 
             var rules = UsualRules.Default;
@@ -86,16 +87,16 @@ namespace YOBAGame
             {
                 Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\enemy1_sprites.png"), "Enemy", 4) ,
                 Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\player_sprites.png"), "Player", 4),
-                Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\word_sprites.png"), "Sword", 2),
+                Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\sword_sprites.png"), "Sword", 2),
                 Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\sword_swing_sprites.png"), "SwordSwing", 2),
-                Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\bullet_sprites.png"), "Bullet", 1),
+                Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\bullet1_sprites.png"), "Bullet", 1),
                 Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\weapon1_sprites.png"), "Weapon", 2),
-                Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\weapon1_droped_sprites.png"), "DroppedWeapon", 1)
+                Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\weapon1_dropped_sprites.png"), "DroppedWeapon", 1)
             };
             foreach (var picFile in picFiles)
                 ExternalData.Add(picFile.Item2, 
                     new Resources(ImageParser.ParsePicture(picFile.Item1, picFile.Item3)));
-            ExternalData["Weapon"].Images.AddRange(ExternalData["DropedWeapon"].Images);
+            ExternalData["Weapon"].Images.AddRange(ExternalData["DroppedWeapon"].Images);
             var bullet = ExternalData["Bullet"].Images[0][0];
             ExternalData["Bullet"].Images[0][0] = Tuple.Create(
                 bullet.Item1.ScaleImage(_scaleBulletCoefficient, 1),

@@ -10,10 +10,11 @@ namespace YOBAGame
         public static List<Tuple<Bitmap, Point>[]> ParsePicture(string ImageFilename, int partsCount)
         {
             var src = Image.FromFile(ImageFilename) as Bitmap;
-            var annotation = ImageFilename.Substring(0, ImageFilename.Length - 3) + "txt";
+            var annotation = ImageFilename.Substring(0, ImageFilename.Length - 3) + "annotation";
             var data = File.ReadAllLines(annotation);
             var countImages = data.Length / 3;
-            int x, y, width, height, rotateX, rotateY, centreX, centreY;
+            int x, y, width, height;
+            double rotateX, rotateY, centrX, centrY;
             Point upperLeft, removalPoint;
             Size cropSize;
 
@@ -32,13 +33,13 @@ namespace YOBAGame
                     y = int.Parse(s[0][1]);
                     width = int.Parse(s[1][0]);
                     height = int.Parse(s[1][1]);
-                    rotateX = int.Parse(s[2][0]);
-                    rotateY = int.Parse(s[2][1]);
-                    centreX = width / 2;
-                    centreY = height / 2;
+                    rotateX = double.Parse(s[2][0]);
+                    rotateY = double.Parse(s[2][1]);
+                    centrX = width / 2;
+                    centrY = height / 2;
                     upperLeft = new Point(x, y);
                     cropSize = new Size(width, height);
-                    removalPoint = new Point(rotateX - centreX, rotateY - centreY);
+                    removalPoint = new Point((int)(rotateX - centrX), (int)(rotateY - centrY));
                     var target = new Bitmap(width, height);
                     var g = Graphics.FromImage(target);
                     g.DrawImage(src, new Rectangle(0, 0, width, height), new Rectangle(upperLeft, cropSize),
