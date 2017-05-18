@@ -27,10 +27,10 @@ namespace YOBAGame
             Rules = rules;
         }
 
-        // gets time difference in seconds!!!
+        // gets time difference in miliseconds!!!
         public void Step(double dt)
         {
-            dt += 1000;
+            dt /= 1000;
             CurrentTime += dt;
 
             foreach (var obj in Objects)
