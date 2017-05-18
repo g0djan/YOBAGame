@@ -16,31 +16,21 @@ namespace YOBAGame
         public HashSet<IMapObject> Objects { get; }
         public double CurrentTime { get; private set; }
 
-        public static Dictionary<string, Tuple<Bitmap, Point>[][]> pictures { get; }
-
+        public readonly Sword SwordSample;
+        public readonly UsualBullet BulletSample;
+        public readonly UsualWeapon WeaponSample;
+        public readonly SwordSwing SwordSwingSample;
         
-        public Game(double width, double height, IGameRules rules)
+        public Game(double width, double height, IGameRules rules, Dictionary<string, Resources> data)
         {
-            MapSize = new SizeD(width, height);
-            CurrentTime = 0.0;
-            Objects = new HashSet<IMapObject>(); //TODO: карту нада
+            BulletSample = new UsualBullet(,,,,, data["Bullet"]);
+            SwordSwingSample = new SwordSwing(,,,, data["SwordSwing"]);
+            WeaponSample = new UsualWeapon(,,,data["Weapon"]);
+            SwordSample = new Sword(,, data["Sword"]);
+
+            CurrentTime = 0;
+            Objects = new HashSet<IMapObject>();
             Rules = rules;
-            var picFilesNames = new Tuple<string, int>[]
-            {
-                Tuple.Create("enemy1_sprites.png", 4) ,
-                Tuple.Create("player_sprites.png", 4),
-                Tuple.Create("sword_sprites.png", 2),
-                Tuple.Create("sword_swing_sprites.png", 2),
-                Tuple.Create("weapon1_sprites.png", 2),
-                Tuple.Create("weapon1_droped_sprites.png", 1),
-                Tuple.Create("bullet_sprites.png", 1)
-            };
-            foreach (var fileName in picFilesNames)
-                pictures.Add(fileName.Item1, ImageParser.ParsePicture(fileName.Item1, fileName.Item2));
-            var bullet = pictures["bullet_sprites.png"][0][0];
-            pictures["bullet_sprites.png"][0][0] = Tuple.Create(
-                bullet.Item1.ScaleImage(_scaleBulletCoefficient, 1),
-                bullet.Item2);
         }
 
         public void Step(double dt)

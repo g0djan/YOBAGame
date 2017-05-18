@@ -13,19 +13,17 @@ namespace YOBAGame.MapObjects
         public AbstractUnit Owner { get; set; }
         public bool Taken { get; set; }
         public bool Reloaded => TimeToReload < double.Epsilon;
-
-        public virtual string ImageFileName { get; }
-        public virtual Tuple<Bitmap, Point>[][] Images { get; }
-        private Tuple<Bitmap, Point>[][] DroppedImages { get; }
+        
+        public virtual Resources Resources { get; }
 
         public IEnumerable<Tuple<Bitmap, Point>> ForDrawing
         {
             get
             {
-                var pic = DroppedImages[0][0].Item1;
+                var pic = Resources.Images[2][0].Item1;
                 var loc = new Point(
-                    (int)Owner.Coordinates.X + DroppedImages[0][0].Item2.X,
-                    (int)Owner.Coordinates.Y + DroppedImages[0][0].Item2.Y);
+                    (int)Owner.Coordinates.X + Resources.Images[2][0].Item2.X,
+                    (int)Owner.Coordinates.Y + Resources.Images[2][0].Item2.Y);
                 return new[] {Tuple.Create(pic, loc)};
             }
         }
@@ -34,7 +32,6 @@ namespace YOBAGame.MapObjects
         {
             Owner = null;
             
-            DroppedImages = Game.pictures["weapon1_dropped_sprites.png"];
         }
 
         public override bool ShouldBeDeleted
@@ -51,13 +48,7 @@ namespace YOBAGame.MapObjects
             set { _timeToReload = value >= 0 ? value : 0; }
         }
 
-        protected abstract IEnumerable<IBullet> FiredBullets
-        {
-            get
-            {
-                
-            }
-        }
+        protected abstract IEnumerable<IBullet> FiredBullets { get; }
         protected abstract double ReloadDuration { get; } //TODO: не проинициализирвоана
 
         public IEnumerable<IBullet> Fire()

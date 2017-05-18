@@ -10,8 +10,7 @@ namespace YOBAGame.MapObjects
     public class SwordSwing : AbstractBullet, IShootableObject, IDrawableObject
     {
         private readonly double _timeToDelete;
-        public string ImageFileName { get; }
-        public Tuple<Bitmap, Point>[][] Images { get; }
+        public Resources Resources { get; }
 
         private int part;
         private int itteration;
@@ -29,7 +28,7 @@ namespace YOBAGame.MapObjects
                     part = 0;
                     itteration = 0;
                 }
-                var pic = Images[part][itteration].Item1;
+                var pic = Resources.Images[part][itteration].Item1;
                 return new[] {Tuple.Create(pic, new Point((int)Coordinates.X, (int)Coordinates.Y))};
             }
         }
@@ -41,7 +40,7 @@ namespace YOBAGame.MapObjects
             set { }
         }
 
-        public SwordSwing(Circle2 hitBox, AbstractUnit owner, double timeToDelete, IGameRules rules,
+        public SwordSwing(Circle2 hitBox, AbstractUnit owner, double timeToDelete, IGameRules rules, Resources resources,
             int damage = Int32.MaxValue)
             : base(hitBox, owner, rules, damage)
         {
@@ -49,8 +48,7 @@ namespace YOBAGame.MapObjects
 
             part = 0;
             itteration = 0;
-            ImageFileName = "sword_swing_sprites.png";
-            Images = Game.pictures[ImageFileName];
+            Resources = resources;
         }
 
         public override Vector2 Speed { get; set; }

@@ -7,8 +7,7 @@ namespace YOBAGame
 {
     public interface IDrawableObject : IMapObject
     {
-        string ImageFileName { get; }
-        Tuple<Bitmap, Point>[][] Images { get; }
+        Resources Resources { get;}
         IEnumerable<Tuple<Bitmap, Point>> ForDrawing { get; }
     }
 }

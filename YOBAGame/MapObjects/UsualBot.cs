@@ -14,12 +14,13 @@ namespace YOBAGame
     {
         private static readonly Random rnd = new Random();
         private AbstractUnit Target { get; set; }
+        public Resources Resources { get; }
 
-        public UsualBot(int hitPoints, UsualWeapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
+        public UsualBot(int hitPoints, UsualWeapon weapon, Vector2 coordinates, 
+            Circle2 hitBox, Dictionary<string, Resources> resources, IGameRules rules)
             : base(hitPoints, weapon, coordinates, hitBox, rules)
         {
-            ImageFileName = "enemy1_sprites.png";
-            Images = Game.pictures[ImageFileName];
+            Resources = resources["Enemy"];
         }
 
         public UsualBot(UsualBot bot, Vector2 coordinates) : base(bot.HitPoints, new UsualWeapon((UsualWeapon) bot.WeaponInHand), coordinates, bot.HitBox as Circle2, bot.Rules)
