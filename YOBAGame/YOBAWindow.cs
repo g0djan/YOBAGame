@@ -71,13 +71,13 @@ namespace YOBAGame
         {
             var picFiles = new []
             {
-                Tuple.Create("enemy1_sprites.png", "Enemy", 4) ,
-                Tuple.Create("player_sprites.png", "Player", 4),
-                Tuple.Create("sword_sprites.png", "Sword", 2),
-                Tuple.Create("sword_swing_sprites.png", "SwordSwing", 2),
-                Tuple.Create("bullet_sprites.png", "Bullet", 1),
-                Tuple.Create("weapon1_sprites.png", "Weapon", 2),
-                Tuple.Create("weapon1_droped_sprites.png", "DroppedWeapon", 1)
+                Tuple.Create(@"\Resources\Images\enemy1_sprites.png", "Enemy", 4) ,
+                Tuple.Create(@"\Resources\Images\player_sprites.png", "Player", 4),
+                Tuple.Create(@"\Resources\Images\word_sprites.png", "Sword", 2),
+                Tuple.Create(@"\Resources\Images\sword_swing_sprites.png", "SwordSwing", 2),
+                Tuple.Create(@"\Resources\Images\bullet_sprites.png", "Bullet", 1),
+                Tuple.Create(@"\Resources\Images\weapon1_sprites.png", "Weapon", 2),
+                Tuple.Create(@"\Resources\Images\weapon1_droped_sprites.png", "DroppedWeapon", 1)
             };
             foreach (var picFile in picFiles)
                 ExternalData.Add(picFile.Item2, 

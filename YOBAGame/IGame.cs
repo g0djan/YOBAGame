@@ -1,7 +1,6 @@
 using System.IO;
 using Archimedes.Geometry;
 using YOBAGame.GameRules;
-using YOBAGame;
 
 namespace YOBAGame
 {

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
 using YOBAGame.Exceptions;
-using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 using YOBAGame.MapObjects;
 

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Archimedes.Geometry;
-using Archimedes.Geometry.Primitives;
-using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
