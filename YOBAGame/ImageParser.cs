@@ -7,16 +7,7 @@ namespace YOBAGame
 {
     public class ImageParser
     {
-        public static Tuple<Bitmap, Point>[][] Player;
-        public static Tuple<Bitmap, Point>[][] Enemy;
-        public static Tuple<Bitmap, Point>[][] Sword;
-        public static Tuple<Bitmap, Point>[][] SwordSwing;
-        public static Tuple<Bitmap, Point>[][] PlayerGun;
-        public static Tuple<Bitmap, Point>[][] EnemyGun;
-        public static Tuple<Bitmap, Point>[][] Bullet;
-        public static Tuple<Bitmap, Point>[][] Sprites;
-
-        public static Tuple<Bitmap, Point>[][] ParsePicture(string ImageFilename, int partsCount)
+        public static List<Tuple<Bitmap, Point>[]> ParsePicture(string ImageFilename, int partsCount)
         {
             var src = Image.FromFile(ImageFilename) as Bitmap;
             var annotation = ImageFilename.Substring(0, ImageFilename.Length - 3) + "annotation";
@@ -26,7 +17,7 @@ namespace YOBAGame
             Point upperLeft, removalPoint;
             Size cropSize;
 
-            var imageParts = new Tuple<Bitmap, Point>[partsCount][];
+            var imageParts = new List<Tuple<Bitmap, Point>[]>();
             for (var partNumber = 0; partNumber < partsCount; partNumber++)
             {
                 var partSize = countImages / partsCount;
@@ -55,7 +46,7 @@ namespace YOBAGame
                     g.Dispose();
                     imagePart[picNumer] = Tuple.Create(target, removalPoint);
                 }
-                imageParts[partNumber] = imagePart;
+                imageParts.Add(imagePart);
             }
             return imageParts;
         }

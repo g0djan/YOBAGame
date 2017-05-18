@@ -18,7 +18,7 @@ namespace YOBAGame
 
         public static Dictionary<string, Tuple<Bitmap, Point>[][]> pictures { get; }
 
-        private const double _scaleBulletCoefficient = 5; //TODO: настроить
+        
         public Game(double width, double height, IGameRules rules)
         {
             MapSize = new SizeD(width, height);

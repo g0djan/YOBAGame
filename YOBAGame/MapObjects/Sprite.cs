@@ -26,7 +26,6 @@ namespace YOBAGame.MapObjects
         public Sprite(Vector2 coordinates, IGameRules rules) : base(coordinates, rules)
         {
             _numberOfSprite =
-                
             ImageFileName = "sprites.png";
             Images = Game.pictures[ImageFileName];
         }

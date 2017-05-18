@@ -9,10 +9,21 @@ using YOBAGame.GameRules;
 
 namespace YOBAGame
 {
+    class Resources
+    {
+        public List<Tuple<Bitmap, Point>[]> Images;
+
+        public Resources(List<Tuple<Bitmap, Point>[]> images)
+        {
+            Images = images;
+        }
+    }
+
     public partial class YOBAWindow : Form
     {
         private Game _game;
         private Player _player;
+        private UsualBot _bot;
         private DevicesHandler _devicesHandler;
         private Point _cameraLeftUpper;
 
@@ -21,10 +32,13 @@ namespace YOBAGame
         public bool LeftButtonPressed { get; private set; }
         public bool RightButtonPressed { get; private set; }
 
+        private const double _scaleBulletCoefficient = 5; //TODO: настроить
         public YOBAWindow()
         {
             var timer = new Timer { Interval = 1 };
+            LoadResources();
             _player = new Player();
+            _bot = new UsualBot();
             _game = new Game(, ,new UsualRules());
             _devicesHandler = new DevicesHandler(this, _player, _game.Rules);
             _player.Control = _devicesHandler;
@@ -38,6 +52,30 @@ namespace YOBAGame
             MouseDown += OnMouseDown;
             MouseUp += OnMouseUp;
             MouseMove += (sender, args) => MouseLocation = PointToClient(args.Location);
+        }
+
+        private Dictionary<string, Resources> Resources;
+
+        void LoadResources()
+        {
+            var picFiles = new []
+            {
+                Tuple.Create("enemy1_sprites.png", "Enemy", 4) ,
+                Tuple.Create("player_sprites.png", "Player", 4),
+                Tuple.Create("sword_sprites.png", "Sword", 2),
+                Tuple.Create("sword_swing_sprites.png", "SwordSwing", 2),
+                Tuple.Create("bullet_sprites.png", "Bullet", 1),
+                Tuple.Create("weapon1_sprites.png", "Weapon", 2),
+                Tuple.Create("weapon1_droped_sprites.png", "DroppedWeapon", 1)
+            };
+            foreach (var picFile in picFiles)
+                Resources.Add(picFile.Item2, 
+                    new Resources(ImageParser.ParsePicture(picFile.Item1, picFile.Item3)));
+            Resources["Weapon"].Images.AddRange(Resources["DropedWeapon"].Images);
+            var bullet = Resources["Bullet"].Images[0][0];
+            Resources["Bullet"].Images[0][0] = Tuple.Create(
+                bullet.Item1.ScaleImage(_scaleBulletCoefficient, 1),
+                bullet.Item2);
         }
 
         private void OnMouseDown(object sender, MouseEventArgs e)
