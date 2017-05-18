@@ -12,7 +12,6 @@ namespace YOBAGame.MapObjects
         private readonly double _timeToDelete;
         public string ImageFileName { get; }
         public Tuple<Bitmap, Point>[][] Images { get; }
-        public int DrawingPriority { get; }
 
         private int part;
         private int itteration;
@@ -47,7 +46,6 @@ namespace YOBAGame.MapObjects
             : base(hitBox, owner, rules, damage)
         {
             _timeToDelete = timeToDelete;
-            DrawingPriority = 1;
 
             part = 0;
             itteration = 0;

@@ -15,7 +15,7 @@ namespace YOBAGame
         private Random rnd = new Random();
         private AbstractUnit Target { get; set; }
 
-        public UsualBot(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
+        public UsualBot(int hitPoints, AbstractWeapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
             : base(hitPoints, weapon, coordinates, hitBox, rules)
         {
             ImageFileName = "enemy1_sprites.png";

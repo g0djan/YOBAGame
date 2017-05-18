@@ -13,7 +13,6 @@ namespace YOBAGame.MapObjects
     {
         public string ImageFileName { get; }
         public Tuple<Bitmap, Point>[][] Images { get; }
-        public int DrawingPriority { get; }
         private readonly int _numberOfSprite;
         IEnumerable<Tuple<Bitmap, Point>> IDrawableObject.ForDrawing
         {
@@ -27,8 +26,7 @@ namespace YOBAGame.MapObjects
         public Sprite(Vector2 coordinates, IGameRules rules) : base(coordinates, rules)
         {
             _numberOfSprite =
-
-            DrawingPriority = 0;
+                
             ImageFileName = "sprites.png";
             Images = Game.pictures[ImageFileName];
         }

@@ -8,7 +8,7 @@ using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    public class Sword : Weapon
+    public class Sword : AbstractWeapon
     {
         public override string ImageFileName { get; }
         public override Tuple<Bitmap, Point>[][] Images { get; }

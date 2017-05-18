@@ -13,14 +13,13 @@ namespace YOBAGame.MapObjects
     public abstract class AbstractUnit : AbstractKillableObject, IDrawableObject
     {
         protected List<IMapObject> ObjectsToGenerate { get; set; }
-        protected Weapon WeaponInHand { get; set; }
+        protected AbstractWeapon WeaponInHand { get; set; }
         public Angle Direction { get; protected set; }
         public override Vector2 Speed { get; set; }
         public override int HitPoints { get; protected set; }
 
         public virtual string ImageFileName { get; protected set; }
         public Tuple<Bitmap, Point>[][] Images { get; protected set; }
-        public int DrawingPriority { get; }
         public Tuple<Bitmap, Point>[][] ImagesWeapon { get; }
 
         private int _part;
@@ -76,7 +75,7 @@ namespace YOBAGame.MapObjects
 
         public abstract bool SeeksForWeapon { get; protected set; }
 
-        protected AbstractUnit(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
+        protected AbstractUnit(int hitPoints, AbstractWeapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
             : base(coordinates, hitBox, rules)
         {
             HitPoints = hitPoints;
@@ -87,11 +86,10 @@ namespace YOBAGame.MapObjects
 
             _part = 0;
             _itteration = 0;
-            DrawingPriority = 2;
             ImagesWeapon = Game.pictures["weapon1_sprites.png"];
         }
 
-        public virtual void TakeWeapon(Weapon weapon)
+        public virtual void TakeWeapon(AbstractWeapon weapon)
         {
             WeaponInHand = weapon;
             WeaponInHand.Owner = this;

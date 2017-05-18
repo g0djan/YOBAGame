@@ -14,8 +14,6 @@ namespace YOBAGame.MapObjects
         private readonly Vector2 _speed;
         public string ImageFileName { get; }
         public Tuple<Bitmap, Point>[][] Images { get; }
-        public int DrawingPriority { get; }
-
         IEnumerable<Tuple<Bitmap, Point>> IDrawableObject.ForDrawing
         {
             get
@@ -38,7 +36,6 @@ namespace YOBAGame.MapObjects
             _speed = speed;
             
             _scaleCoefficient = 5;
-            DrawingPriority = 1;
             ImageFileName = "bullet1_sprites.png";
             Images = Game.pictures[ImageFileName];
         }

@@ -10,13 +10,13 @@ namespace YOBAGame.MapObjects
     {
         public IControlSource Control { get; set; }
         private Sword CarriedSword { get; set; }
-        private Weapon CarriedGun { get; set; }
+        private AbstractWeapon CarriedGun { get; set; }
 
         public override Vector2 Speed { get; set; }
 
         public override bool SeeksForWeapon { get; protected set; }
 
-        protected Player(int hitPoints, Weapon weapon, Vector2 coordinates, Circle2 hitBox,
+        protected Player(int hitPoints, AbstractWeapon weapon, Vector2 coordinates, Circle2 hitBox,
             IControlSource control, IGameRules rules) : base(hitPoints, weapon, coordinates, hitBox, rules)
         {
             CarriedSword = new Sword(Rules.WeaponDefaultHitBox, rules);
@@ -31,7 +31,7 @@ namespace YOBAGame.MapObjects
             return Control.Speed != Vector2.Zero;
         }
 
-        public override void TakeWeapon(Weapon weapon)
+        public override void TakeWeapon(AbstractWeapon weapon)
         {
             DropWeapon();
             base.TakeWeapon(weapon);

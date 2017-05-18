@@ -7,7 +7,7 @@ using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    public abstract class Weapon : AbstractPhysicalObject, IDrawableObject
+    public abstract class AbstractWeapon : AbstractPhysicalObject, IDrawableObject
     {
         private double _timeToReload;
         public AbstractUnit Owner { get; set; }
@@ -16,10 +16,7 @@ namespace YOBAGame.MapObjects
 
         public virtual string ImageFileName { get; }
         public virtual Tuple<Bitmap, Point>[][] Images { get; }
-        public int DrawingPriority { get; }
         private Tuple<Bitmap, Point>[][] DroppedImages { get; }
-
-        private IBullet Ammo { get; set; }
 
         public IEnumerable<Tuple<Bitmap, Point>> ForDrawing
         {
@@ -33,14 +30,11 @@ namespace YOBAGame.MapObjects
             }
         }
 
-        protected Weapon(IShape hitBox, IGameRules rules, IBullet bullet) : base(hitBox, rules)
+        protected AbstractWeapon(IShape hitBox, IGameRules rules) : base(hitBox, rules)
         {
             Owner = null;
-            DrawingPriority = 3;
-            ImageFileName = "weapon1_sprites.png";
-            Images = Game.pictures[ImageFileName];
+            
             DroppedImages = Game.pictures["weapon1_dropped_sprites.png"];
-            Ammo = bullet;
         }
 
         public override bool ShouldBeDeleted

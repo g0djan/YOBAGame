@@ -9,7 +9,6 @@ namespace YOBAGame
     {
         string ImageFileName { get; }
         Tuple<Bitmap, Point>[][] Images { get; }
-        int DrawingPriority { get; }
         IEnumerable<Tuple<Bitmap, Point>> ForDrawing { get; }
     }
 }
