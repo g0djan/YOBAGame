@@ -26,6 +26,7 @@ namespace YOBAGame
 
     public partial class YOBAWindow : Form
     {
+        private readonly Timer _timer;
         private Game _game;
         private Player _player;
         private UsualBot _bot;
@@ -42,11 +43,12 @@ namespace YOBAGame
         public bool LeftButtonPressed { get; private set; }
         public bool RightButtonPressed { get; private set; }
 
+
         private const double _scaleBulletCoefficient = 5; //TODO: настроить
         public YOBAWindow()
         {
             this.Size = new Size(800, 480);
-            var timer = new Timer { Interval = 1 };
+            _timer = new Timer { Interval = 30 };
             LoadResources();
 
             var rules = UsualRules.Default;
@@ -59,15 +61,15 @@ namespace YOBAGame
             _bot = new UsualBot(rules.DefaultHP,_weaponSample, Vector2.Zero, new Circle2(Vector2.Zero, rules.DefaultPlayerRadius), ExternalData["Enemy"], rules);
 
             _game = new Game(rules);
-            _game.LoadMap(System.IO.File.OpenText(@"\Resources\Maps\map1.map"));
+            _game.LoadMap(System.IO.File.OpenText(Path.GetFullPath(@"..\..\Resources\Maps\map1.map")));
             _devicesHandler = new DevicesHandler(this, _player, _game.Rules);
             _player.Control = _devicesHandler;
 
             PressedKeys = new HashSet<Keys>();
             MouseLocation = new Point();
             
-            timer.Tick += TimerTick;
-            timer.Start();
+            _timer.Tick += TimerTick;
+            _timer.Start();
 
             MouseDown += OnMouseDown;
             MouseUp += OnMouseUp;
@@ -80,13 +82,13 @@ namespace YOBAGame
         {
             var picFiles = new []
             {
-                Tuple.Create(@"\Resources\Images\enemy1_sprites.png", "Enemy", 4) ,
-                Tuple.Create(@"\Resources\Images\player_sprites.png", "Player", 4),
-                Tuple.Create(@"\Resources\Images\word_sprites.png", "Sword", 2),
-                Tuple.Create(@"\Resources\Images\sword_swing_sprites.png", "SwordSwing", 2),
-                Tuple.Create(@"\Resources\Images\bullet_sprites.png", "Bullet", 1),
-                Tuple.Create(@"\Resources\Images\weapon1_sprites.png", "Weapon", 2),
-                Tuple.Create(@"\Resources\Images\weapon1_droped_sprites.png", "DroppedWeapon", 1)
+                Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\enemy1_sprites.png"), "Enemy", 4) ,
+                Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\player_sprites.png"), "Player", 4),
+                Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\word_sprites.png"), "Sword", 2),
+                Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\sword_swing_sprites.png"), "SwordSwing", 2),
+                Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\bullet_sprites.png"), "Bullet", 1),
+                Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\weapon1_sprites.png"), "Weapon", 2),
+                Tuple.Create(Path.GetFullPath(@"..\..\Resources\Images\weapon1_droped_sprites.png"), "DroppedWeapon", 1)
             };
             foreach (var picFile in picFiles)
                 ExternalData.Add(picFile.Item2, 
@@ -165,16 +167,11 @@ namespace YOBAGame
                 e.Graphics.DrawImage(tuple.Item1, tuple.Item2.Sub(_cameraLeftUpper));
         }
 
-
-        private double dt = -1;
-        private DateTime t;
+        
         void TimerTick(object sender, EventArgs args)
         {
-            dt = dt == -1 ? 0 : (DateTime.Now - t).TotalMilliseconds;
-            t = DateTime.Now;
-            _game.Step(dt);
+            _game.Step(_timer.Interval);
             Invalidate();
-
         }
     }
 }
