@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using Archimedes.Geometry;
 using Archimedes.Geometry.Primitives;
@@ -44,6 +45,7 @@ namespace YOBAGame
         private const double _scaleBulletCoefficient = 5; //TODO: настроить
         public YOBAWindow()
         {
+            this.Size = new Size(800, 480);
             var timer = new Timer { Interval = 1 };
             LoadResources();
 
@@ -57,7 +59,7 @@ namespace YOBAGame
             _bot = new UsualBot(rules.DefaultHP,_weaponSample, Vector2.Zero, new Circle2(Vector2.Zero, rules.DefaultPlayerRadius), ExternalData["Enemy"], rules);
 
             _game = new Game(rules);
-            _game.LoadMap(System.IO.File.OpenText(@"map1.map"));
+            _game.LoadMap(System.IO.File.OpenText(@"\Resources\Maps\map1.map"));
             _devicesHandler = new DevicesHandler(this, _player, _game.Rules);
             _player.Control = _devicesHandler;
 
@@ -163,10 +165,17 @@ namespace YOBAGame
                 e.Graphics.DrawImage(tuple.Item1, tuple.Item2.Sub(_cameraLeftUpper));
         }
 
+
+        private double dt = 0;
+        private DateTime t = new DateTime();
         void TimerTick(object sender, EventArgs args)
         {
+            if (t != 0)
+            { }
+                t = DateTime.Now;
             _game.Step(dt);
             Invalidate();
+
         }
     }
 }

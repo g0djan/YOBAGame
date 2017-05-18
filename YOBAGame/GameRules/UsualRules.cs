@@ -18,11 +18,13 @@ namespace YOBAGame.GameRules
         public double BotMinDesieredSpeed => 1;
         public double BotMinShootingDistance => 5;
         public double BotShootingProbability => 0.7;
+        public double BotBulletSpeed => 5;
+        public double PlayerBulletSpeed => 10;
         public double DefaultBulletLength => 2;
-        public double WeaponDefaultRadius { get; }
-        public double DefaultReloadDuration { get; }
-        public double DefaultSwordRadius { get; }
-        public int DefaultHP { get; }
-        public double DefaultPlayerRadius { get; }
+        public double WeaponDefaultRadius => 1;
+        public double DefaultReloadDuration => 1;
+        public double DefaultSwordRadius => 3;
+        public int DefaultHP => 1;
+        public double DefaultPlayerRadius => 1;
     }
 }

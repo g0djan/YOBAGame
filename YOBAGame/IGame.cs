@@ -12,6 +12,6 @@ namespace YOBAGame
         GameState CurrentGameState { get; }
         void Step(double dt);
         void AddObject(IMapObject obj);
-        void LoadMap(StreamReader source);
+        void LoadMap(TextReader source);
     }
 }

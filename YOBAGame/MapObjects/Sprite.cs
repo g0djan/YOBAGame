@@ -23,7 +23,7 @@ namespace YOBAGame.MapObjects
 
         public Sprite(Vector2 coordinates, IGameRules rules) : base(coordinates, rules)
         {
-            _numberOfSprite =
+            //_numberOfSprite =
         }
 
         public override IEnumerable<IMapObject> GeneratedObjects()
