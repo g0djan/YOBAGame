@@ -28,31 +28,19 @@ namespace YOBAGame
         {
             get
             {
-                var velocity = Vector2.Zero;
-                var keys = new List<Keys>{Keys.W, Keys.A, Keys.D, Keys.S, Keys.Up, Keys.Left, Keys.Right, Keys.Down};
-                var currentVector = Vector2.FromAngleAndLenght(_player.Direction, 1);
-                foreach (var key in keys)
-                    if (_window.PressedKeys.Contains(key))
-                        switch (key)
-                        {
-                            case Keys.W:
-                            case Keys.Up:
-                                velocity += currentVector;
-                                break;
-                            case Keys.A:
-                            case Keys.Left:
-                                velocity += currentVector.GetRotated(Angle.HalfRotation);
-                                break;
-                            case Keys.D:
-                            case Keys.Right:
-                                velocity -= currentVector.GetRotated(Angle.HalfRotation);
-                                break;
-                            case Keys.S:
-                            case Keys.Down:
-                                velocity -= currentVector;
-                                break;
-                        }
-                return _rules.MaxPlayerSpeed * currentVector.Normalize();
+                var speed = Vector2.Zero;
+
+                if (_window.PressedKeys.Contains(Keys.W))
+                    speed -= Vector2.UnitY;
+                if (_window.PressedKeys.Contains(Keys.S))
+                    speed += Vector2.UnitY;
+                if (_window.PressedKeys.Contains(Keys.D))
+                    speed += Vector2.UnitX;
+                if (_window.PressedKeys.Contains(Keys.A))
+                    speed -= Vector2.UnitX;
+                if (speed == Vector2.Zero)
+                    return Vector2.Zero;
+                return _rules.MaxPlayerSpeed * speed.Normalize();
             }
         }
 

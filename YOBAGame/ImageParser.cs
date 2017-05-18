@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 
 namespace YOBAGame
@@ -33,8 +34,8 @@ namespace YOBAGame
                     y = int.Parse(s[0][1]);
                     width = int.Parse(s[1][0]);
                     height = int.Parse(s[1][1]);
-                    rotateX = double.Parse(s[2][0]);
-                    rotateY = double.Parse(s[2][1]);
+                    rotateX = double.Parse(s[2][0], CultureInfo.InvariantCulture);
+                    rotateY = double.Parse(s[2][1], CultureInfo.InvariantCulture);
                     centrX = width / 2;
                     centrY = height / 2;
                     upperLeft = new Point(x, y);

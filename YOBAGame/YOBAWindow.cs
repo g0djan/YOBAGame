@@ -160,7 +160,7 @@ namespace YOBAGame
         {
             e.Graphics.FillPolygon(
                 wall.Color,
-                wall.HitBox.ToVertices().Select(v => v.ToLocation()).ToArray());
+                wall.HitBox.ToVertices().Select(v => new Vector2(v.X - _cameraLeftUpper.X, v.Y - _cameraLeftUpper.Y).ToLocation()).ToArray());
         }
 
         private void DrawImage(PaintEventArgs e, IMapObject obj)
@@ -173,20 +173,15 @@ namespace YOBAGame
 
         private double dt = -1;
         private DateTime t;
-        private readonly double redrawInterval = 33;
-        private DateTime lastRedraw = DateTime.MinValue;
+        
         void TimerTick(object sender, EventArgs args)
         {
             var _t = DateTime.Now;
             dt = dt == -1 ? 0 : (_t - t).TotalMilliseconds;
             t = _t;
             _game.Step(dt);
-            if ((_t - lastRedraw).TotalSeconds > redrawInterval)
-            {
-                lastRedraw = _t;
-                Invalidate();
-            }
-
+            
+            Invalidate();
         }
     }
 }
