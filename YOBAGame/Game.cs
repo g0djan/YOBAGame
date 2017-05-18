@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -37,7 +38,11 @@ namespace YOBAGame
                 obj.Decide(dt, CurrentGameState);
 
             foreach (var obj in Objects)
+            {
                 obj.Coordinates += obj.Speed * dt;
+                if (obj is Player)
+                    Console.WriteLine(obj.Coordinates);
+            }
 
             var toDelete = ResolveCollisions();
             DeleteObjects(toDelete);
