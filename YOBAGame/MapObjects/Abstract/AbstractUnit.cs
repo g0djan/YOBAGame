@@ -18,9 +18,7 @@ namespace YOBAGame.MapObjects
         public override Vector2 Speed { get; set; }
         public override int HitPoints { get; protected set; }
 
-        public virtual string ImageFileName { get; protected set; }
-        public Tuple<Bitmap, Point>[][] Images { get; protected set; }
-        public Tuple<Bitmap, Point>[][] ImagesWeapon { get; }
+        public virtual Resources Resources { get; }
 
         private int _part;
         private int _itteration;
@@ -33,22 +31,22 @@ namespace YOBAGame.MapObjects
                     _part = ChoosePartOfImage();
                     _itteration = 0;
                 }
-                var pic = Images[_part][_itteration].Item1;
+                var pic = Resources.Images[_part][_itteration].Item1;
                 var loc = new Point(
-                    (int)Coordinates.X + Images[_part][_itteration].Item2.X,
-                    (int)Coordinates.Y + Images[_part][_itteration].Item2.Y);
+                    (int)Coordinates.X + Resources.Images[_part][_itteration].Item2.X,
+                    (int)Coordinates.Y + Resources.Images[_part][_itteration].Item2.Y);
                 var unitImage = Tuple.Create(pic, loc);
-                _itteration = (_itteration + 1) % Images[0].Length;
+                _itteration = (_itteration + 1) % Resources.Images[0].Length;
                 var sequence = new List<Tuple<Bitmap, Point>>();
                 sequence.Add(unitImage);
                 if (WeaponInHand != null)
                 {
                     _part = IsRightSide() ? 1 : 0;
                     var relative = IsRightSide() ? Angle.Zero : Angle.HalfRotation;
-                    pic = WeaponInHand.Images[_part][0].Item1.RotateImage((Direction - relative).Radians);
+                    pic = WeaponInHand.Resources.Images[_part][0].Item1.RotateImage((Direction - relative).Radians);
                     loc = new Point(
-                        (int)Coordinates.X + WeaponInHand.Images[_part][0].Item2.X,
-                        (int)Coordinates.Y + WeaponInHand.Images[_part][0].Item2.Y);
+                        (int)Coordinates.X + WeaponInHand.Resources.Images[_part][0].Item2.X,
+                        (int)Coordinates.Y + WeaponInHand.Resources.Images[_part][0].Item2.Y);
                     sequence.Add(Tuple.Create(pic, loc));
                 }
                 return sequence;
@@ -75,7 +73,8 @@ namespace YOBAGame.MapObjects
 
         public abstract bool SeeksForWeapon { get; protected set; }
 
-        protected AbstractUnit(int hitPoints, AbstractWeapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
+        protected AbstractUnit(int hitPoints, AbstractWeapon weapon, Vector2 coordinates, 
+            Circle2 hitBox, IGameRules rules)
             : base(coordinates, hitBox, rules)
         {
             HitPoints = hitPoints;
@@ -86,7 +85,6 @@ namespace YOBAGame.MapObjects
 
             _part = 0;
             _itteration = 0;
-            ImagesWeapon = Game.pictures["weapon1_sprites.png"];
         }
 
         public virtual void TakeWeapon(AbstractWeapon weapon)

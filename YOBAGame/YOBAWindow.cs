@@ -9,7 +9,7 @@ using YOBAGame.GameRules;
 
 namespace YOBAGame
 {
-    class Resources
+    public class Resources
     {
         public List<Tuple<Bitmap, Point>[]> Images;
 
@@ -24,6 +24,7 @@ namespace YOBAGame
         private Game _game;
         private Player _player;
         private UsualBot _bot;
+
         private DevicesHandler _devicesHandler;
         private Point _cameraLeftUpper;
 
@@ -37,9 +38,10 @@ namespace YOBAGame
         {
             var timer = new Timer { Interval = 1 };
             LoadResources();
+            
             _player = new Player();
             _bot = new UsualBot();
-            _game = new Game(, ,new UsualRules());
+            _game = new Game(, ,new UsualRules(), ExternalData);
             _devicesHandler = new DevicesHandler(this, _player, _game.Rules);
             _player.Control = _devicesHandler;
 
@@ -54,9 +56,9 @@ namespace YOBAGame
             MouseMove += (sender, args) => MouseLocation = PointToClient(args.Location);
         }
 
-        private Dictionary<string, Resources> Resources;
+        private Dictionary<string, Resources> ExternalData;
 
-        void LoadResources()
+        private void LoadResources()
         {
             var picFiles = new []
             {
@@ -69,11 +71,11 @@ namespace YOBAGame
                 Tuple.Create("weapon1_droped_sprites.png", "DroppedWeapon", 1)
             };
             foreach (var picFile in picFiles)
-                Resources.Add(picFile.Item2, 
+                ExternalData.Add(picFile.Item2, 
                     new Resources(ImageParser.ParsePicture(picFile.Item1, picFile.Item3)));
-            Resources["Weapon"].Images.AddRange(Resources["DropedWeapon"].Images);
-            var bullet = Resources["Bullet"].Images[0][0];
-            Resources["Bullet"].Images[0][0] = Tuple.Create(
+            ExternalData["Weapon"].Images.AddRange(ExternalData["DropedWeapon"].Images);
+            var bullet = ExternalData["Bullet"].Images[0][0];
+            ExternalData["Bullet"].Images[0][0] = Tuple.Create(
                 bullet.Item1.ScaleImage(_scaleBulletCoefficient, 1),
                 bullet.Item2);
         }

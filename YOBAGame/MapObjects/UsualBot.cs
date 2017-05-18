@@ -12,12 +12,13 @@ namespace YOBAGame.MapObjects
     {
         private static readonly Random rnd = new Random();
         private AbstractUnit Target { get; set; }
+        public override Resources Resources { get; }
 
-        public UsualBot(int hitPoints, UsualWeapon weapon, Vector2 coordinates, Circle2 hitBox, IGameRules rules)
+        public UsualBot(int hitPoints, UsualWeapon weapon, Vector2 coordinates, 
+            Circle2 hitBox, Resources resources, IGameRules rules)
             : base(hitPoints, weapon, coordinates, hitBox, rules)
         {
-            ImageFileName = "enemy1_sprites.png";
-            Images = Game.pictures[ImageFileName];
+            Resources = resources;
         }
 
         public UsualBot(UsualBot bot, Vector2 coordinates) : base(bot.HitPoints, new UsualWeapon((UsualWeapon) bot.WeaponInHand), coordinates, bot.HitBox as Circle2, bot.Rules)

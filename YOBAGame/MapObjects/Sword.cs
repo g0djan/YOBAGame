@@ -10,13 +10,11 @@ namespace YOBAGame.MapObjects
 {
     public class Sword : AbstractWeapon
     {
-        public override string ImageFileName { get; }
-        public override Tuple<Bitmap, Point>[][] Images { get; }
+        public override Resources Resources { get; }
 
-        public Sword(Circle2 hitBox, IGameRules rules) : base(hitBox, rules)
+        public Sword(Circle2 hitBox, IGameRules rules, Resources resources) : base(hitBox, rules)
         {
-            ImageFileName = "sword_sprites.png";
-            Images = Game.pictures[ImageFileName];
+            Resources = resources;
         }
 
         public override Vector2 Coordinates { get; set; }

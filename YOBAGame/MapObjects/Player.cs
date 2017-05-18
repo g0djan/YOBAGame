@@ -16,14 +16,15 @@ namespace YOBAGame.MapObjects
 
         public override bool SeeksForWeapon { get; protected set; }
 
+        public override Resources Resources { get; }
+
         protected Player(int hitPoints, AbstractWeapon weapon, Vector2 coordinates, Circle2 hitBox,
-            IControlSource control, IGameRules rules) : base(hitPoints, weapon, coordinates, hitBox, rules)
+            IControlSource control, IGameRules rules, Resources resources) 
+            : base(hitPoints, weapon, coordinates, hitBox, rules)
         {
             CarriedSword = new Sword(Rules.WeaponDefaultHitBox, rules);
             Control = control;
-
-            ImageFileName = "player_sprites.png";
-            Images = Game.pictures[ImageFileName];
+            Resources = resources;
         }
 
         protected override bool IsMoving()

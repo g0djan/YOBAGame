@@ -9,19 +9,13 @@ using YOBAGame.GameRules;
 
 namespace YOBAGame.MapObjects
 {
-    public class Wall : AbstractStaticPhysicalObject, IDrawableObject
+    public class Wall : AbstractStaticPhysicalObject
     {
-        public string ImageFileName { get; }
-        public Tuple<Bitmap, Point>[][] Images { get; }
-        public int DrawingPriority { get; }
-        IEnumerable<Tuple<Bitmap, Point>> IDrawableObject.ForDrawing => null;
-
         public Brush Color { get; }
 
         public Wall(Vector2 coordinates, IShape hitBox, IGameRules rules) : base(coordinates, hitBox.ToPolygon2(), rules)
         {
             Color = Brushes.CornflowerBlue;
-            DrawingPriority = 4;
         }
 
         public override IEnumerable<IMapObject> GeneratedObjects()
