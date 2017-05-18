@@ -71,10 +71,7 @@ namespace YOBAGame.MapObjects
             return Direction >= -Angle.HalfRotation && Direction <= Angle.HalfRotation;
         }
 
-        public bool IsMoving()
-        {
-            return Speed != Vector2.Zero;
-        }
+        protected abstract bool IsMoving();
 
         public abstract bool SeeksForWeapon { get; protected set; }
 
@@ -90,6 +87,7 @@ namespace YOBAGame.MapObjects
             _part = 0;
             _itteration = 0;
             DrawingPriority = 2;
+            ImagesWeapon = Game.pictures["weapon1_sprites.png"];
         }
 
         public virtual void TakeWeapon(Weapon weapon)

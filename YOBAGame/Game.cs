@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Archimedes.Geometry;
+using YOBAGame.Extensions;
 using YOBAGame.GameRules;
 using YOBAGame.MapObjects;
 
@@ -14,12 +16,31 @@ namespace YOBAGame
         public HashSet<IMapObject> Objects { get; }
         public double CurrentTime { get; private set; }
 
+        public static Dictionary<string, Tuple<Bitmap, Point>[][]> pictures { get; }
+
+        private const double _scaleBulletCoefficient = 5; //TODO: настроить
         public Game(double width, double height, IGameRules rules)
         {
             MapSize = new SizeD(width, height);
             CurrentTime = 0.0;
             Objects = new HashSet<IMapObject>(); //TODO: карту нада
             Rules = rules;
+            var picFilesNames = new Tuple<string, int>[]
+            {
+                Tuple.Create("enemy1_sprites.png", 4) ,
+                Tuple.Create("player_sprites.png", 4),
+                Tuple.Create("sword_sprites.png", 2),
+                Tuple.Create("sword_swing_sprites.png", 2),
+                Tuple.Create("weapon1_sprites.png", 2),
+                Tuple.Create("weapon1_droped_sprites.png", 1),
+                Tuple.Create("bullet_sprites.png", 1)
+            };
+            foreach (var fileName in picFilesNames)
+                pictures.Add(fileName.Item1, ImageParser.ParsePicture(fileName.Item1, fileName.Item2));
+            var bullet = pictures["bullet_sprites.png"][0][0];
+            pictures["bullet_sprites.png"][0][0] = Tuple.Create(
+                bullet.Item1.ScaleImage(_scaleBulletCoefficient, 1),
+                bullet.Item2);
         }
 
         public void Step(double dt)

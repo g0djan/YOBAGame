@@ -40,16 +40,7 @@ namespace YOBAGame.MapObjects
             _scaleCoefficient = 5;
             DrawingPriority = 1;
             ImageFileName = "bullet_sprites.png";
-            if (ImageParser.Bullet == null)
-            {
-                var tuple = ImageParser.ParsePicture(ImageFileName, 1)[0][0];
-                Images = new []{new[]{Tuple.Create(tuple.Item1.ScaleImage(_scaleCoefficient, 1), tuple.Item2)}};
-                ImageParser.Bullet = Images;
-            }
-            else
-            {
-                Images = ImageParser.Bullet;
-            }
+            Images = Game.pictures[ImageFileName];
         }
 
         public override bool ShouldBeDeleted { get; set; }

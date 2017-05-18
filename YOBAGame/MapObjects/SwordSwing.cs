@@ -42,7 +42,8 @@ namespace YOBAGame.MapObjects
             set { }
         }
 
-        public SwordSwing(Circle2 hitBox, AbstractUnit owner, double timeToDelete, IGameRules rules, int damage = Int32.MaxValue)
+        public SwordSwing(Circle2 hitBox, AbstractUnit owner, double timeToDelete, IGameRules rules,
+            int damage = Int32.MaxValue)
             : base(hitBox, owner, rules, damage)
         {
             _timeToDelete = timeToDelete;
@@ -51,15 +52,7 @@ namespace YOBAGame.MapObjects
             part = 0;
             itteration = 0;
             ImageFileName = "sword_swing_sprites.png";
-            if (ImageParser.SwordSwing == null)
-            {
-                Images = ImageParser.ParsePicture(ImageFileName, 2);
-                ImageParser.SwordSwing = Images;
-            }
-            else
-            {
-                Images = ImageParser.SwordSwing;
-            }
+            Images = Game.pictures[ImageFileName];
         }
 
         public override Vector2 Speed { get; set; }

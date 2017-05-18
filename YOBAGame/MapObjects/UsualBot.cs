@@ -19,15 +19,12 @@ namespace YOBAGame
             : base(hitPoints, weapon, coordinates, hitBox, rules)
         {
             ImageFileName = "enemy1_sprites.png";
-            if (ImageParser.Enemy == null)
-            {
-                Images = ImageParser.ParsePicture(ImageFileName, 4);
-                ImageParser.Enemy = Images;
-            }
-            else
-            {
-                Images = ImageParser.Enemy;
-            }
+            Images = Game.pictures[ImageFileName];
+        }
+
+        protected override bool IsMoving()
+        {
+            return Speed != Vector2.Zero;
         }
 
         public override void Decide(double dt, GameState gameState)
